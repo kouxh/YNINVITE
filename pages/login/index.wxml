@@ -1,0 +1,18 @@
+<!--pages/login/index.wxml-->
+<view class="pages-login-index">
+  <view class="left">
+    <image class="img" src="/assets/img/left.png" mode="aspectFill"/>
+  </view>
+  <view class="login-content">
+    <view class="logo-box">
+      <image class="img" src="/assets/img/logo3.png" mode="aspectFill"/>
+    </view>
+    <view class="title"> — 市场活动助手 — </view>
+    <view class="btn-box">
+      <view class="btn" bindtap="jumpFn">开始使用</view>
+    </view>
+  </view>
+  <view class="right">
+    <image class="img" src="/assets/img/right.png" mode="aspectFill"/>
+  </view>
+</view>

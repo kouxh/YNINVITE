@@ -1,0 +1,37 @@
+<view class="pages-contact-index">
+  <header-view title='联系我们'></header-view>
+  <view class="list-box">
+    <!-- 加载中 -->
+    <view class="content-box" wx:if="{{listShowType==0}}">
+      <van-loading type="spinner" class="loading" />
+    </view>
+    <!-- 有内容 -->
+    <view class="content-box" wx:if="{{listShowType==1}}">
+      <block wx:for="{{listData}}" wx:key="index">
+        <view class="each-list">
+          <view class="list-top">{{item.title}}</view>
+          <view class="list-base">
+            <view class="base-left">
+              <icon class="iconfont icon-iconfonticonfontwode1-copy icon-color"></icon>
+              <text class="person person1">负责人：{{item.charge}}</text>
+            </view>
+            <view class="base-right">
+              <icon class="iconfont icon-dianhua icon-color"></icon>
+              <text class="person">{{item.tell}}</text>
+              <text class="tell" bindtap="copyFn" data-copy="{{item.tell}}">复制电话</text>
+            </view>
+          </view>
+        </view>
+      </block>
+
+      <view class="loaded-tips" wx:if="{{finished}}">我是有底线的o(╥﹏╥)o</view>
+    </view>
+    <!-- 无内容 -->
+    <view class="content-box" wx:if="{{listShowType==2}}">
+      <view class="nomsg-img-box">
+        <image mode='aspectFill' src="/assets/img/noData.png" alt class="nomsg-img" />
+        <view class="tips-msg">暂无数据 ......</view>
+      </view>
+    </view>
+  </view>
+</view>

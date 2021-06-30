@@ -1,0 +1,4 @@
+<view class="radio-box" wx:for="{{radioData}}" wx:key="id" bindtap="checkedFn" data-id="{{item.id}}">
+  <view class="checked {{item.checked?'active':''}}"></view>
+  <text class="checked-text">{{item.name}}</text>
+</view>

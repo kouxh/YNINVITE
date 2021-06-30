@@ -1,0 +1,47 @@
+{
+  "pages": [
+    "pages/login/index",
+    "pages/login-market/index",
+    "pages/login-sales/index",
+    "pages/fill/index",
+    "pages/info/index",
+    "pages/index/index",
+    "pages/canver/index"
+  ],
+  "subPackages": [
+    {
+      "root": "pages-homes",
+      "pages": [
+        "invitation/index",
+        "activity/index",
+        "check/index",
+        "contact/index",
+        "nominate/index",
+        "succeed/index",
+        "complete/index"
+      ]
+    },
+    {
+      "root": "pages-market",
+      "pages": [
+        "activity-list/index",
+        "check-list/index",
+        "add-info/index",
+        "my-activity/index",
+        "my-receive/index",
+        "creat-activity/index",
+        "submit/index"
+      ]
+    }
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#F5F5F5",
+    "navigationBarTitleText": "市场活动助手",
+    "navigationBarTextStyle": "black",
+    "backgroundColor": "#fff",
+    "onReachBottomDistance": 300
+  },
+  "debug": true,
+  "sitemapLocation": "sitemap.json"
+}

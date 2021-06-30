@@ -1,0 +1,7 @@
+<view class="pages-market-info-index">
+<block wx:for="{{firstData}}" wx:key="id">
+  <view class="item-list" data-id="{{item.id}}" data-name="{{item.name}}" bindtap="onChange" >
+    {{item.name}}
+  </view>
+</block>
+</view>

@@ -1,0 +1,7 @@
+<view class="pages-succeed-index">
+  <view class="succeed-header">
+    <image mode='aspectFill' src="/assets/img/form.png" alt class="form-img img" />
+    <view class="header-tip">活动已创建成功！</view>
+  </view>
+  <navigator hover-class="none" url="/pages-homes/activity/index" class="look-list">查看活动列表</navigator>
+</view>

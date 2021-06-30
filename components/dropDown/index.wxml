@@ -1,0 +1,8 @@
+<view catchtouchmove="true">
+  <scroll-view scroll-y="true" wx:if="{{listData.length>0}}" class="select_box scroll-height" show="{{listShow}}">
+    <block wx:for="{{listData}}" wx:key="index">
+      <view class="select_one {{checkedIndex==index?'active':''}} " data-index="{{index}}" bindtap="mySelect"
+        data-name="{{item.name}}">{{item.name}}</view>
+    </block>
+  </scroll-view>
+</view>

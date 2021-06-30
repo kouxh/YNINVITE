@@ -1,0 +1,73 @@
+/* pages/info/index.wxss */
+.pages-info-index{
+  width: 100%;
+  height: 100vh;
+}
+.info-content{
+  padding: 40rpx;
+}
+.info-title{
+  font-size: 48rpx;
+  font-weight: 600;
+  letter-spacing: 2rpx;
+  color: black;
+}
+.info-box{
+  margin: 40rpx auto;
+}
+.info-box .info-item .title {
+  /* font-family: PingFangSC-Regular; */
+  font-size: 32rpx;
+  color: #141718;
+  padding-top: 30rpx;
+}
+.info-box .info-item .input-box{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 30rpx 0rpx;
+  position: relative;
+}
+.info-box .info-item .input-box .input {
+  border: 2rpx solid #c0bebe;
+  border-radius: 12rpx;
+  height: 80rpx;
+  width: 90%;
+  padding-left: 20rpx;
+  font-size: 30rpx;
+}
+.info-box .info-item .input-box .star{
+  color: #d23131;
+  margin-top: 8rpx;
+}
+.jiantou{
+  position: absolute;
+    right: 62rpx;
+    top: 40rpx;
+    color: #ccc;
+}
+.pla{
+  font-size: 28rpx;
+  color: #ccc;
+}
+.tip{
+  font-size: 24rpx;
+  color: #ccc;
+  text-align: end;
+  margin-right: 46rpx;
+  letter-spacing: 2rpx;
+}
+.textArea-box{
+  width: 87%;
+	height: 160rpx;
+  border-radius: 7rpx;
+  border: solid 1rpx #c0bebe;
+  padding: 20rpx;
+  font-size: 30rpx;
+}
+.btn{
+  display: flex;
+}
+.van-button--normal {
+  width: 300rpx;
+}

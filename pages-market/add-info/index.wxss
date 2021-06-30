@@ -1,0 +1,12 @@
+/* pages-market/add-info/index.wxss */
+.pages-market-info-index{
+  width: 100%;
+  height: 100vh;
+}
+.item-list{
+  width: 100%;
+  height: 100rpx;
+  line-height: 100rpx;
+  text-align: center;
+  border-bottom: 1rpx solid #e8e8e8;
+}

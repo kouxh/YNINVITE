@@ -1,0 +1,26 @@
+@import "/pages-market/check-list/index.wxss";
+.not-join{
+  background-color: #b3b3b3;
+}
+.num-box{
+  width: 100%;
+  height: 92rpx;
+  border-bottom: 2rpx solid #e8e8e8;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+.num-tip{
+  width: 446rpx;
+	height: 44rpx;
+	background-color: #e9f6ff;
+  border-radius: 22rpx;
+  font-size: 28rpx;
+	letter-spacing: 1rpx;
+  color: #333333;
+  line-height: 44rpx;
+  text-align: center;
+}
+.num-tip .num{
+  color: #2183e4;
+}

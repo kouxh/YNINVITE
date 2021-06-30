@@ -1,0 +1,4 @@
+module.exports = {
+  setImgUrl: "https://march.yuanian.com/static",
+  networkImgUrl:'https://www.chinamas.cn',
+};

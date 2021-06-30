@@ -1,0 +1,16 @@
+.radio-box{
+  display: flex;
+  align-items: center;
+  margin-right: 60rpx;
+}
+.checked{
+  width: 18rpx;
+  height: 18rpx;
+  border-radius: 50%;
+	border: solid 1rpx #999999;
+}
+.checked-text{
+  font-size: 24rpx;
+  color: #333333;
+  margin-left: 10rpx;
+}

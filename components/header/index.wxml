@@ -1,0 +1,3 @@
+<view class="header-box">
+    <view class="title">{{title}}</view>
+  </view>

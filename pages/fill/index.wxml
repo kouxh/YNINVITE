@@ -1,0 +1,118 @@
+<!--pages/fill/index.wxml-->
+<view class="pages-info-index">
+  <view class="info-content">
+    <view class="info-title">填写客户信息</view>
+    <view class="title-tip">提名将提交CTEBA审核，请准确填写您的客户/合作伙伴信息</view>
+    <view class="info-box">
+      <view class="info-item">
+        <text class="title">客户类型</text>
+        <view class="input-box">
+          <input class="input"  type="text"  value="{{info.type}}" placeholder="请选择" bindinput="" placeholder-class="pla" bindtap="onCondition" disabled/>
+          <icon class="iconfont icon-jiantouarrow483 jiantou"></icon>
+          <view class="star">*</view>
+        </view>
+      </view>
+      <view class="info-item">
+        <text class="title">客户单位中文名称</text>
+        <view class="input-box">
+          <input class="input"  type="text" value="{{info.company}}"  placeholder="请输入中文名称" bindinput="infoTellFn" placeholder-class="pla"/>
+          <view class="star">*</view>
+        </view>
+      </view>
+      <view class="info-item">
+        <text class="title">客户单位英文名称</text>
+        <view class="input-box">
+          <input class="input"  type="text" value="{{info.companyE}}" placeholder="请输入英文名称" bindinput="infoTellFn" placeholder-class="pla"/>
+          <view class="star">*</view>
+        </view>
+      </view>
+      <view class="info-item">
+        <text class="title">客户单位属性</text>
+        <view class="input-box">
+          <input class="input"  type="text"  value="{{info.companyType}}" placeholder="请选择" bindinput="" placeholder-class="pla" bindtap="onCondition" disabled/>
+          <icon class="iconfont icon-jiantouarrow483 jiantou"></icon>
+          <view class="star">*</view>
+        </view>
+      </view>
+      <view class="info-item">
+        <text class="title">客户所属行业</text>
+        <view class="input-box">
+          <input class="input"  type="text"  value="{{info.industry}}" placeholder="请选择" bindinput="" placeholder-class="pla" bindtap="onCondition" disabled/>
+          <icon class="iconfont icon-jiantouarrow483 jiantou"></icon>
+          <view class="star">*</view>
+        </view>
+      </view>
+      <view class="info-item">
+        <text class="title">客户姓名</text>
+        <view class="input-box">
+          <input class="input"  type="text" value="{{info.name}}"  placeholder="请输入客户中文或英文全名" bindinput="infoTellFn" placeholder-class="pla"/>
+          <view class="star">*</view>
+        </view>
+      </view>
+      <view class="info-item">
+        <text class="title">客户手机</text>
+        <view class="input-box">
+          <input class="input"  type="number" value="{{info.tell}}" maxlength="11" placeholder="请输入手机号" bindinput="infoTellFn" placeholder-class="pla"/>
+          <view class="star">*</view>
+        </view>
+      </view>
+      <view class="info-item">
+        <text class="title">客户邮箱</text>
+        <view class="input-box">
+          <input class="input"  type="text"  value="{{info.email}}" placeholder="请输入邮箱" bindinput="infoEmailFn" placeholder-class="pla"/>
+          <view class="star">*</view>
+        </view>
+      </view>
+      <view class="info-item">
+        <text class="title">客户部门</text>
+        <view class="input-box">
+          <input class="input"  type="text"  value="{{info.department}}" placeholder="请输入所属部门" bindinput="infoEmailFn" placeholder-class="pla"/>
+          <view class="star">*</view>
+        </view>
+      </view>
+      <view class="info-item">
+        <text class="title">客户职务</text>
+        <view class="input-box">
+          <input class="input"  type="text"  value="{{info.job}}" placeholder="请选择" bindinput="" placeholder-class="pla" bindtap="onCondition"/>
+          <icon class="iconfont icon-jiantouarrow483 jiantou"></icon>
+          <view class="star">*</view>
+        </view>
+      </view>
+      <view class="info-item">
+        <text class="title">客户头衔分类</text>
+        <view class="input-box">
+          <input class="input"  type="text"  value="{{info.classify}}" placeholder="请选择" bindinput="" placeholder-class="pla" bindtap="onCondition"/>
+          <icon class="iconfont icon-jiantouarrow483 jiantou"></icon>
+          <view class="star">*</view>
+        </view>
+      </view>
+      <view class="info-item">
+        <text class="title">客户所在城市</text>
+        <view class="input-box">
+          <input class="input"  type="text"  value="{{info.city}}" placeholder="请输入所在城市" bindinput="infoEmailFn" placeholder-class="pla"/>
+          <view class="star">*</view>
+        </view>
+      </view>
+      <view class="info-item">
+        <text class="title">是否住宿</text>
+        <view class="input-box">
+          <input class="input"  type="text"  value="{{info.putup}}" placeholder="请选择" bindinput="" placeholder-class="pla" bindtap="onCondition"/>
+          <icon class="iconfont icon-jiantouarrow483 jiantou"></icon>
+          <view class="star">*</view>
+        </view>
+        <view class="tip">*会务组仅为外地客户提供住宿</view>
+      </view>
+      <van-button style="margin-top:40rpx;" type="info" class="btn" bind:click="onClick">提交审核</van-button>
+    </view>
+  </view>
+  <view class="page-popup-layer">
+    <van-action-sheet
+      show="{{ conditionShow }}"
+      actions="{{ actions }}"
+      bind:close="onClose"
+      bind:select="onSelect"
+      bind:cancel="onCancel"
+      cancel-text="取消"
+    />
+  </view>
+</view>

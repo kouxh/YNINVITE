@@ -1,0 +1,19 @@
+<!--pages/login/index.wxml-->
+<view class="pages-login-index">
+  <view class="left">
+    <image class="img" src="/assets/img/left.png" mode="aspectFill"/>
+  </view>
+  <view class="login-content">
+    <view class="logo-box">
+      <image class="img" src="/assets/img/logo3.png" mode="aspectFill"/>
+    </view>
+    <view class="title"> — 市场活动助手 — </view>
+    <view class="btn-box">
+      <navigator hover-class="none" url="/pages-market/activity-list/index" class="btn">查看活动提名</navigator>
+      <navigator hover-class="none" url="/pages-market/my-activity/index" class="btn">创建活动</navigator>
+    </view>
+  </view>
+  <view class="right">
+    <image class="img" src="/assets/img/right.png" mode="aspectFill"/>
+  </view>
+</view>

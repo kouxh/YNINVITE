@@ -1,0 +1,181 @@
+.pages-market-check-index{
+  width: 100%;
+  height: 100vh;
+}
+.header-box {
+  width: 100%;
+  height: 100rpx;
+  background-image: linear-gradient(-75deg,
+      rgba(10, 98, 212, 1) 0%,
+      #24a2f2 100%),
+    linear-gradient(#1680e3,
+      #1680e3);
+  background-blend-mode: normal,
+    normal;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  padding-left: 32rpx;
+}
+
+.page-name {
+  font-size: 32rpx;
+  letter-spacing: 1rpx;
+  margin-left: 16rpx;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  color: #ffffff;
+  margin-right: 40rpx;
+}
+.check-num{
+  font-size: 24rpx;
+	letter-spacing: 2rpx;
+}
+.check-num .num{
+  color: #95efff;
+}
+.bar{
+  font-size: 24rpx;
+  margin-left: 10rpx;
+}
+
+.tabNav{
+  width: 100%;
+  height:90rpx; 
+  border-bottom: 2rpx solid #e8e8e8;
+  display: flex;
+  align-items: center;
+  flex-flow: row;
+}
+.tabItem{
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 86rpx;
+  font-size: 28rpx;
+	letter-spacing: 0rpx;
+	color: #666666;
+}
+.item-icon{
+  font-size: 26rpx;
+  font-weight: 600;
+  color: #666666;
+  display: flex;
+  align-items: center;
+  margin-left: 12rpx;
+}
+.active{
+  color: #2183e4 !important;
+}
+.tab-content{
+  display: flex;
+}
+.active .tab-content{ 
+  border-bottom:5rpx solid #2183e4; 
+}
+
+.list-content{
+  padding: 0rpx 30rpx 0rpx 40rpx;
+}
+.list-item{
+  width: 100%;
+  height: 160rpx;
+  display: flex;
+  /* justify-content: space-between; */
+  align-items: center;
+  border-bottom: 2rpx solid #e8e8e8;
+}
+.list-left {
+  display: flex;
+}
+
+.left-l {
+  width: 74rpx;
+  height: 74rpx;
+  border-radius: 50%;
+}
+.left-r{
+  width: 400rpx;
+  margin-left: 24rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  letter-spacing: 0rpx;
+}
+
+.list-right {
+  font-size: 28rpx;
+  color: #333333;
+  display: flex;
+  align-items: center;
+}
+.join{
+  color: #147de1;
+}
+.bar{
+  padding: 0rpx 12rpx;
+  color: #e8e8e8;
+}
+.no-join{
+  color: #67b4fd;
+}
+.name {
+  font-size: 32rpx;
+  color: #333333;
+}
+.company {
+  font-size: 24rpx;
+  color: #999999;
+  width: 360rpx;
+  line-height: 40rpx;
+}
+.left-r-base{
+  display: flex;
+  align-items: center;
+  width: 500rpx;
+}
+.flight-info{
+  display: flex;
+  align-items: center;
+  margin-right: 40rpx;
+}
+.flight-img{
+  width: 38rpx;
+  height: 20rpx;
+}
+.info{
+  font-size: 24rpx;
+  color: #b3b3b3;
+  margin-left: 10rpx;
+}
+.common{
+  width: 12rpx;
+  height: 12rpx;
+  border-radius: 50%;
+}
+.success{
+	background-color: #23e042;
+}
+
+.no-check{
+  background-color: #ff6060;
+}
+
+.text{
+  letter-spacing: 1rpx;
+  padding-left: 12rpx;
+}
+.right-l{
+  margin-left: 60rpx;
+}

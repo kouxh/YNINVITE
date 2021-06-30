@@ -1,0 +1,197 @@
+<view class="pages-complete-index">
+  <header-view title='填写新活动信息'></header-view>
+  <view class="form-content">
+    <view class="each-item">
+      <view class="item-l">
+        <icon class="iconfont icon-bitian"></icon>
+        <text class="lable">活动名称</text>
+      </view>
+      <view class="item-r">
+        <input class='r-ipt' type='text' value='{{activityInfo.name}}' id="activityInfo.name" bindinput='handleInput'
+          placeholder-class='r-phd' placeholder="请输入" />
+      </view>
+    </view>
+    <view class="select-content">
+      <view class="each-item">
+        <view class="item-l">
+          <icon class="iconfont icon-bitian"></icon>
+          <text class="lable">开始时间</text>
+        </view>
+        <view class="item-r" bindtap="onDisplay" data-time="1">
+          <input class='r-ipt' type='text' value='{{activityInfo.starTime}}' placeholder-class='r-phd' placeholder="请选择"
+            disabled />
+          <icon class="iconfont icon-jiantoudown {{calendarShow&&'select_img_rotate'}}"></icon>
+        </view>
+      </view>
+      <!-- 下拉需要显示的列表 -->
+      <van-calendar show="{{ calendarShow }}" color="#1784e5" bind:close="onClose" bind:confirm="onConfirm" />
+    </view>
+    <view class="select-content">
+      <view class="each-item">
+        <view class="item-l">
+          <icon class="iconfont icon-bitian"></icon>
+          <text class="lable">结束时间</text>
+        </view>
+        <view class="item-r" bindtap="onDisplay" data-time="2">
+          <input class='r-ipt' type='text' value='{{activityInfo.endTime}}' placeholder-class='r-phd' placeholder="请选择"
+            disabled />
+          <icon class="iconfont icon-jiantoudown {{calendarShow&&'select_img_rotate'}}"></icon>
+        </view>
+      </view>
+      <!-- 下拉需要显示的列表 -->
+      <van-calendar show="{{ calendarShow }}" color="#1784e5" bind:close="onClose" bind:confirm="onConfirm" />
+    </view>
+    <view class="each-item">
+      <view class="item-l">
+        <icon class="iconfont icon-bitian"></icon>
+        <text class="lable">城市</text>
+      </view>
+      <view class="item-r">
+        <input class='r-ipt' type='text' value='{{activityInfo.city}}' id="activityInfo.city" bindinput='handleInput'
+          placeholder-class='r-phd' placeholder="请输入" />
+      </view>
+    </view>
+    <view class="each-item">
+      <view class="item-l">
+        <icon class="iconfont icon-bitian"></icon>
+        <text class="lable">活动负责人</text>
+      </view>
+      <view class="item-r">
+        <input class='r-ipt' type='text' value='{{activityInfo.person}}' id="activityInfo.person"
+          bindinput='handleInput' placeholder-class='r-phd' placeholder="请输入" />
+      </view>
+    </view>
+    <view class="each-item">
+      <view class="item-l">
+        <icon class="iconfont icon-bitian"></icon>
+        <text class="lable">负责人电话</text>
+      </view>
+      <view class="item-r">
+        <input class='r-ipt' type='number' value='{{activityInfo.tell}}' maxlength="11" id="activityInfo.tell"
+          bindinput='handleInput' placeholder-class='r-phd' placeholder="请输入" />
+      </view>
+    </view>
+    <view class="each-item">
+      <view class="item-l">
+        <icon class="iconfont icon-bitian"></icon>
+        <text class="lable">是否有分会场</text>
+      </view>
+      <view class="item-r">
+        <van-radio-group value="{{ activityInfo.isRoom }}" bind:change="onChange">
+          <van-radio name="0">是</van-radio>
+          <van-radio name="1">否</van-radio>
+        </van-radio-group>
+      </view>
+    </view>
+    <view class="room-box" wx:if="{{activityInfo.isRoom==0}}">
+      <block wx:for="{{activityInfo.branchRoom}}" wx:key="index">
+        <view class='each-item1'>
+          <view class="item-l1">
+            <icon class="iconfont icon-henggang"  bindtap='delList' data-index='{{index}}'></icon>
+          </view>
+          <view class="item-r1">
+            <input class='r-ipt' type='text' data-index='{{index}}' bindinput='changeConTitle' placeholder-class='r-phd' placeholder="请输入" />
+          </view>
+        </view>
+      </block>
+      <view class='template_title' bindtap='addList'>
+        <view class="add">+</view>
+        <view class="tip">添加内容</view>
+      </view>
+    </view>
+    <view class="each-item">
+      <view class="item-l">
+        <icon class="iconfont icon-bitian"></icon>
+        <text class="lable">是否提供住宿</text>
+      </view>
+      <view class="item-r">
+        <van-radio-group value="{{ activityInfo.isStay }}" bind:change="onSwitch">
+          <van-radio name="0">是</van-radio>
+          <van-radio name="1">否</van-radio>
+        </van-radio-group>
+      </view>
+    </view>
+    <view class="each-item">
+      <view class="item-l">
+        <icon class="iconfont icon-bitian"></icon>
+        <text class="lable">活动权限</text>
+      </view>
+      <view class="item-r">
+        <input class='r-ipt' type='text' value='{{activityInfo.limits}}' id="activityInfo.limits"
+          bindinput='handleInput' placeholder-class='r-phd' placeholder="请输入" />
+      </view>
+    </view>
+    <view class="upimg-box">
+      <!-- 上传按钮 -->
+      <van-uploader file-list="{{ fileList }}" max-count="1" bind:after-read="afterRead" bind:delete="delete">
+        <view class="upload-btn">
+          <icon class='iconfont icon-shangchuan' />
+          <text>上传邀请函附件</text>
+        </view>
+      </van-uploader>
+    </view>
+    <view class="select-content">
+      <view class="each-item">
+        <view class="item-l">
+          <icon class="iconfont icon-bitian"></icon>
+          <text class="lable">提名部门</text>
+        </view>
+        <view class="item-r" bindtap="firstFn">
+          <input class='r-ipt' type='text' value='' placeholder-class='r-phd' placeholder="请选择"
+            disabled />
+          <icon class="iconfont icon-jiantoudown {{firstShow&&'select_img_rotate'}}"></icon>
+        </view>
+      </view>
+    <!-- 下拉需要显示的列表 -->
+    <!-- 一级 -->
+    <scroll-view scroll-y="true" class="select_box scroll-height" wx:if="{{firstShow}}">
+      <!-- <view wx:if="{{twoData.length>0}}" class="two-header" data-type="3" bindtap="backFn">
+        <icon class="iconfont icon-fanhui"></icon>
+        <text>返回上一级</text>
+      </view> -->
+      <block wx:for="{{firstData}}" wx:key="id">
+        <view class="select_one {{checkedIndex==index?'active':''}} "  data-childrens="{{item.childrens}}"  data-id="{{item.id}}" data-name="{{item.name}}" data-index="{{index}}" bindtap="onSelect" data-type="0" >{{item.name}}</view>
+      </block>
+    </scroll-view>
+    <!-- 二级 -->
+    <scroll-view scroll-y="true" class="select_box scroll-height" wx:if="{{twoShow}}">
+      <view class="two-header" data-type="1" bindtap="backFn">
+        <icon class="iconfont icon-fanhui"></icon>
+        <text>返回上一级</text>
+      </view>
+      <block wx:for="{{twoData}}" wx:key="id">
+        <view class="select_one {{checkedIndex1==index?'active':''}}" data-childrens="{{item.childrens}}"  data-id="{{item.id}}" data-name="{{item.name}}" data-index="{{index}}" bindtap="onSelect" data-type="1">{{item.name}}</view>
+      </block>
+    </scroll-view>
+    <!-- 三级 -->
+    <scroll-view scroll-y="true" class="select_box scroll-height" wx:if="{{threeShow}}">
+      <view class="two-header" data-type="2" bindtap="backFn">
+        <icon class="iconfont icon-fanhui"></icon>
+        <text>返回上二级</text>
+      </view>
+      <block wx:for="{{threeData}}" wx:key="id">
+        <view class="select_one {{checkedIndex2==index?'active':''}}" data-childrens="{{item.childrens}}"  data-id="{{item.id}}" data-name="{{item.name}}" data-index="{{index}}" bindtap="onSelect" data-type="2">{{item.name}}</view>
+      </block>
+    </scroll-view>
+    <!-- 四级 -->
+    <scroll-view scroll-y="true" class="select_box scroll-height" wx:if="{{fourShow}}">
+      <view class="two-header" data-type="3" bindtap="backFn">
+        <icon class="iconfont icon-fanhui"></icon>
+        <text>返回上三级</text>
+      </view>
+      <block wx:for="{{fourData}}" wx:key="id">
+        <view class="select_one {{checkedIndex2==index?'active':''}}" data-childrens="{{item.childrens}}"  data-id="{{item.id}}" data-name="{{item.name}}" data-index="{{index}}" bindtap="onSelect" data-type="3">{{item.name}}</view>
+      </block>
+    </scroll-view>
+    </view>
+    <view class="nominate-box" wx:if="{{activityInfo.department.length>0}}">
+      <block wx:for="{{activityInfo.department}}" wx:key="index">
+        <view class="each-info" data-index='{{index}}' bindtap="deleteFn">
+          <text>{{item.name}}</text>
+          <icon class="iconfont icon-shanchu" ></icon>
+        </view>
+      </block>
+    </view>
+    <view class="submit" catchtap="submitFn">提交</view>
+  </view>
+</view>

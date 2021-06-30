@@ -1,0 +1,42 @@
+.pages-succeed-index{
+  width: 100%;
+  height: 100vh;
+  color: #ffffff;
+  font-size: 32rpx;
+  letter-spacing: 1rpx;
+}
+.succeed-header{
+  width: 100%;
+  height: 930rpx;
+  background-image: url("https://march.yuanian.com/static/assets/img/top-bg.png");
+  background-size: 100%;
+  background-repeat: no-repeat;
+  text-align:center;
+}
+.form-img{
+  width: 628rpx;
+  height: 380rpx;
+  margin-top: 190rpx;
+}
+.header-tip{
+  font-size: 32rpx;
+
+}
+.look-list{
+  width: 528rpx;
+	height: 80rpx;
+	background-image: linear-gradient(-75deg, 
+		rgba(0, 77, 204, 1) 0%, 
+		#46c0ff 100%), 
+	linear-gradient(
+		#eeeeee, 
+		#eeeeee);
+	background-blend-mode: normal, 
+		normal;
+	box-shadow: 0rpx 4rpx 10rpx 0rpx 
+		#c6c6c6;
+  border-radius: 10rpx;
+  margin: 0 auto;
+  text-align: center;
+  line-height: 80rpx;
+}

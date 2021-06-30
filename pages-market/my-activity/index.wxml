@@ -1,0 +1,36 @@
+<view class="pages-contact-index">
+  <header-view title='我创建的活动'></header-view>
+  <view class="list-box">
+    <!-- 加载中 -->
+    <view class="content-box" wx:if="{{listShowType==0}}">
+      <van-loading type="spinner" class="loading" />
+    </view>
+    <!-- 有内容 -->
+    <view class="content-box" wx:if="{{listShowType==1}}">
+      <block wx:for="{{listData}}" wx:key="index">
+        <view class="each-list">
+          <view class="list-l">
+            <navigator hover-class="none" url="/pages-market/my-receive/index" class="list-top ellipsis1row">{{item.title}}</navigator>
+            <view class="list-base">
+              <icon class="iconfont icon-iconfonticonfontwode1-copy icon-color"></icon>
+              <text class="person">负责人：{{item.charge}}</text>
+            </view>
+          </view>
+          <view class="list-r">
+            <view class="common {{item.state==0?'success' :'no-check'}}"></view>
+              <text class="text">{{item.state==0?'进行中' :'已结束'}}</text>
+          </view>
+        </view>
+      </block>
+      <view class="loaded-tips" wx:if="{{finished}}">我是有底线的o(╥﹏╥)o</view>
+    </view>
+    <!-- 无内容 -->
+    <view class="content-box" wx:if="{{listShowType==2}}">
+      <view class="nomsg-img-box">
+        <image mode='aspectFill' src="/assets/img/noData.png" alt class="nomsg-img" />
+        <view class="tips-msg">暂无数据 ......</view>
+      </view>
+    </view>
+    <navigator hover-class="none" url="/pages-market/creat-activity/index" class="creatActivityFn">创建新活动</navigator>
+  </view>
+</view>

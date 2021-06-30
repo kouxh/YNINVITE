@@ -1,0 +1,50 @@
+<view class="pages-market-check-index">
+  <view class="header-box">
+    <view class="header-left" bindtap="backFn">
+      <text class="page-name">我收到的参会客户</text>
+    </view>
+  </view>
+  <view class="tabs-content">
+    <!-- 加载中 -->
+    <view class="list-content" wx:if="{{listShowType==0}}">
+      <van-loading type="spinner" class="loading" />
+    </view>
+    <!-- 有内容 -->
+    <view class="list-content" wx:if="{{listShowType==1}}">
+      <view class="num-box">
+        <view class="num-tip">确认参会<text class="num">05</text>人， 实际参会<text class="num">03</text>人</view>
+      </view>
+      <block wx:for="{{checkedData}}" wx:key="index">
+        <view class="list-item">
+          <view class="list-left">
+            <view class="left-l">
+              <image mode='aspectFill' src="/assets/img/photo.png" alt class="img" />
+            </view>
+            <view class="left-r">
+              <view class="name">{{item.name}}</view>
+              <view class="company ellipsis1row">{{item.title}}</view>
+              <view class="left-r-base">
+                <view class="flight-info">
+                  <icon class="iconfont icon-iconfonticonfontwode1-copy icon-color"></icon>
+                  <text class="info">销售负责人：{{item.sale}}</text>
+                </view>
+              </view>
+            </view>
+          </view>
+          <view class="list-right right-l">
+            <view class="common {{item.state==0?'success' :'not-join'}}"></view>
+            <text class="text">{{item.state==0?'参会' :'不参加'}}</text>
+          </view>
+        </view>
+      </block>
+    </view>
+    <!-- 无内容 -->
+    <view class="list-content" wx:if="{{listShowType==2}}">
+      <view class="nomsg-img-box">
+        <image mode='aspectFill' src="/assets/img/noData.png" alt class="nomsg-img" />
+        <view class="tips-msg">暂无数据 ......</view>
+      </view>
+    </view>
+
+  </view>
+</view>

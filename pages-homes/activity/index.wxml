@@ -1,0 +1,35 @@
+<view class="pages-activity-index">
+  <header-view title='活动列表'></header-view>
+  <view class="list-box">
+    <!-- 加载中 -->
+    <view class="content-box" wx:if="{{listShowType==0}}">
+      <van-loading type="spinner" class="loading" />
+    </view>
+    <!-- 有内容 -->
+    <view class="content-box" wx:if="{{listShowType==1}}">
+      <block wx:for="{{activityData}}" wx:key="index">
+        <view class="each-list {{currentIndex==index?'active':''}} " bindtap="listClick" data-index="{{index}}">
+          <view class="list-top">{{item.title}}</view>
+          <view class="list-base">
+            <view class="base-left">
+              <icon class="iconfont icon-location icon-color"></icon>
+              <text class="person">{{item.site}}</text>
+            </view>
+            <view class="base-right">
+              <icon class="iconfont icon-shijian icon-color"></icon>
+              <text class="person">{{item.time}}</text>
+            </view>
+          </view>
+        </view>
+      </block>
+      <view class="loaded-tips" wx:if="{{finished}}">我是有底线的o(╥﹏╥)o</view>
+    </view>
+    <!-- 无内容 -->
+    <view class="content-box" wx:if="{{listShowType==2}}">
+      <view class="nomsg-img-box">
+        <image mode='aspectFill' src="/assets/img/noData.png" alt class="nomsg-img" />
+        <view class="tips-msg">暂无数据 ......</view>
+      </view>
+    </view>
+  </view>
+</view>

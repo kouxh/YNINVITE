@@ -1,0 +1,47 @@
+.pages-invitation-index{
+  width: 100%;
+  height: 100vh;
+}
+.invitation-box{
+  margin-top: 20rpx;
+}
+.each-list{
+  width: 646rpx;
+	height: 116rpx;
+	background-color: #ffffff;
+	box-shadow: 0rpx 4rpx 12rpx 0rpx 
+		#f2f2f2;
+  border-radius: 10rpx;
+  margin: 0 auto;
+  padding: 20rpx;
+  display: flex;
+  align-items: center;
+  margin-bottom: 28rpx;
+}
+.list-left{
+  width: 206rpx;
+	height: 120rpx;
+	background-color: #e0e0e0;
+  border-radius: 10rpx;
+  display: flex;
+  flex: 1;
+}
+.list-right{
+  width: 410rpx;
+  height: 110rpx;
+  margin-left: 40rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.title{
+  font-size: 28rpx;
+  line-height: 38rpx;
+	color: #333333;
+}
+.icon-xiazai{
+  display: flex;
+  justify-content: flex-end;
+  font-size: 28rpx;
+  margin-right: 8rpx;
+}

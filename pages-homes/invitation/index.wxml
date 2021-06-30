@@ -1,0 +1,31 @@
+<view class="pages-invitation-index">
+  <header-view title='会议邀请函'></header-view>
+  <view class="invitation-box">
+    <!-- 加载中 -->
+    <view class="content-box" wx:if="{{listShowType==0}}">
+      <van-loading type="spinner" class="loading" />
+    </view>
+    <!-- 有内容 -->
+    <view class="content-box" wx:if="{{listShowType==1}}">
+      <block wx:for="{{listData}}" wx:key="index">
+        <view class="each-list">
+          <view class="list-left">
+            <image mode='aspectFill' src="{{item.img}}" alt class="img" />
+          </view>
+          <view class="list-right">
+            <view class="title ellipsis2row">{{item.title}}</view>
+            <icon class="iconfont icon-xiazai {{currentIndex==index?'icon-color' :''}} " bindtap="downImg" data-src="{{item.img}}" data-index="{{index}}"></icon>
+          </view>
+        </view>
+      </block>
+      <view class="loaded-tips" wx:if="{{finished}}">我是有底线的o(╥﹏╥)o</view>
+    </view>
+    <!-- 无内容 -->
+    <view class="content-box" wx:if="{{listShowType==2}}">
+      <view class="nomsg-img-box">
+        <image mode='aspectFill' src="/assets/img/noData.png" alt class="nomsg-img" />
+        <view class="tips-msg">暂无数据 ......</view>
+      </view>
+    </view>
+  </view>
+</view>

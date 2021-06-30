@@ -1,0 +1,197 @@
+<view class="pages-nominate-index">
+  <header-view title='填写客户信息'></header-view>
+  <view class="form-box">
+    <view class="form-content">
+      <view class="title-tip">
+        <icon class="iconfont icon-tanhao icon-color"></icon>
+        <text class="tip">提名将提交市场部审核,请准确填写您的客户/合作伙伴的信息</text>
+      </view>
+      <view class="each-item">
+        <view class="item-l">
+          <icon class="iconfont icon-bitian"></icon>
+          <text class="lable">参与活动</text>
+        </view>
+        <view class="item-r">
+          <input class='r-ipt' type='text' value='{{clientInfo.activityName}}' id="clientInfo.activityName"
+            bindinput='handleInput' placeholder-class='r-phd' placeholder="自动链接第一页面显示" />
+        </view>
+      </view>
+      <view class="select-content">
+        <view class="each-item">
+          <view class="item-l">
+            <icon class="iconfont icon-bitian"></icon>
+            <text class="lable">客户公司名称</text>
+          </view>
+          <view class="item-r">
+            <input class='r-ipt' type='text' value='{{clientInfo.companyName}}' bindinput='handleInputChange'
+              placeholder-class='r-phd' placeholder="请搜索" />
+            <icon class="iconfont icon-sousuo1"></icon>
+          </view>
+        </view>
+        <view class="select_box" wx:if="{{searchList.length>0}}">
+          <block wx:for="{{searchList}}" wx:key="index">
+            <view class="select_one " bindtap="searchSelect" data-name="{{item.name}}">{{item.name}}</view>
+          </block>
+        </view>
+      </view>
+      <view class="each-item">
+        <view class="item-l">
+          <icon class="iconfont icon-bitian"></icon>
+          <text class="lable">客户姓名</text>
+        </view>
+        <view class="item-r">
+          <input class='r-ipt' type='text' value='{{clientInfo.name}}' id="clientInfo.name" bindinput='handleInput'
+            placeholder-class='r-phd' placeholder="请输入" />
+        </view>
+      </view>
+      <view class="select-content">
+        <view class="each-item">
+          <view class="item-l">
+            <icon class="iconfont icon-bitian"></icon>
+            <text class="lable">客户规模</text>
+          </view>
+          <view class="item-r" bindtap='selectTap'>
+            <input class='r-ipt' type='text' value='{{clientInfo.scale}}' placeholder-class='r-phd' placeholder="请选择"
+              disabled />
+            <icon class="iconfont icon-jiantoudown {{selectShow&&'select_img_rotate'}}"></icon>
+          </view>
+        </view>
+        <!-- 下拉需要显示的列表 -->
+        <dropDown wx:if="{{selectShow}}" type='1' listData="{{scaleData}}" checkedIndex="{{checkedIndex}}"
+          bind:listClose="listClose"></dropDown>
+      </view>
+      <view class="select-content">
+        <view class="each-item">
+          <view class="item-l">
+            <icon class="iconfont icon-bitian"></icon>
+            <text class="lable">客户所属行业</text>
+          </view>
+          <view class="item-r" bindtap='industryTap'>
+            <input class='r-ipt' type='text' value='{{clientInfo.industry}}' placeholder-class='r-phd' placeholder="请选择"
+              disabled />
+            <icon class="iconfont icon-jiantoudown {{industryShow&&'select_img_rotate'}}"></icon>
+          </view>
+        </view>
+        <!-- 下拉需要显示的列表 -->
+        <dropDown wx:if="{{industryShow}}" type='2' checkedIndex="{{checkedIndex}}" listData="{{industryData}}"
+          bind:listClose="listClose"></dropDown>
+        <!-- <view class="select_box" wx:if="{{industryShow}}">
+          <block wx:for="{{industryData}}" wx:key="index">
+            <view class="select_one " bindtap="industrySelect" data-name="{{item.name}}">{{item.name}}</view>
+          </block>
+        </view> -->
+      </view>
+      <view class="each-item">
+        <view class="item-l">
+          <icon class="iconfont icon-bitian"></icon>
+          <text class="lable">客户部门</text>
+        </view>
+        <view class="item-r">
+          <input class='r-ipt' type='text' value='{{clientInfo.department}}' id="clientInfo.department"
+            bindinput='handleInput' placeholder-class='r-phd' placeholder="请输入" />
+        </view>
+      </view>
+      <view class="each-item">
+        <view class="item-l">
+          <icon class="iconfont icon-bitian"></icon>
+          <text class="lable">客户职务</text>
+        </view>
+        <view class="item-r">
+          <input class='r-ipt' type='text' value='{{clientInfo.duty}}' id="clientInfo.duty" bindinput='handleInput'
+            placeholder-class='r-phd' placeholder="请输入" />
+        </view>
+      </view>
+      <view class="each-item">
+        <view class="item-l">
+          <icon class="iconfont icon-bitian"></icon>
+          <text class="lable">客户手机</text>
+        </view>
+        <view class="item-r">
+          <input class='r-ipt' type='number' maxlength="11" value='{{clientInfo.tell}}' id="clientInfo.tell"
+            bindinput='handleInput' placeholder-class='r-phd' placeholder="请输入" />
+        </view>
+      </view>
+      <view class="each-item">
+        <view class="item-l">
+          <icon class="iconfont icon-bitian"></icon>
+          <text class="lable">客户邮箱</text>
+        </view>
+        <view class="item-r">
+          <input class='r-ipt' type='text' value='{{clientInfo.email}}' id="clientInfo.email" bindinput='handleInput'
+            placeholder-class='r-phd' placeholder="请输入" />
+        </view>
+      </view>
+      <view class="select-content">
+        <view class="each-item">
+          <view class="item-l">
+            <icon class="iconfont icon-bitian"></icon>
+            <text class="lable">所属区域</text>
+          </view>
+          <view class="item-r" bindtap="areaTab">
+            <input class='r-ipt' type='text' value='{{clientInfo.area}}' placeholder-class='r-phd' placeholder="请选择"
+              disabled />
+            <icon class="iconfont icon-jiantoudown {{areaShow&&'select_img_rotate'}}"></icon>
+          </view>
+        </view>
+        <!-- 下拉需要显示的列表 -->
+        <dropDown wx:if="{{areaShow}}" type='3' listData="{{areaData}}" checkedIndex="{{checkedIndex}}"
+          bind:listClose="listClose"></dropDown>
+      </view>
+      <view class="each-item">
+        <view class="item-l">
+          <icon class="iconfont icon-bitian"></icon>
+          <text class="lable">所在城市</text>
+        </view>
+        <view class="item-r">
+          <input class='r-ipt' type='text' value='{{clientInfo.city}}' id="clientInfo.city" bindinput='handleInput'
+            placeholder-class='r-phd' placeholder="请输入" />
+        </view>
+      </view>
+      <view class="each-item">
+        <view class="item-l">
+          <icon class="iconfont icon-bitian"></icon>
+          <text class="lable">客户是否住宿</text>
+        </view>
+        <view class="item-r">
+          <van-radio-group value="{{ clientInfo.isStay }}" bind:change="onChange">
+            <van-radio name="0">是</van-radio>
+            <van-radio name="1">否</van-radio>
+          </van-radio-group>
+        </view>
+      </view>
+      <view class="each-item" wx:if="{{ clientInfo.isStay==0 }}">
+        <view class="item-l">
+          <icon class="iconfont icon-bitian"></icon>
+          <text class="lable">选择单间/标间</text>
+        </view>
+        <view class="item-r">
+          <van-radio-group value="{{ clientInfo.stayType }}" bind:change="onSwitch">
+            <van-radio name="0">单间</van-radio>
+            <van-radio name="1">标间</van-radio>
+          </van-radio-group>
+        </view>
+      </view>
+      <view class="each-item">
+        <view class="item-l">
+          <icon class="iconfont icon-bitian"></icon>
+          <text class="lable">商机金额</text>
+        </view>
+        <view class="item-r">
+          <input class='r-ipt' type='text' value='{{clientInfo.money}}' id="clientInfo.city" bindinput='handleInput'
+            placeholder-class='r-phd' placeholder="请输入" />
+        </view>
+      </view>
+      <view class="each-item1">
+      <view class="area-l">
+        <icon class="iconfont icon-bitian icon"></icon>
+        <text class="lable remark">备注</text>
+      </view>
+      <view class="item-r area-r">
+        <textarea type='text' placeholder="请输入" value='{{clientInfo.remark}}' id="clientInfo.remark" bindinput='handleInput' placeholder-class="r-phd"  class='r-area'
+        ></textarea>
+      </view>
+    </view>
+      <view class="submit" catchtap="submitFn">提交</view>
+    </view>
+  </view>
+</view>
