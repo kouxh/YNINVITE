@@ -1,5 +1,8 @@
 {
   "usingComponents": {
-   "van-loading": "@vant/weapp/loading/index"
+   "van-loading": "@vant/weapp/loading/index",
+   "van-popup": "@vant/weapp/popup/index",
+   "van-radio": "@vant/weapp/radio/index",
+    "van-radio-group": "@vant/weapp/radio-group/index"
   }
 }

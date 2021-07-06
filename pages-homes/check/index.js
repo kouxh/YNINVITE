@@ -8,6 +8,14 @@ Page({
     listShowType: 1, // 列表显示状态 0加载中 1有 2无
     finished: false,//数据是否加载完成
     refuteShow:false,//驳回弹框
+    listData:[
+      {img:'',name:'张某',company:'客户公司客户公司客户公司',flight:'已填',status:0},
+      {img:'',name:'张某',company:'客户公司客户公司客户公司',flight:'已填',status:1},
+      {img:'',name:'张某',company:'客户公司客户公司客户公司',flight:'已填',status:2},
+      {img:'',name:'张某',company:'客户公司客户公司客户公司',flight:'已填',status:3},
+      {img:'',name:'张某',company:'客户公司客户公司客户公司',flight:'',status:4},
+      {img:'',name:'张某',company:'客户公司客户公司客户公司',flight:'',status:5},
+    ]
   },
 
   /**
@@ -27,7 +35,7 @@ Page({
       refuteShow: true,
     });
   },
-  //付费弹框点击取消按钮
+  //点击取消按钮
   onClose() {
     this.setData({ 
       refuteShow: false,

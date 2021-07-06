@@ -9,10 +9,10 @@ Page({
       name:'',
       tell:'',
       email:'',
-      isJoin:'0',
+      isJoin:'-1',
       room:'',
       date:'',
-      isAirport:'0',
+      isAirport:'-1',
       vehicle:'',
       busNum:'',
       remark:'',
@@ -89,7 +89,7 @@ Page({
     this.setData({
       [type]:event.detail.value
     })
-    console.log(event.detail.value,'----')
+    
   },
 
   //点击提交按钮
@@ -109,14 +109,23 @@ Page({
     if(clientInfo.email=='' ||!emailStr.test(clientInfo.email)){
       return wx.showToast({ title: "请输入客户邮箱", icon: "none" });
     }
-    if(clientInfo.room==''){
+    if(clientInfo.isJoin=='-1'){
+      return wx.showToast({ title: "请确认是否参会", icon: "none" });
+    }
+    if(clientInfo.isJoin=='0'&&clientInfo.room==''){
       return wx.showToast({ title: "请选择客户参会分会场", icon: "none" });
     }
-    if(clientInfo.vehicle==''){
+    if(clientInfo.isJoin=='0'&&clientInfo.date==''){
+      return wx.showToast({ title: "请选入住时间", icon: "none" });
+    }
+    if(clientInfo.isAirport=='-1'){
+      return wx.showToast({ title: "请确认是否需要接机", icon: "none" });
+    }
+    if(clientInfo.isAirport=='0'&&clientInfo.vehicle==''){
       return wx.showToast({ title: "请选择客户乘坐交通工具", icon: "none" });
     }
-    if(clientInfo.remark==''){
-      return wx.showToast({ title: "请输入备注", icon: "none" });
+    if(clientInfo.isAirport=='0'&&clientInfo.busNum==''){
+      return wx.showToast({ title: "请输入车次信息", icon: "none" });
     }
     wx.navigateTo({
       url: '/pages-homes/succeed/index',
@@ -124,6 +133,7 @@ Page({
   },
   // 是否参会
   onChange(event) {
+    console.log(event.detail)
     this.setData({
       'clientInfo.isJoin': event.detail,
     });
@@ -145,10 +155,11 @@ Page({
     return `${date.getMonth() + 1}/${date.getDate()}`;
   },
   onConfirm(event) {
+    let yearDate = new Date().getFullYear();//获取完整的年份
     const [start, end] = event.detail;
     this.setData({
       calendarShow: false,
-      'clientInfo.date': `${this.formatDate(start)} - ${this.formatDate(end)}`,
+      'clientInfo.date': `${yearDate}/${this.formatDate(start)} - ${yearDate}/${this.formatDate(end)}`,
     });
   },
   /**

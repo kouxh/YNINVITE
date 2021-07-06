@@ -204,14 +204,16 @@
   margin-top: 6rpx;
 }
 .flight-img{
-  width: 38rpx;
-  height: 20rpx;
+  /* width: 38rpx;
+  height: 20rpx; */
+  width: 30rpx;
+  height: 16rpx;
 }
 .info{
   font-size: 24rpx;
 	letter-spacing: 0rpx;
   color: #b3b3b3;
-  margin-left: 20rpx;
+  margin-left: 12rpx;
 }
 .refute-box{
   width: 130rpx;

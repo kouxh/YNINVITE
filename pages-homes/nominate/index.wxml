@@ -177,7 +177,7 @@
           <text class="lable">商机金额</text>
         </view>
         <view class="item-r">
-          <input class='r-ipt' type='text' value='{{clientInfo.money}}' id="clientInfo.city" bindinput='handleInput'
+          <input class='r-ipt' type='text' value='{{clientInfo.money}}' id="clientInfo.money" bindinput='handleInput'
             placeholder-class='r-phd' placeholder="请输入" />
         </view>
       </view>

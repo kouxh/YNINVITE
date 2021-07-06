@@ -24,3 +24,8 @@
 .num-tip .num{
   color: #2183e4;
 }
+.icon-iconfontlianxiren01{
+  font-size: 24rpx;
+    display: flex;
+    align-items: center;
+}

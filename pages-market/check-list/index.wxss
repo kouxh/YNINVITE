@@ -106,7 +106,7 @@
   border-radius: 50%;
 }
 .left-r{
-  width: 400rpx;
+  width: 420rpx;
   margin-left: 24rpx;
   display: flex;
   flex-direction: column;
@@ -115,21 +115,49 @@
 }
 
 .list-right {
-  font-size: 28rpx;
-  color: #333333;
+  font-size: 24rpx;
+  color: #666;
+  width: 150rpx;
+  height: 40rpx;
+  border: 1rpx solid #666;
+  border-radius: 20rpx;
+  position: relative;
+}
+.default{
+  display: flex;
+  line-height: 40rpx;
+  justify-content: center;
+}
+.icon-jiantoudown{
+  font-size: 22rpx;
+  color: #999999;
   display: flex;
   align-items: center;
+  margin-left: 12rpx;
+  font-weight: 600;
 }
-.join{
-  color: #147de1;
+.select_img_rotate{
+  transform:rotate(180deg); 
 }
-.bar{
-  padding: 0rpx 12rpx;
-  color: #e8e8e8;
+.check-box{
+  width: 160rpx;
+  background: #ffffff;
+  box-shadow: 0rpx 6rpx 18rpx 0rpx rgba(51,51,51,0.15); 
+  position: absolute;
+  top: 42rpx;
+  left: 0rpx;
+  z-index:99;
 }
-.no-join{
-  color: #67b4fd;
+
+.check-item{
+  padding: 0rpx 20rpx;
+  border-bottom: 1rpx solid #e8e8e8;
+  line-height: 60rpx;
+  text-align: center;
+  font-size: 24rpx;
+  color: #333;
 }
+
 .name {
   font-size: 32rpx;
   color: #333333;
@@ -151,8 +179,13 @@
   margin-right: 40rpx;
 }
 .flight-img{
-  width: 38rpx;
-  height: 20rpx;
+  /* width: 38rpx;
+  height: 20rpx; */
+  font-size: 30rpx;
+    display: flex;
+    align-items: center;
+    margin-top: 4rpx;
+
 }
 .info{
   font-size: 24rpx;
@@ -178,4 +211,58 @@
 }
 .right-l{
   margin-left: 60rpx;
+  font-size: 24rpx;
+  color: #666;
+  display: flex;
+  align-items: center;
 }
+.popup-box{
+  width: 600rpx;
+	height: 286rpx;
+	background-color: #ffffff;
+  border-radius: 10rpx;
+  font-size: 28rpx;
+  letter-spacing: 0rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.van-radio-group{
+  margin-top: 40rpx;
+}
+.van-radio{
+  margin-bottom: 20rpx;
+}
+.van-radio__icon{
+  font-size: 30rpx !important;
+}
+.box-btn{
+  width: 240rpx;
+	height: 60rpx;
+	background-image: linear-gradient(-75deg, 
+		rgba(0, 77, 204, 1) 0%, 
+		#46c0ff 100%), 
+	linear-gradient(
+		#eeeeee, 
+		#eeeeee);
+	background-blend-mode: normal, 
+		normal;
+	box-shadow: 0rpx 4rpx 10rpx 0rpx 
+		#c6c6c6;
+  border-radius: 10rpx;
+  color: #ffffff;
+  text-align: center;
+  line-height: 60rpx;
+}
+.van-popup__close-icon--top-right{
+  margin-top: -10rpx;
+  }
+  .pull-active{
+    color: #1784e5;
+  }
+  .icon-iconfontlianxiren01{
+    font-size: 24rpx;
+      display: flex;
+      align-items: center;
+  }

@@ -25,13 +25,13 @@
               <view class="company ellipsis1row">{{item.title}}</view>
               <view class="left-r-base">
                 <view class="flight-info">
-                  <icon class="iconfont icon-iconfonticonfontwode1-copy icon-color"></icon>
+                  <icon class="iconfont icon-iconfontlianxiren01 icon-color"></icon>
                   <text class="info">销售负责人：{{item.sale}}</text>
                 </view>
               </view>
             </view>
           </view>
-          <view class="list-right right-l">
+          <view class="right-l">
             <view class="common {{item.state==0?'success' :'not-join'}}"></view>
             <text class="text">{{item.state==0?'参会' :'不参加'}}</text>
           </view>

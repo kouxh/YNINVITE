@@ -10,7 +10,7 @@
       <block wx:for="{{listData}}" wx:key="index">
         <view class="each-list">
           <view class="list-left">
-            <image mode='aspectFill' src="{{item.img}}" alt class="img" />
+            <image mode='aspectFill' src="{{item.img}}" alt class="img left-img" />
           </view>
           <view class="list-right">
             <view class="title ellipsis2row">{{item.title}}</view>

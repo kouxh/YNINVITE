@@ -45,3 +45,6 @@
   font-size: 28rpx;
   margin-right: 8rpx;
 }
+.left-img{
+  border-radius: 10rpx;
+}

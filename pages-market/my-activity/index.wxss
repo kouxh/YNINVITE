@@ -41,8 +41,8 @@
   color: #999999;
   margin-left: 10rpx;
 }
-.icon-iconfonticonfontwode1-copy{
-  margin-top: 4rpx;
+.icon-iconfontlianxiren01{
+  font-size: 24rpx;
 }
 .list-r {
   font-size: 28rpx;

@@ -10,22 +10,22 @@ export default {
         response => {
           resolve(response);
           console.log(response,'response----')
-          if (response.errCode == 10043) {
-            wx.showToast({
-              title: "登录过期，请重新登录",
-              icon: "none"
-            });
-            wx.removeStorageSync('token');
-            wx.removeStorageSync('isDevelop');
-            return wx.reLaunch({ url: '/pages/index/index' })
-          }else if(response.errCode==40002){
-            wx.showToast({
-              title: "登录失败，请重新登录",
-              icon: "none"
-            });
-            wx.removeStorageSync('token');
-            return wx.reLaunch({ url: '/pages/index/index' })
-          }
+          // if (response.errCode == 10043) {
+          //   wx.showToast({
+          //     title: "登录过期，请重新登录",
+          //     icon: "none"
+          //   });
+          //   wx.removeStorageSync('token');
+          //   wx.removeStorageSync('isDevelop');
+          //   return wx.reLaunch({ url: '/pages/index/index' })
+          // }else if(response.errCode==40002){
+          //   wx.showToast({
+          //     title: "登录失败，请重新登录",
+          //     icon: "none"
+          //   });
+          //   wx.removeStorageSync('token');
+          //   return wx.reLaunch({ url: '/pages/index/index' })
+          // }
         },
         err => {
           // 返回错误内容
@@ -45,22 +45,22 @@ export default {
         response => {
           resolve(response);
           console.log(response,'response------')
-          if (response.errCode == 10043) {
-            wx.showToast({
-              title: "登录过期，请重新登录",
-              icon: "none"
-            });
-            wx.removeStorageSync('token');
-            wx.removeStorageSync('isDevelop');
-            return wx.reLaunch({ url: '/pages/index/index' })
-          }else if(response.errCode==40002){
-            wx.showToast({
-              title: "登录失败，请重新登录",
-              icon: "none"
-            });
-            wx.removeStorageSync('token');
-            return wx.reLaunch({ url: '/pages/index/index' })
-          }
+          // if (response.errCode == 10043) {
+          //   wx.showToast({
+          //     title: "登录过期，请重新登录",
+          //     icon: "none"
+          //   });
+          //   wx.removeStorageSync('token');
+          //   wx.removeStorageSync('isDevelop');
+          //   return wx.reLaunch({ url: '/pages/index/index' })
+          // }else if(response.errCode==40002){
+          //   wx.showToast({
+          //     title: "登录失败，请重新登录",
+          //     icon: "none"
+          //   });
+          //   wx.removeStorageSync('token');
+          //   return wx.reLaunch({ url: '/pages/index/index' })
+          // }
         },
         err => {
           // 返回错误内容

@@ -106,8 +106,8 @@
       </view>
       <view class="item-r">
         <van-radio-group value="{{ activityInfo.isStay }}" bind:change="onSwitch">
-          <van-radio name="0">是</van-radio>
-          <van-radio name="1">否</van-radio>
+          <van-radio name="1">是</van-radio>
+          <van-radio name="0">否</van-radio>
         </van-radio-group>
       </view>
     </view>
@@ -123,12 +123,18 @@
     </view>
     <view class="upimg-box">
       <!-- 上传按钮 -->
-      <van-uploader file-list="{{ fileList }}" max-count="1" bind:after-read="afterRead" bind:delete="delete">
-        <view class="upload-btn">
+      <!-- <van-uploader file-list="{{ fileList }}" max-count="1" bind:after-read="afterRead" bind:delete="delete"  > -->
+        <view class="upload-btn" wx:for="{{fileList}}" wx:key="index">
+            <image mode="aspectFill" src="{{item.urlStr}}" data-imgarr='{{[item.urlStr]}}' data-showimg='{{item.urlStr}}' bindtap="enlargeImgFn" class="upload-img"></image>
+            <view class="upload-delete" wx:if="{{item.urlStr}}" bindtap="imgDeleteFn" data-imgindex="{{index}}">
+                <icon class="iconfont icon-chushaixuanxiang"></icon>
+            </view>
+        </view> 
+        <view class="upload-btn" wx:if="{{fileList.length==0}}" bindtap="uploadImgFn">
           <icon class='iconfont icon-shangchuan' />
           <text>上传邀请函附件</text>
         </view>
-      </van-uploader>
+      <!-- </van-uploader> -->
     </view>
     <view class="select-content">
       <view class="each-item">

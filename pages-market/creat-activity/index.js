@@ -232,7 +232,6 @@ Page({
     this.setData({
       [type]:event.detail.value
     })
-    console.log(event.detail.value,'----')
   },
   //点击提交按钮
   submitFn(){
@@ -289,9 +288,36 @@ Page({
       return wx.showToast({ title: "请选择提名部门", icon: "none" });
     }
     let ids = activityInfo.department.map(c => c.id);
-    wx.navigateTo({
-      url: '/pages-market/submit/index',
+    console.log(ids,'ids')
+    let postData = {
+      mma_title:activityInfo.name,
+      mma_start_time:activityInfo.starTime,
+      mma_end_time:activityInfo.endTime,
+      mma_city:activityInfo.city,
+      mma_person_name:activityInfo.person,
+      mma_person_tell:activityInfo.tell,
+      mma_is_accommodation:activityInfo.isStay,
+      mma_branch_venue:roomArr.toString(),
+      mma_invitation_img:activityInfo.imgUrl,
+      mma_jurisdiction:activityInfo.limits,
+      mma_department_id:ids.toString()
+    };
+    console.log(postData,'postData')
+    getApp().globalData.api.activityAdd({
+      Market_Token:2222,
+      json:postData,
+      uid:1
+    }).then(res=>{
+      console.log(res,'---')
+      if(res.bool){
+        wx.navigateTo({
+          url: '/pages-market/submit/index',
+        })
+      }else{
+        wx.showToast({ title: res.data.msg, icon: "none" });
+      }
     })
+    
   },
   // 是否分会场
   onChange(event) {
@@ -320,8 +346,9 @@ Page({
   },
   //时间格式化转化
   formatDate(date) {
+    let yearDate = new Date().getFullYear();//获取完整的年份
     date = new Date(date);
-    return `2021/${date.getMonth() + 1}/${date.getDate()}`;
+    return `${yearDate}/${date.getMonth() + 1}/${date.getDate()}`;
   },
   //点击时间确认按钮
   onConfirm(event) {
@@ -335,9 +362,6 @@ Page({
         calendarShow: false,
         'activityInfo.endTime':  this.formatDate(event.detail),
       });
-      // if (!outputBool){
-      //   return wx.showToast({ title: "结束时间请大于开始时间", icon: "none" });
-      // }
     }
     let outputBool=
     new Date(this.data.activityInfo.starTime.replace(/-/g, "/")) <=
@@ -347,36 +371,67 @@ Page({
       outputBool:outputBool
     });
   },
-  //图片上传
-  afterRead(event) {
-    let that =this;
-    const { file } = event.detail;
-    // 当设置 mutiple 为 true 时, file 为数组格式，否则为对象格式
-    wx.uploadFile({
-      url: 'https://www.chinamas.cn/laravelUploadImg', // 仅为示例，非真实的接口地址
-      filePath: file.url,
-      name: 'file',
-      formData: { user: 'test' },
-      success(res) {
-        // 上传完成需要更新 fileList
-        var result=JSON.parse(res.data)
-        console.log(result)
-        const { fileList = [] } = that.data;
-        fileList.push({ ...file, url: res.data });
-        that.setData({ fileList });
-        that.setData({ "activityInfo.imgUrl":result.data.src });
-      },
+  // 点击 查看
+  enlargeImgFn(e) {
+    let imgArr = e.currentTarget.dataset.imgarr;
+    let showImg = e.currentTarget.dataset.showimg;
+    wx.previewImage({
+      current: showImg,
+      urls: imgArr,
+      fail(res) {
+        wx.showToast({ title: "图片查看失败,请稍后重试", icon: "none" });
+      }
     });
   },
-   // 删除图片
-  delete(event) {
-     let imgDelIndex = event.detail.index
-     let fileList = this.data.fileList
-     fileList.splice(imgDelIndex,1)
-     this.setData({
-       fileList
-     })
+  //获取上传图片
+  uploadImgFn() {
+    var that = this;
+    wx.chooseImage({
+      success (res) {
+        let tempFilePaths = res.tempFilePaths
+        wx.uploadFile({
+          url: 'https://www.chinamas.cn/laravelUploadImg', //仅为示例，非真实的接口地址
+          filePath: tempFilePaths[0],
+          name: 'file',
+          formData: {
+            'user': 'test'
+          },
+          success (res){
+            wx.showModal({
+              title:'提示',
+              content:'上传完成'
+            })
+            let result=JSON.parse(res.data)
+            // 将新图片添加到浏览数组中
+            let fileList = that.data.fileList;
+            for (const paths of tempFilePaths) {
+              let briefObj = {
+                urlStr: paths,
+                
+              };
+              fileList.push(briefObj);
+            }
+            that.setData({
+              fileList: fileList,
+              "activityInfo.imgUrl":result.data.src,
+            });
+          }
+        })
+      }
+    })
+
   },
+ //删除图片
+ imgDeleteFn(e) {
+  let imgIndex = e.currentTarget.dataset.imgindex;
+  let fileList = this.data.fileList; //原数据
+  fileList.splice(imgIndex, 1);
+  this.setData({
+    fileList: fileList,
+  });
+},
+ 
+  // 数组去重
   unique:function (arr) {
       if (!Array.isArray(arr)) {
           return

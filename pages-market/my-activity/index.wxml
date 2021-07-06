@@ -10,19 +10,20 @@
       <block wx:for="{{listData}}" wx:key="index">
         <view class="each-list">
           <view class="list-l">
-            <navigator hover-class="none" url="/pages-market/my-receive/index" class="list-top ellipsis1row">{{item.title}}</navigator>
+            <navigator hover-class="none" url="/pages-market/my-receive/index?activityId={{item.mma_id}}" class="list-top ellipsis1row">{{item.mma_title}}</navigator>
             <view class="list-base">
-              <icon class="iconfont icon-iconfonticonfontwode1-copy icon-color"></icon>
-              <text class="person">负责人：{{item.charge}}</text>
+              <icon class="iconfont icon-iconfontlianxiren01 icon-color"></icon>
+              <text class="person">负责人：{{item.mma_person_name}}</text>
             </view>
           </view>
           <view class="list-r">
-            <view class="common {{item.state==0?'success' :'no-check'}}"></view>
-              <text class="text">{{item.state==0?'进行中' :'已结束'}}</text>
+            <view class="common {{(item.mma_status=='未开始'||item.mma_status=='进行中')?'success' :'no-check'}}"></view>
+              <text class="text">{{item.mma_status}}</text>
           </view>
         </view>
       </block>
-      <view class="loaded-tips" wx:if="{{finished}}">我是有底线的o(╥﹏╥)o</view>
+      <view class="loaded-tips" wx:if="{{!finished}}">努力加载中…</view>
+      <!-- <view class="loaded-tips" wx:if="{{finished}}">我是有底线的o(╥﹏╥)o</view> -->
     </view>
     <!-- 无内容 -->
     <view class="content-box" wx:if="{{listShowType==2}}">

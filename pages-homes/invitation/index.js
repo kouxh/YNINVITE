@@ -8,7 +8,7 @@ Page({
     listShowType:1, // 列表显示状态 0加载中 1有 2无
     finished: false,//数据是否加载完成
     listData:[
-      {img:'https://img.deiyou.net/upload/seller/goods/image/2019/10/17/be68d4839ec94570bba0cca1d87b0ea3',title:'数字化企业与管理会计体系转型研讨会邀请函'},
+      {img:'https://www.chinamas.cn/upload/img/2021/07/01/07acf133c072947d8cc8679c17457d20.jpg',title:'数字化企业与管理会计体系转型研讨会邀请函'},
       {img:'https://img.deiyou.net/upload/seller/goods/image/2019/10/17/be68d4839ec94570bba0cca1d87b0ea3',title:'智能财务微课堂系列课程邀请函'},
       {img:'https://img.deiyou.net/upload/seller/goods/image/2019/10/17/be68d4839ec94570bba0cca1d87b0ea3',title:'2019企业数字化转型高峰论坛邀请函'},
       {img:'https://img.deiyou.net/upload/seller/goods/image/2019/10/17/be68d4839ec94570bba0cca1d87b0ea3',title:'中台架构提速企业数字化转型高峰论坛邀请函'},
@@ -36,6 +36,7 @@ Page({
       success:  function(res)  {
      // 只要服务器有响应数据，就会把响应内容写入文件并进入 success 回调，业务需要自行判断是否下载到了想要的内容
         console.log(res)
+        // 下面是临时文件的路径res.tempFilePath
         if  (res.statusCode ==  200)  {
           wx.saveImageToPhotosAlbum({
             filePath: res.tempFilePath,
@@ -54,6 +55,10 @@ Page({
       }
      });
     downloadTask.onProgressUpdate((res)  =>  {
+      console.log('下载进度',res.progress)
+    console.log('已经下载的数据长度',res.totalBytesWritten)
+    console.log('预期需要下载的数据总长度',res.totalBytesExpectedToWrite)
+
       if  (res.progress ===  100)  {
         this.setData({
           progress:  ''

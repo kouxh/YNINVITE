@@ -23,7 +23,7 @@
               <text class="person">{{item.time}}</text>
             </view>
             <view class="base-right">
-              <icon class="iconfont icon-iconfonticonfontwode1-copy icon-color"></icon>
+              <icon class="iconfont icon-iconfontlianxiren01 icon-color"></icon>
               <text class="person">负责人：李丽君</text>
             </view>
           </view>

@@ -27,23 +27,23 @@
         <text class="lable">客户邮箱</text>
       </view>
       <view class="item-r">
-        <input class='r-ipt' type='text' value='{{clientInfo.email}}' maxlength="11" id="clientInfo.email"
+        <input class='r-ipt' type='text' value='{{clientInfo.email}}' id="clientInfo.email"
           bindinput='handleInput' placeholder-class='r-phd' placeholder="请输入" />
       </view>
     </view>
     <view class="each-item">
-        <view class="item-l">
-          <icon class="iconfont icon-bitian"></icon>
-          <text class="lable">参会确认</text>
-        </view>
-        <view class="item-r">
-          <van-radio-group value="{{ clientInfo.isJoin }}" bind:change="onChange">
-            <van-radio name="0">参会</van-radio>
-            <van-radio name="1">不参会</van-radio>
-          </van-radio-group>
-        </view>
+      <view class="item-l">
+        <icon class="iconfont icon-bitian"></icon>
+        <text class="lable">参会确认</text>
+      </view>
+      <view class="item-r">
+        <van-radio-group value="{{ clientInfo.isJoin }}" bind:change="onChange">
+          <van-radio name="0">参会</van-radio>
+          <van-radio name="1">不参会</van-radio>
+        </van-radio-group>
+      </view>
     </view>
-    <view class="select-content" wx:if="{{ clientInfo.isJoin==0&&roomData.length>0 }}">
+    <view class="select-content" wx:if="{{ clientInfo.isJoin==0 }}">
       <view class="each-item">
         <view class="item-l special">
           <icon class="iconfont icon-bitian"></icon>
@@ -72,15 +72,8 @@
         </view>
       </view>
       <!-- 下拉需要显示的列表 -->
-      <van-calendar
-        show="{{ calendarShow }}"
-        type="range"
-        color="#1784e5"
-        confirm-text="完成"
-        confirm-disabled-text="请选择结束时间"
-        bind:close="onClose"
-        bind:confirm="onConfirm"
-      />
+      <van-calendar show="{{ calendarShow }}" type="range" color="#1784e5" confirm-text="完成"
+        confirm-disabled-text="请选择结束时间" bind:close="onClose" bind:confirm="onConfirm" />
     </view>
     <view class="each-item">
       <view class="item-l special">
@@ -89,9 +82,9 @@
       </view>
       <view class="item-r">
         <van-radio-group value="{{ clientInfo.isAirport }}" bind:change="onSwitch">
-            <van-radio name="0">是</van-radio>
-            <van-radio name="1">否</van-radio>
-          </van-radio-group>
+          <van-radio name="0">是</van-radio>
+          <van-radio name="1">否</van-radio>
+        </van-radio-group>
       </view>
     </view>
     <view class="select-content" wx:if="{{ clientInfo.isAirport==0 }}">
@@ -101,7 +94,8 @@
           <text class="lable">客户乘坐交通工具</text>
         </view>
         <view class="item-r" bindtap="vehicleFn">
-          <input class='r-ipt' type='text' value='{{clientInfo.vehicle}}' disabled  placeholder-class='r-phd' placeholder="请选择" />
+          <input class='r-ipt' type='text' value='{{clientInfo.vehicle}}' disabled placeholder-class='r-phd'
+            placeholder="请选择" />
           <icon class="iconfont icon-jiantoudown {{vehicleShow&&'select_img_rotate'}}"></icon>
         </view>
       </view>
@@ -127,8 +121,8 @@
         <text class="lable remark">备注</text>
       </view>
       <view class="item-r area-r">
-        <textarea type='text' placeholder="请输入" value='{{clientInfo.remark}}' id="clientInfo.remark" bindinput='handleInput' placeholder-class="r-phd"  class='r-area'
-        ></textarea>
+        <textarea type='text' placeholder="请输入" value='{{clientInfo.remark}}' id="clientInfo.remark"
+          bindinput='handleInput' placeholder-class="r-phd" class='r-area'></textarea>
       </view>
     </view>
     <view class="submit" catchtap="submitFn">提交</view>

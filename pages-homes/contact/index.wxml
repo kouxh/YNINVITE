@@ -12,7 +12,7 @@
           <view class="list-top">{{item.title}}</view>
           <view class="list-base">
             <view class="base-left">
-              <icon class="iconfont icon-iconfonticonfontwode1-copy icon-color"></icon>
+              <icon class="iconfont icon-iconfontlianxiren01 icon-color"></icon>
               <text class="person person1">负责人：{{item.charge}}</text>
             </view>
             <view class="base-right">

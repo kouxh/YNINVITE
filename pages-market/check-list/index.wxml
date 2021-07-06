@@ -54,20 +54,28 @@
                 <view class="company ellipsis1row">{{item.title}}</view>
                 <view class="left-r-base">
                   <view class="flight-info">
-                    <icon class="iconfont icon-iconfonticonfontwode1-copy icon-color"></icon>
+                    <icon class="iconfont icon-iconfontlianxiren01 icon-color"></icon>
                     <text class="info">销售：{{item.sale}}</text>
                   </view>
                   <view class="flight-info">
-                    <image mode='aspectFill' src="/assets/img/flight.png" alt class="img flight-img" />
+                    <icon class="iconfont icon-hangbanchaxun icon-color flight-img"></icon>
+                    <!-- <image mode='aspectFill' src="/assets/img/flight.png" alt class="img flight-img" /> -->
                     <text class="info">航班信息：{{item.flight}}</text>
                   </view>
                 </view>
               </view>
             </view>
-            <view class="list-right">
-              <text class="join">通过</text>
-              <text class="bar">|</text>
-              <text class="no-join">不通过</text>
+            <view class="list-right" >
+              <view class="default" catchtap="onEdit" data-id="{{item.id}}" data-idx="{{index}}">
+                <text>{{item.default}}</text>
+                <icon class="iconfont  icon-jiantoudown {{item.isBalloon&&'select_img_rotate'}}"></icon>
+              </view>
+              <view class="check-box" wx:if="{{item.isBalloon}}">
+                <block wx:for="{{pullData}}" wx:key="name" wx:for-item="pullI" wx:for-index="pullIdx">
+                  <view class="check-item {{nowIndex==pullIdx?'pull-active':''}}" bindtap="checkFn"  data-type="{{pullIdx+1}}"  data-id="{{item.id}}" data-idx="{{index}}" data-name="{{pullI.name}}" data-now="{{pullIdx}}">{{pullI.name}}</view>
+                </block>
+              </view>
+              <view></view>
             </view>
           </view>
         </block>
@@ -98,15 +106,15 @@
                 <view class="company ellipsis1row">{{item.title}}</view>
                 <view class="left-r-base">
                   <view class="flight-info">
-                    <icon class="iconfont icon-iconfonticonfontwode1-copy icon-color"></icon>
+                    <icon class="iconfont icon-iconfontlianxiren01 icon-color"></icon>
                     <text class="info">销售：{{item.sale}}</text>
                   </view>
                 </view>
               </view>
             </view>
-            <view class="list-right right-l">
+            <view class="right-l">
               <view class="common {{item.state==0?'success' :'no-check'}}"></view>
-              <text class="text">通过</text>
+              <text class="text">{{item.state==0?'通过':'不通过'}}</text>
             </view>
           </view>
         </block>
@@ -121,4 +129,14 @@
       </view>
     </view>
   </view>
+   <!-- 反驳弹框 -->
+   <van-popup show="{{ refuteShow }}" round closeable bind:close="onClose">
+    <view class="popup-box">
+      <van-radio-group value="{{ refuteRadio }}" bind:change="onSwith">
+          <van-radio name="1">驳回原因1：住宿标准不符合要求</van-radio>
+          <van-radio name="2">驳回原因2：商机金额未达到标准</van-radio>
+      </van-radio-group>
+      <view class="box-btn" bindtap="confirm">确定</view> 
+    </view>
+  </van-popup>
 </view>
