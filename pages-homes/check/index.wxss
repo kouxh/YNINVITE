@@ -121,7 +121,7 @@
   border-radius: 50%;
 }
 .left-r{
-  width: 360rpx;
+  width: 400rpx;
   margin-left: 24rpx;
   display: flex;
   flex-direction: column;
@@ -216,7 +216,8 @@
   margin-left: 12rpx;
 }
 .refute-box{
-  width: 130rpx;
+  /* width: 130rpx; */
+  padding: 0rpx 20rpx;
 	height: 42rpx;
 	border-radius: 22rpx;
   border: solid 2rpx #67b4fd;

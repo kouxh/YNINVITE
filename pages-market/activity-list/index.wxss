@@ -51,13 +51,22 @@
   align-items: center;
 }
 .base-right{
-  margin-left: 46rpx;
+  margin-left: 36rpx;
 }
 .person{
   font-size: 28rpx;
 	letter-spacing: 0rpx;
   color: #999999;
   margin-left: 6rpx;
+}
+.wid0{
+  width: 90rpx;
+}
+.wid{
+  width: 130rpx;
+}
+.wid1{
+  width: 200rpx;
 }
 .active{
   color: #147de1;

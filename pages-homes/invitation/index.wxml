@@ -10,15 +10,16 @@
       <block wx:for="{{listData}}" wx:key="index">
         <view class="each-list">
           <view class="list-left">
-            <image mode='aspectFill' src="{{item.img}}" alt class="img left-img" />
+            <image mode='aspectFill' src="https://www.chinamas.cn{{item.mma_invitation_img}}" alt class="img left-img" />
           </view>
           <view class="list-right">
-            <view class="title ellipsis2row">{{item.title}}</view>
-            <icon class="iconfont icon-xiazai {{currentIndex==index?'icon-color' :''}} " bindtap="downImg" data-src="{{item.img}}" data-index="{{index}}"></icon>
+            <view class="title ellipsis2row">{{item.mma_title}}</view>
+            <icon class="iconfont icon-xiazai {{currentIndex==index?'icon-color' :''}} " bindtap="downImg" data-src="https://www.chinamas.cn{{item.mma_invitation_img}}" data-index="{{index}}"></icon>
           </view>
         </view>
       </block>
-      <view class="loaded-tips" wx:if="{{finished}}">我是有底线的o(╥﹏╥)o</view>
+      <view class="loaded-tips" wx:if="{{!finished}}">努力加载中…</view>
+      <!-- <view class="loaded-tips" wx:if="{{finished}}">我是有底线的o(╥﹏╥)o</view> -->
     </view>
     <!-- 无内容 -->
     <view class="content-box" wx:if="{{listShowType==2}}">

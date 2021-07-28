@@ -4,12 +4,12 @@
       <icon class="iconfont icon-fanhui"></icon>
       <text class="page-name">我提名的客户</text>
     </view>
-    <navigator hover-class="none" url="/pages-homes/nominate/index" class="header-right">
+    <navigator open-type='redirect' hover-class="none" url="/pages-homes/nominate/index?title={{activityTitle}}&activityId={{activityId}}" class="header-right">
       <text class="client">客户提名</text>
       <icon class="iconfont icon-jia1"></icon>
     </navigator>
   </view>
-  <view class="sub-title">重塑边界 开启财务共享+时代</view>
+  <view class="sub-title">{{activityTitle}}</view>
   <!-- 加载中 -->
   <view class="content-box" wx:if="{{listShowType==0}}">
     <van-loading type="spinner" class="loading" />
@@ -18,48 +18,45 @@
   <scroll-view scroll-y="true" class="content-box scroll-height" wx:if="{{listShowType==1}}">
     <view class="list-box">
       <view class="num-box">
-        <view class="list-num">已提名<text class="num">05</text>人</view>
+        <view class="list-num">已提名<text class="num">{{total}}</text>人</view>
       </view>
       <block wx:for="{{listData}}" wx:key="index">
-        <view class="each-list">
+        <view class="each-list" wx:if="{{item.mmuc_id!=null}}">
           <view class="list-left">
             <view class="left-l">
               <image mode='aspectFill' src="/assets/img/photo.png" alt class="img" />
             </view>
             <view class="left-r">
               <view class="name">
-                <text>{{item.name}}</text>
-                <view class="company ellipsis1row">{{item.company}}</view>
+                <text>{{item.mmc_name}}</text>
+                <view class="company ellipsis1row">{{item.mmc_company_name}}</view>
               </view>
               <view class="flight-info">
                 <icon class="iconfont icon-hangbanchaxun icon-color"></icon>
-                <!-- <image mode='aspectFill' src="/assets/img/flight.png" alt class="img flight-img" /> -->
-                <text class="info">航班信息：{{item.flight?item.flight:'--'}}</text>
+                <text class="info">航班信息：{{item.mmcs_vehicle}}</text> 
               </view>
             </view>
           </view>
-          <navigator wx:if="{{item.status==0}}" hover-class="none" url="/pages-homes/complete/index" class="list-right">
-            <text class="join">参会</text>
-            <text class="bar">|</text>
-            <text class="no-join">不参会</text>
+          <navigator wx:if="{{item.mmuc_status==1}}" hover-class="none" url="/pages-homes/complete/index?aid={{activityId}}&cuid={{item.mmuc_id}}" class="list-right">
+            <view class="refute-box">确认参会</view>
           </navigator>
-          <view wx:if="{{item.status==1}}" class="list-right">
+          <view wx:if="{{item.mmuc_status==4}}" class="list-right">
             <view class="common success"></view>
-            <navigator hover-class="none" url="/pages-homes/complete/index" class="text">参会</navigator>
+            <navigator hover-class="none" url="/pages-homes/complete/index?aid={{activityId}}&cuid={{item.mmuc_id}}&status={{item.mmuc_status}}" class="text">参会</navigator>
           </view>
-          <view wx:if="{{item.status==2}}" class="list-right">
+          <view wx:if="{{item.mmuc_status==5}}" class="list-right">
             <view class="common no-success"></view>
-            <text class="text">不参会</text>
+            <navigator hover-class="none" url="/pages-homes/complete/index?aid={{activityId}}&cuid={{item.mmuc_id}}&status={{item.mmuc_status}}" class="text">不参会</navigator>
           </view>
-          <view wx:if="{{item.status==3}}" class="list-right">
+          <view wx:if="{{item.mmuc_status==2}}" class="list-right">
             <view class="common no-check"></view>
             <text class="text">审核未通过</text>
           </view>
-          <view wx:if="{{item.status==4}}" class="list-right">
+          <view wx:if="{{item.mmuc_status==0}}" class="list-right">
             <view class="common checking"></view>
             <text class="text">审核中</text>
           </view>
-          <view wx:if="{{item.status==5}}" class="list-right" bindtap="refuteFn">
+          <view wx:if="{{item.mmuc_status==3}}" class="list-right" bindtap="refuteFn" data-mmucid="{{item.mmuc_id}}">
             <view class="refute-box">被驳回</view>
           </view>
         </view>
@@ -80,8 +77,8 @@
   <!-- 反驳弹框 -->
   <van-popup show="{{ refuteShow }}" round closeable bind:close="onClose">
     <view class="popup-box">
-      <view class="box-title">驳回原因：住宿标准不符合要求</view>
-      <navigator hover-class="none" url="/pages-homes/nominate/index" class="box-btn">返回修改</navigator>
+      <view class="box-title">驳回原因：{{reason}}</view>
+      <view bindtap="changeBtn" class="box-btn">返回修改</view>
     </view>
   </van-popup>
 </view>

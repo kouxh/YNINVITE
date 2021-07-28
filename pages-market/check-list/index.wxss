@@ -171,7 +171,7 @@
 .left-r-base{
   display: flex;
   align-items: center;
-  width: 500rpx;
+  width: 560rpx;
 }
 .flight-info{
   display: flex;
@@ -200,6 +200,10 @@
 .success{
 	background-color: #23e042;
 }
+.refute{
+  background-color: #b3b3b3;
+}
+
 
 .no-check{
   background-color: #ff6060;
@@ -208,6 +212,7 @@
 .text{
   letter-spacing: 1rpx;
   padding-left: 12rpx;
+  color: #333;
 }
 .right-l{
   margin-left: 60rpx;

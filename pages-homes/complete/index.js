@@ -1,4 +1,3 @@
-// pages-homes/complete/index.js
 Page({
 
   /**
@@ -9,10 +8,10 @@ Page({
       name:'',
       tell:'',
       email:'',
-      isJoin:'-1',
+      isJoin:'',
       room:'',
       date:'',
-      isAirport:'-1',
+      isAirport:'',
       vehicle:'',
       busNum:'',
       remark:'',
@@ -27,13 +26,51 @@ Page({
       {name:'火车'},
     ],//客户乘坐交通工具下拉列表数据
     vehicleShow:false,
+    activityId:'',//活动id
+    clientId:'',//客户id
+    isCommon:'',//0不提供住宿1提供住宿
+    isContent:false,//是否可以修改
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-  
+    console.log(options)
+    this.setData({
+      activityId:options.aid,
+      clientId:options.cuid,
+      "clientInfo.isJoin":options.status
+    })
+    this.customerInfo();//补充客户信息所需要的客户姓名以及分会场
+  },
+  //补充客户信息所需要的客户姓名以及分会场
+  customerInfo(){
+    let that = this;
+    getApp().globalData.api.customerInfo({
+      Market_Token:wx.getStorageSync('loginData').custom_token,
+      avid:that.data.activityId,
+      cuid:that.data.clientId
+    }).then(res=>{
+      if(res.bool){
+        for (let i of res.data.branch_venue) {
+          let item = {
+            name: i,
+          };
+          that.data.roomData.push(item);
+        }
+        that.setData({
+          roomData: that.data.roomData,
+          "clientInfo.name":res.data.customer.mmc_name,
+          "clientInfo.tell":res.data.customer.mmc_tell,
+          "clientInfo.email":res.data.customer.mmc_email,
+          isCommon:res.data.accommodation.mma_is_accommodation,
+          isContent:true
+        });
+      }else{
+        wx.showToast({ title: res.data.msg, icon: "none" });
+      }
+    })
   },
   roomFn(){
     let that=this
@@ -74,7 +111,7 @@ Page({
     if(e.detail.type==1){
     this.setData({
       'clientInfo.room':e.detail.selectName,
-      selectShow:e.detail.listShow
+      roomShow:e.detail.listShow
     })
     }else if(e.detail.type==2){
     this.setData({
@@ -96,44 +133,53 @@ Page({
   submitFn(){
     let that = this;
     let {clientInfo}=that.data;
-    if(clientInfo.name==''){
-      return wx.showToast({ title: "请输入客户姓名", icon: "none" });
-    }
-    if (
-      !/^1[3-9]\d{9}$/.test(clientInfo.tell) ||
-      clientInfo.tell == ""
-    ) {
-      return wx.showToast({ title: "请输入客户手机号", icon: "none" });
-    }
-    var emailStr = /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/;
-    if(clientInfo.email=='' ||!emailStr.test(clientInfo.email)){
-      return wx.showToast({ title: "请输入客户邮箱", icon: "none" });
-    }
-    if(clientInfo.isJoin=='-1'){
+    if(clientInfo.isJoin==''){
       return wx.showToast({ title: "请确认是否参会", icon: "none" });
     }
-    if(clientInfo.isJoin=='0'&&clientInfo.room==''){
+    if(clientInfo.isJoin=='4'&&that.data.roomData.length>0&&clientInfo.room==''){
       return wx.showToast({ title: "请选择客户参会分会场", icon: "none" });
     }
-    if(clientInfo.isJoin=='0'&&clientInfo.date==''){
+    if(clientInfo.isJoin=='4'&&that.data.isCommon==1&&clientInfo.date==''){
       return wx.showToast({ title: "请选入住时间", icon: "none" });
     }
-    if(clientInfo.isAirport=='-1'){
+    if(clientInfo.isAirport=='1'&&that.data.isCommon==1){
       return wx.showToast({ title: "请确认是否需要接机", icon: "none" });
     }
-    if(clientInfo.isAirport=='0'&&clientInfo.vehicle==''){
+    if(clientInfo.isAirport=='1'&&that.data.isCommon==1&&clientInfo.vehicle==''){
       return wx.showToast({ title: "请选择客户乘坐交通工具", icon: "none" });
     }
-    if(clientInfo.isAirport=='0'&&clientInfo.busNum==''){
+    if(clientInfo.isAirport=='1'&&that.data.isCommon==1&&clientInfo.busNum==''){
       return wx.showToast({ title: "请输入车次信息", icon: "none" });
     }
-    wx.navigateTo({
-      url: '/pages-homes/succeed/index',
+    // if(clientInfo.remark==''){
+    //   return wx.showToast({ title: "请输入备注信息", icon: "none" });
+    // }
+    let postData = {
+      mmcs_cid:that.data.clientId,
+      mmcs_is_attendance:clientInfo.isJoin,
+      mmcs_branch_venue:clientInfo.room,
+      mmcs_check_time:clientInfo.date,
+      mmcs_is_pick_drop:clientInfo.isAirport,
+      mmcs_vehicle:clientInfo.vehicle,
+      mmcs_flight_number:clientInfo.busNum,
+      mmcs_remarks:clientInfo.remark,
+    };
+    getApp().globalData.api.perfectCus({
+      Market_Token:wx.getStorageSync('loginData').custom_token,
+      json:JSON.stringify(postData),
+      avid:that.data.activityId
+    }).then(res=>{
+      if(res.bool){
+        wx.redirectTo({
+          url: '/pages-homes/succeed/index',
+        })
+      }else{
+        wx.showToast({ title: res.data.msg, icon: "none" });
+      }
     })
   },
   // 是否参会
   onChange(event) {
-    console.log(event.detail)
     this.setData({
       'clientInfo.isJoin': event.detail,
     });

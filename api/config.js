@@ -7,7 +7,6 @@ module.exports = {
   },
   // api请求域名
   getConfig() {
-    console.log(this.isRelease())
     if (this.isRelease()) {
       //正式
       return "https://market.chinamas.cn/";

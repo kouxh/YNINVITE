@@ -31,23 +31,4 @@ export default {
       });
     });
   },
-   // 得到登录信息
-    async login() {
-      // 获取临时登录凭证code
-      var response = await this.getWxCode();
-      var code = response.code;
-      return httpClient.fetchPost(
-        "/api/account/v1/webapp/login", {
-          code: code,
-        }, {
-          headers: {
-            'content-type': 'application/json',
-          },
-          baseURL: config.getConfig(),
-          timeout: 10000
-        }
-      );
-    },
-
-
 };

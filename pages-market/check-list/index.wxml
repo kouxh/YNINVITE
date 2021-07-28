@@ -3,22 +3,22 @@
     <view class="header-left">
       <text class="page-name">我收到的提名客户</text>
     </view>
-    <view wx:if="{{tabsActive==0}}" class="header-right">
+    <view wx:if="{{tabsActive==1}}" class="header-right">
       <view class="check-num">
-        代审<text class="num">05</text>人
+        待审<text class="num">{{total}}</text>人
       </view>
       <view class="bar">|</view>
     </view>
     <view wx:else>
       <view class="header-right">
         <view class="check-num">
-          已审<text class="num">05</text>人
+          已审<text class="num">{{total}}</text>人
         </view>
         <view class="bar">|</view>
       </view>
       <view class="header-right">
         <view class="check-num">
-          通过/未通过<text class="num">05</text>人
+          通过/未通过<text class="num">{{total}}</text>人
         </view>
         <view class="bar">|</view>
       </view>
@@ -26,117 +26,104 @@
   </view>
   <view class="check-content">
     <view class="tabNav">
-      <view wx:for="{{navTab}}" wx:key="index" data-idx="{{index}}" bindtap="onChange"
-        class="tabItem {{tabsActive==index ? 'active' : ''}}">
+      <view wx:for="{{navTab}}" wx:key="index" data-idx="{{index+1}}" bindtap="onChange"
+        class="tabItem {{tabsActive==index+1 ? 'active' : ''}}">
         <view class="tab-content">
           <view class="item-name">{{item.name}}</view>
-          <icon class="iconfont item-icon {{item.icon}} {{tabsActive==index ? 'active' : ''}}"></icon>
+          <icon class="iconfont item-icon {{item.icon}} {{tabsActive==index+1 ? 'active' : ''}}"></icon>
         </view>
       </view>
     </view>
   </view>
   <view class="tabs-content">
-    <view wx:if="{{tabsActive==0}}">
-      <!-- 加载中 -->
-      <view class="list-content" wx:if="{{listShowType==0}}">
-        <van-loading type="spinner" class="loading" />
-      </view>
-      <!-- 有内容 -->
-      <view class="list-content" wx:if="{{listShowType==1}}">
-        <block wx:for="{{checkData}}" wx:key="index">
-          <view class="list-item">
-            <view class="list-left">
-              <view class="left-l">
-                <image mode='aspectFill' src="/assets/img/photo.png" alt class="img" />
-              </view>
-              <view class="left-r">
-                <view class="name">{{item.name}}</view>
-                <view class="company ellipsis1row">{{item.title}}</view>
-                <view class="left-r-base">
-                  <view class="flight-info">
-                    <icon class="iconfont icon-iconfontlianxiren01 icon-color"></icon>
-                    <text class="info">销售：{{item.sale}}</text>
-                  </view>
-                  <view class="flight-info">
-                    <icon class="iconfont icon-hangbanchaxun icon-color flight-img"></icon>
-                    <!-- <image mode='aspectFill' src="/assets/img/flight.png" alt class="img flight-img" /> -->
-                    <text class="info">航班信息：{{item.flight}}</text>
-                  </view>
-                </view>
-              </view>
-            </view>
-            <view class="list-right" >
-              <view class="default" catchtap="onEdit" data-id="{{item.id}}" data-idx="{{index}}">
-                <text>{{item.default}}</text>
-                <icon class="iconfont  icon-jiantoudown {{item.isBalloon&&'select_img_rotate'}}"></icon>
-              </view>
-              <view class="check-box" wx:if="{{item.isBalloon}}">
-                <block wx:for="{{pullData}}" wx:key="name" wx:for-item="pullI" wx:for-index="pullIdx">
-                  <view class="check-item {{nowIndex==pullIdx?'pull-active':''}}" bindtap="checkFn"  data-type="{{pullIdx+1}}"  data-id="{{item.id}}" data-idx="{{index}}" data-name="{{pullI.name}}" data-now="{{pullIdx}}">{{pullI.name}}</view>
-                </block>
-              </view>
-              <view></view>
-            </view>
-          </view>
-        </block>
-      </view>
-      <!-- 无内容 -->
-      <view class="list-content" wx:if="{{listShowType==2}}">
-        <view class="nomsg-img-box">
-          <image mode='aspectFill' src="/assets/img/noData.png" alt class="nomsg-img" />
-          <view class="tips-msg">暂无数据 ......</view>
-        </view>
-      </view>
+    <!-- 加载中 -->
+    <view class="list-content" wx:if="{{listShowType==0}}">
+      <van-loading type="spinner" class="loading" />
     </view>
-    <view wx:if="{{tabsActive==1}}">
-      <!-- 加载中 -->
-      <view class="list-content" wx:if="{{checkShowType==0}}">
-        <van-loading type="spinner" class="loading" />
-      </view>
-      <!-- 有内容 -->
-      <view class="list-content" wx:if="{{checkShowType==1}}">
-        <block wx:for="{{checkedData}}" wx:key="index">
-          <view class="list-item">
-            <view class="list-left">
-              <view class="left-l">
-                <image mode='aspectFill' src="/assets/img/photo.png" alt class="img" />
-              </view>
-              <view class="left-r">
-                <view class="name">{{item.name}}</view>
-                <view class="company ellipsis1row">{{item.title}}</view>
-                <view class="left-r-base">
-                  <view class="flight-info">
-                    <icon class="iconfont icon-iconfontlianxiren01 icon-color"></icon>
-                    <text class="info">销售：{{item.sale}}</text>
-                  </view>
+    <!-- 有内容 -->
+    <view class="list-content" wx:if="{{tabsActive==1&&listShowType==1}}">
+      <block wx:for="{{listData}}" wx:key="index">
+        <view class="list-item">
+          <view class="list-left">
+            <view class="left-l">
+              <image mode='aspectFill' src="/assets/img/photo.png" alt class="img" />
+            </view>
+            <view class="left-r">
+              <view class="name">{{item.mmc_name}}</view>
+              <view class="company ellipsis1row">{{item.mma_title}}</view>
+              <view class="left-r-base">
+                <view class="flight-info">
+                  <icon class="iconfont icon-iconfontlianxiren01 icon-color"></icon>
+                  <text class="info">销售：{{item.saleName}}</text>
+                </view>
+                <view class="flight-info">
+                  <icon class="iconfont icon-hangbanchaxun icon-color flight-img"></icon>
+                  <text class="info">航班信息：{{item.mmcs_vehicle}}</text>
                 </view>
               </view>
             </view>
-            <view class="right-l">
-              <view class="common {{item.state==0?'success' :'no-check'}}"></view>
-              <text class="text">{{item.state==0?'通过':'不通过'}}</text>
+          </view>
+          <view class="list-right">
+            <view class="default" catchtap="onEdit" data-id="{{item.customer_id}}" data-idx="{{index}}">
+              <text>{{item.default}}</text>
+              <icon class="iconfont  icon-jiantoudown {{item.isBalloon&&'select_img_rotate'}}"></icon>
+            </view>
+            <view class="check-box" wx:if="{{item.isBalloon}}">
+              <block wx:for="{{pullData}}" wx:key="name" wx:for-item="pullI" wx:for-index="pullIdx">
+                <view class="check-item {{nowIndex==pullIdx?'pull-active':''}}" bindtap="checkFn"
+                  data-type="{{pullIdx+1}}" data-id="{{item.customer_id}}" data-idx="{{index}}"
+                  data-name="{{pullI.name}}" data-now="{{pullIdx}}">{{pullI.name}}</view>
+              </block>
+            </view>
+            <view></view>
+          </view>
+        </view>
+      </block>
+    </view>
+    <view class="list-content" wx:if="{{tabsActive==2&&listShowType==1}}">
+      <block wx:for="{{listData}}" wx:key="index">
+        <view class="list-item">
+          <view class="list-left">
+            <view class="left-l">
+              <image mode='aspectFill' src="/assets/img/photo.png" alt class="img" />
+            </view>
+            <view class="left-r">
+              <view class="name">{{item.mmc_name}}</view>
+              <view class="company ellipsis1row">{{item.mma_title}}</view>
+              <view class="left-r-base">
+                <view class="flight-info">
+                  <icon class="iconfont icon-iconfontlianxiren01 icon-color"></icon>
+                  <text class="info">销售：{{item.saleName}}</text>
+                </view>
+              </view>
             </view>
           </view>
-        </block>
-
-      </view>
-      <!-- 无内容 -->
-      <view class="list-content" wx:if="{{checkShowType==2}}">
-        <view class="nomsg-img-box">
-          <image mode='aspectFill' src="/assets/img/noData.png" alt class="nomsg-img" />
-          <view class="tips-msg">暂无数据 ......</view>
+          <view class="right-l">
+            <view class="common success" wx:if="{{item.mmuc_status==1}}"></view>
+            <view class="common no-check" wx:elif="{{item.mmuc_status==2}}"></view>
+            <view class="common refute" wx:elif="{{item.mmuc_status==3}}"></view>
+            <view class="common success" wx:elif="{{item.mmuc_status==4}}"></view>
+            <view class="common no-check" wx:else="{{item.mmuc_status==5}}"></view>
+            <text class="text">{{item.mmcs_status}}</text>
+          </view>
         </view>
+      </block>
+    </view>
+    <!-- 无内容 -->
+    <view class="list-content" wx:if="{{listShowType==2}}">
+      <view class="nomsg-img-box">
+        <image mode='aspectFill' src="/assets/img/noData.png" alt class="nomsg-img" />
+        <view class="tips-msg">暂无数据 ......</view>
       </view>
     </view>
   </view>
-   <!-- 反驳弹框 -->
-   <van-popup show="{{ refuteShow }}" round closeable bind:close="onClose">
+  <!-- 反驳弹框 -->
+  <van-popup show="{{ refuteShow }}" round closeable bind:close="onClose">
     <view class="popup-box">
       <van-radio-group value="{{ refuteRadio }}" bind:change="onSwith">
-          <van-radio name="1">驳回原因1：住宿标准不符合要求</van-radio>
-          <van-radio name="2">驳回原因2：商机金额未达到标准</van-radio>
+        <van-radio wx:for="{{reasonList}}" name="{{item.mmrr_id}}" wx:key='mmrr_id'>驳回原因：{{item.mmrr_title}}</van-radio>
       </van-radio-group>
-      <view class="box-btn" bindtap="confirm">确定</view> 
+      <view class="box-btn" bindtap="confirm">确定</view>
     </view>
   </van-popup>
 </view>

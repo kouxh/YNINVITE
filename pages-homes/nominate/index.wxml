@@ -12,7 +12,7 @@
           <text class="lable">参与活动</text>
         </view>
         <view class="item-r">
-          <input class='r-ipt' type='text' value='{{clientInfo.activityName}}' id="clientInfo.activityName"
+          <input class='r-ipt ellipsis1row' type='text' value='{{clientInfo.activityName}}' id="clientInfo.activityName"
             bindinput='handleInput' placeholder-class='r-phd' placeholder="自动链接第一页面显示" />
         </view>
       </view>
@@ -154,31 +154,32 @@
         </view>
         <view class="item-r">
           <van-radio-group value="{{ clientInfo.isStay }}" bind:change="onChange">
-            <van-radio name="0">是</van-radio>
-            <van-radio name="1">否</van-radio>
+            <van-radio name="1">是</van-radio>
+            <van-radio name="2">否</van-radio>
           </van-radio-group>
         </view>
       </view>
-      <view class="each-item" wx:if="{{ clientInfo.isStay==0 }}">
+      <view class="each-item" wx:if="{{ clientInfo.isStay==1 }}">
         <view class="item-l">
           <icon class="iconfont icon-bitian"></icon>
           <text class="lable">选择单间/标间</text>
         </view>
         <view class="item-r">
           <van-radio-group value="{{ clientInfo.stayType }}" bind:change="onSwitch">
-            <van-radio name="0">单间</van-radio>
-            <van-radio name="1">标间</van-radio>
+            <van-radio name="单间">单间</van-radio>
+            <van-radio name="标间">标间</van-radio>
           </van-radio-group>
         </view>
       </view>
-      <view class="each-item">
+      <view class="each-item"  wx:if="{{ clientInfo.isStay==1 }}">
         <view class="item-l">
           <icon class="iconfont icon-bitian"></icon>
           <text class="lable">商机金额</text>
         </view>
         <view class="item-r">
-          <input class='r-ipt' type='text' value='{{clientInfo.money}}' id="clientInfo.money" bindinput='handleInput'
+          <input class='r-ipt' type='number' value='{{clientInfo.money}}' id="clientInfo.money" bindinput='handleInput'
             placeholder-class='r-phd' placeholder="请输入" />
+            <span class="lable">元</span>
         </view>
       </view>
       <view class="each-item1">

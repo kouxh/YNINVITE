@@ -40,5 +40,5 @@ function promisify(api) {
 module.exports = {
   formatTime:formatTime,
   setStorage:setStorage,
-  promisify
+  promisify,
 }

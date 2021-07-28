@@ -1,24 +1,66 @@
-// pages-homes/contact/index.js
+
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    listShowType: 1, // 列表显示状态 0加载中 1有 2无
+    listShowType: 0, // 列表显示状态 0加载中 1有 2无
     finished: false,//数据是否加载完成
-    listData:[
-      {title:'重塑边界 开启财务共享+时代',charge:'李丽君 ',tell:"13478557529"},
-      {title:'重塑边界 开启财务共享+时代',charge:'李丽君 ',tell:"13478557529"},
-      {title:'重塑边界 开启财务共享+时代',charge:'李丽君 ',tell:"13478557529"},
-    ]
+    AllData:[],//总数组
+    pageIndex: 1,
+    pageSize: 10,
+    total: 0, //列表总条数
+    listData:[]
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    this.contactFn();
+  },
+  //联系我们
+  contactFn(){
+    let that = this;
+    getApp().globalData.api.invitation({
+      Market_Token:wx.getStorageSync('loginData').custom_token,
+      uid:wx.getStorageSync('loginData').uid,
+    }).then(res=>{
+      if(res.bool){
+        that.setData({
+          AllData:res.data,
+          total:res.data.length
+        });
+        this.loadmore();
+      }else{
+        wx.showToast({ title: res.errMsg, icon: "none" });
+      }
+    })
+  },
+  // 滑动加载
+  loadmore(){
+    let that=this;
+    let _this = this.data;
+    //加载提示
+    wx.showLoading({
+      title: '加载中',
+    })
+    if(_this.total / _this.pageSize > _this.pageIndex){
+      that.setData({
+        listData:_this.listData.concat(_this.AllData.slice((_this.pageIndex-1) * _this.pageSize, _this.pageIndex * _this.pageSize)),
+        pageIndex: _this.pageIndex + 1 ,
+      })
+    }else{
+      that.setData({
+        listData:_this.AllData,
+        finished: true,// 数据全部加载完成
+      })
+    }
+    setTimeout(function () {
+      that.setData({ listShowType: _this.total ? 1 : 2 });
+    }, 300);
+    wx.hideLoading();
   },
   // 复制
   copyFn(e) {
@@ -78,7 +120,9 @@ Page({
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
-
+    if(!this.data.finished){
+      this.loadmore();
+    }
   },
 
   /**

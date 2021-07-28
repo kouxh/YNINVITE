@@ -12,28 +12,28 @@
     <!-- 有内容 -->
     <view class="list-content" wx:if="{{listShowType==1}}">
       <view class="num-box">
-        <view class="num-tip">确认参会<text class="num">05</text>人， 实际参会<text class="num">03</text>人</view>
+        <view class="num-tip">确认参会<text class="num">{{total}}</text>人</view>
       </view>
-      <block wx:for="{{checkedData}}" wx:key="index">
+      <block wx:for="{{listData}}" wx:key="index">
         <view class="list-item">
           <view class="list-left">
             <view class="left-l">
               <image mode='aspectFill' src="/assets/img/photo.png" alt class="img" />
             </view>
             <view class="left-r">
-              <view class="name">{{item.name}}</view>
-              <view class="company ellipsis1row">{{item.title}}</view>
+              <view class="name">{{item.mmc_name}}</view>
+              <view class="company ellipsis1row">{{item.mma_title}}</view>
               <view class="left-r-base">
                 <view class="flight-info">
                   <icon class="iconfont icon-iconfontlianxiren01 icon-color"></icon>
-                  <text class="info">销售负责人：{{item.sale}}</text>
+                  <text class="info">销售负责人：{{item.mma_person_name}}</text>
                 </view>
               </view>
             </view>
           </view>
           <view class="right-l">
-            <view class="common {{item.state==0?'success' :'not-join'}}"></view>
-            <text class="text">{{item.state==0?'参会' :'不参加'}}</text>
+            <view class="common {{item.mmuc_status=='参会'?'success' :'not-join'}}"></view>
+            <text class="text">{{item.mmuc_status}}</text>
           </view>
         </view>
       </block>
@@ -45,6 +45,5 @@
         <view class="tips-msg">暂无数据 ......</view>
       </view>
     </view>
-
   </view>
 </view>

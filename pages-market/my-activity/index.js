@@ -1,4 +1,4 @@
-// pages-homes/contact/index.js
+
 Page({
 
   /**
@@ -11,11 +11,7 @@ Page({
     pageIndex: 1,
     pageSize: 10,
     total: 0, //列表总条数
-    listData:[
-      // {title:'重塑边界 开启财务共享+时代',charge:'邓家驹 ',state:0},
-      // {title:'重塑边界 开启财务共享+时代',charge:'邓家驹 ',state:0},
-      // {title:'重塑边界 开启财务共享+时代',charge:'邓家驹 ',state:1},
-    ]
+    listData:[]
   },
 
   /**
@@ -24,22 +20,22 @@ Page({
   onLoad: function (options) {
     this.activityListFn()
   },
-  //创建人创建的所有活动列表
+  //获取活动列表
   activityListFn(){
     let that = this;
-    getApp().globalData.api.activityList({
-      Market_Token:2222,
-      uid:1
+    getApp().globalData.api.getActivityList({
+      Market_Token:wx.getStorageSync('loginData').custom_token,
+      juri:wx.getStorageSync('loginData').identity,//（根据登陆返回参数填写，权限：销售、市场、领导、无）
+      uid:wx.getStorageSync('loginData').uid,
     }).then(res=>{
-      console.log(res,'---')
       if(res.bool){
         that.setData({
-          AllData:res.data,
-          total:res.data.length
+          AllData:res.data.list,
+          total:res.data.list.length
         });
         this.loadmore();
       }else{
-        wx.showToast({ title: res.data.msg, icon: "none" });
+        wx.showToast({ title: res.errMsg, icon: "none" });
       }
     })
   },
@@ -47,7 +43,6 @@ Page({
   loadmore(){
     let that=this;
     let _this = this.data;
-    console.log(_this.total)
     //加载提示
     wx.showLoading({
       title: '加载中',

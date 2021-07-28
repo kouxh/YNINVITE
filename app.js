@@ -2,15 +2,15 @@
 import api from "/api/api";
 import { setStorage } from "utils/util";
 import regeneratorRuntime from "/libs/regenerator/runtime-module";
-import account from "/api/logincode";
+
 App({
   onLaunch() {
     // 展示本地存储能力
     let that=this;
-    let token=wx.getStorageSync('token');
+    let loginData=wx.getStorageSync('loginData');
     wx.clearStorageSync(); // 首次进入，清除缓存
-    if (token) {
-      setStorage('token', token, that);
+    if (loginData) {
+      setStorage('loginData', loginData, that);
     }
     //判断开发环境
     var isWxWork = false;
@@ -26,7 +26,70 @@ App({
             return;
         }
         //登录
-        this.silentLogin();
+        wx.qy.checkSession({
+          success: function(res){
+            //session_key 未过期，并且在本生命周期一直有效
+            console.log(res,'-----session_key-------')
+            let loginData=wx.getStorageSync('loginData');
+            if(loginData.custom_token!=undefined){
+              if(loginData.identity=='市场' || loginData.identity=='领导'){
+                wx.reLaunch({
+                  url: '/pages/login-market/index',
+                })
+              }else if(loginData.identity=='销售'){
+                wx.reLaunch({
+                  url: '/pages/login-sales/index',
+                })
+              }else{
+                wx.showToast({
+                  title: "不好意思，您没有权限！",
+                  icon: "none"
+                });
+              }
+            }
+          },
+          fail: function(res){
+            // 当前环境是企业微信，执行登陆，获取用户 code，用于后面的权限校验
+            // if(!wx.getStorageSync('loginData').custom_token){
+              setTimeout(() => {
+                wx.qy.login({
+                  success: function(res) {
+                    console.log(res.code,'----res.code1------')
+                    if (res.code) {
+                    // 发起网络请求
+                      wx.request({
+                        url: 'https://market.chinamas.cn/market/login',
+                        data: {
+                          code: res.code
+                        },
+                        success:function(res){
+                          if(res.data.bool){
+                            wx.setStorageSync('loginData', res.data.data)
+                          }else{
+                            wx.showToast({
+                              title: res.data.errMsg,
+                              icon: "none"
+                            });
+                          }
+                        },
+                        fail: function(res){
+                          wx.showToast({
+                            title: res,
+                            icon: "none"
+                          });
+                        }
+                      })
+                    } else {
+                      console.log('登录失败！' + res.errMsg)
+                    }
+                  },
+                  fail: function(res){
+                    console.log(res,'获取code失败')
+                  }
+                });
+              },  Math.floor(Math.random()*2000));
+        }
+      })
       }
     })
      // 判断是否是机型
@@ -43,89 +106,6 @@ App({
     })
   },
 
-    //静态登录
-    async silentLogin() {
-      try {
-        // 将code发送给服务端返回标识
-        const res = await account.login();
-         console.log(res,'-----')
-        // 保存登录信息，如auth-token
-        //  wx.setStorageSync('token', res.data.data.custom_token)
-      } catch (error) {
-        console.log('静默登录失败', error);
-        throw error;
-      }
- 
-      // var response = await account.checkSession();
-      // var token=wx.getStorageSync('userInfo').token;
-      // if(!response || token==undefined){
-      //   wx.showToast({
-      //     title: "授权过期，请点击重新登录",
-      //     icon: "none"
-      //   });
-      //   wx.removeStorageSync("userInfo")
-      //   wx.removeStorageSync("hasBindMobile")
-      //   //  // 将code发送给服务端
-      //   //  const res = await account.login();
-      //   //  console.log(res,'-----')
-      //   //  // 保存登录信息，如auth-token
-      //   //  wx.setStorageSync('token', res.data.data.custom_token)
-      //   let wxCode = await account.getWxCode();
-      //   // 发起网络请求
-      //   wx.request({
-      //     url: 'https://march.yuanian.com/api/march/login',
-      //     data: {
-      //       code: wxCode.code
-      //     },
-      //     success:function(res){
-      //       if(res.data.errCode==200){
-      //         wx.setStorageSync('token', res.data.data.custom_token)
-      //       }else if(res.data.errCode==10043){
-      //         wx.removeStorageSync('token');
-      //         wx.removeStorageSync('isDevelop');
-      //         wx.qy.login()
-      //       }else if(res.data.errCode==45009){
-      //         wx.showToast({
-      //           title: "请求频繁，请稍后重试！",
-      //           icon: "none"
-      //         });
-      //       }else{
-      //         wx.showToast({
-      //           title: res.data.errMsg,
-      //           icon: "none"
-      //         });
-      //       }
-      //     },
-      //     fail: function(res){
-      //       wx.showToast({
-      //         title: res,
-      //         icon: "none"
-      //       });
-      //     }
-      //   })
-
-      // }else{
-      //   // wx.switchTab({
-      //   //   url: '/pages/home/index',
-      //   // })
-      // }
-    },
-    //登录
-    async login() {
-      // 调用wx.checkSession判断session_key是否过期
-      const response = await account.checkSession();
-      const token=wx.getStorageSync('userInfo').token;
-      // 本地已有可用登录态且session_key未过期，resolve。
-      if (response && token) return Promise.resolve();
-      // 否则，发起静默登录
-      wx.showToast({
-        title: "授权过期，请点击重新登录",
-        icon: "none"
-      });
-      wx.removeStorageSync("userInfo")
-      wx.removeStorageSync("hasBindMobile")
-      await this.silentLogin();
-  },
 
   globalData: {
     userInfo: null,

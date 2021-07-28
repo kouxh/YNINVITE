@@ -1,43 +1,69 @@
-// pages-market/check-list/index.js
+
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
+    listShowType: 0, // 列表显示状态 0加载中 1有 2无
     finished: false,//数据是否加载完成
-    listShowType: 1, // 列表显示状态 0加载中 1有 2无
-    checkedData:[
-      {name:'张某',title:'重塑边界 开启财务共享+时代',sale:'王春',state:0 },
-      {name:'张某',title:'重塑边界 开启财务共享+时代',sale:'王春',state:1 },
-      {name:'张某',title:'重塑边界 开启财务共享+时代',sale:'王春',state:0 },
-    ],
+    AllData:[],//总数组
+    pageIndex: 1,
+    pageSize: 10,
+    total: 0, //列表总条数
+    listData:[],
+    activityId:'',//活动Id
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    if(options.activityId){
+      this.clietListFn(options.activityId)
+    }
   },
-  //tabs栏切换
-  onChange(event) {
-    let currentIndex=event.currentTarget.dataset.idx;
-    this.setData({
-      // listShowType:0,
-      // checkData:[],
-      tabsActive:currentIndex
+  //创建人创建的所有活动列表
+  clietListFn(activityId){
+    let that = this;
+    getApp().globalData.api.attendance({
+      Market_Token:wx.getStorageSync('loginData').custom_token,
+      avid:activityId
+    }).then(res=>{
+      if(res.bool){
+        that.setData({
+          AllData:res.data.list,
+          total:res.data.attendance_num
+        });
+        this.loadmore();
+      }else{
+        wx.showToast({ title: res.data.msg, icon: "none" });
+      }
     })
-    wx.pageScrollTo({
-      scrollTop: 0,
-      duration: 300
-    });
-    // if(currentIndex==0){
-    //   this.getUserInfoFn()
-    // }else if(currentIndex==1){
-    //   this.collectionListFn();
-    // }
-    
+  },
+  // 滑动加载
+  loadmore(){
+    let that=this;
+    let _this = this.data;
+    //加载提示
+    wx.showLoading({
+      title: '加载中',
+    })
+    if(_this.total / _this.pageSize > _this.pageIndex){
+      that.setData({
+        listData:_this.listData.concat(_this.AllData.slice((_this.pageIndex-1) * _this.pageSize, _this.pageIndex * _this.pageSize)),
+        pageIndex: _this.pageIndex + 1 ,
+      })
+    }else{
+      that.setData({
+        listData:_this.AllData,
+        finished: true,// 数据全部加载完成
+      })
+    }
+    setTimeout(function () {
+      that.setData({ listShowType: _this.total ? 1 : 2 });
+    }, 300);
+    wx.hideLoading();
   },
   /**
    * 生命周期函数--监听页面初次渲染完成
@@ -78,7 +104,9 @@ Page({
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
-
+    if(!this.data.finished){
+      this.loadmore();
+    }
   },
 
   /**

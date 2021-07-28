@@ -8,7 +8,7 @@
       </view>
       <view class="item-r">
         <input class='r-ipt' type='text' value='{{clientInfo.name}}' id="clientInfo.name" bindinput='handleInput'
-          placeholder-class='r-phd' placeholder="请输入" />
+          placeholder-class='r-phd' placeholder="请输入" disabled='{{isContent?true:false}}'/>
       </view>
     </view>
     <view class="each-item">
@@ -18,7 +18,7 @@
       </view>
       <view class="item-r">
         <input class='r-ipt' type='number' value='{{clientInfo.tell}}' maxlength="11" id="clientInfo.tell"
-          bindinput='handleInput' placeholder-class='r-phd' placeholder="请输入" />
+          bindinput='handleInput' placeholder-class='r-phd' placeholder="请输入" disabled='{{isContent?true:false}}'/>
       </view>
     </view>
     <view class="each-item">
@@ -28,7 +28,7 @@
       </view>
       <view class="item-r">
         <input class='r-ipt' type='text' value='{{clientInfo.email}}' id="clientInfo.email"
-          bindinput='handleInput' placeholder-class='r-phd' placeholder="请输入" />
+          bindinput='handleInput' placeholder-class='r-phd' placeholder="请输入" disabled='{{isContent?true:false}}' />
       </view>
     </view>
     <view class="each-item">
@@ -38,14 +38,14 @@
       </view>
       <view class="item-r">
         <van-radio-group value="{{ clientInfo.isJoin }}" bind:change="onChange">
-          <van-radio name="0">参会</van-radio>
-          <van-radio name="1">不参会</van-radio>
+          <van-radio name="4">参会</van-radio>
+          <van-radio name="5">不参会</van-radio>
         </van-radio-group>
       </view>
     </view>
-    <view class="select-content" wx:if="{{ clientInfo.isJoin==0 }}">
+    <view class="select-content" wx:if="{{ clientInfo.isJoin==4 && roomData.length>0}}">
       <view class="each-item">
-        <view class="item-l special">
+        <view class="item-l">
           <icon class="iconfont icon-bitian"></icon>
           <text class="lable">选择分会场</text>
         </view>
@@ -59,7 +59,7 @@
       <dropDown wx:if="{{roomShow}}" type='1' listData="{{roomData}}" checkedIndex="{{checkedIndex}}"
         bind:listClose="listClose"></dropDown>
     </view>
-    <view class="select-content" wx:if="{{ clientInfo.isJoin==0 }}">
+    <view class="select-content" wx:if="{{ clientInfo.isJoin==4&&isCommon==1 }}">
       <view class="each-item">
         <view class="item-l special">
           <icon class="iconfont icon-bitian"></icon>
@@ -75,19 +75,19 @@
       <van-calendar show="{{ calendarShow }}" type="range" color="#1784e5" confirm-text="完成"
         confirm-disabled-text="请选择结束时间" bind:close="onClose" bind:confirm="onConfirm" />
     </view>
-    <view class="each-item">
+    <view class="each-item" wx:if="{{ clientInfo.isJoin==4&&isCommon==1 }}">
       <view class="item-l special">
         <icon class="iconfont icon-bitian"></icon>
         <text class="lable">是否需要接送机</text>
       </view>
       <view class="item-r">
         <van-radio-group value="{{ clientInfo.isAirport }}" bind:change="onSwitch">
-          <van-radio name="0">是</van-radio>
-          <van-radio name="1">否</van-radio>
+          <van-radio name="1">是</van-radio>
+          <van-radio name="2">否</van-radio>
         </van-radio-group>
       </view>
     </view>
-    <view class="select-content" wx:if="{{ clientInfo.isAirport==0 }}">
+    <view class="select-content" wx:if="{{ clientInfo.isAirport==1 }}">
       <view class="each-item">
         <view class="item-l special">
           <icon class="iconfont icon-bitian"></icon>
@@ -103,7 +103,7 @@
       <dropDown wx:if="{{vehicleShow}}" type='2' listData="{{vehicleData}}" checkedIndex="{{checkedIndex}}"
         bind:listClose="listClose"></dropDown>
     </view>
-    <view class="each-item" wx:if="{{ clientInfo.isAirport==0 }}">
+    <view class="each-item" wx:if="{{ clientInfo.isAirport==1 }}">
       <view class="item-l special">
         <icon class="iconfont icon-bitian"></icon>
         <text class="lable" wx:if="{{clientInfo.vehicle=='飞机'}}">航班号(备注机场)</text>
@@ -121,7 +121,7 @@
         <text class="lable remark">备注</text>
       </view>
       <view class="item-r area-r">
-        <textarea type='text' placeholder="请输入" value='{{clientInfo.remark}}' id="clientInfo.remark"
+        <textarea type='text'  wx:if="{{!calendarShow}}"  disable-default-padding='{{true}}' placeholder="请输入" value='{{clientInfo.remark}}' id="clientInfo.remark"
           bindinput='handleInput' placeholder-class="r-phd" class='r-area'></textarea>
       </view>
     </view>

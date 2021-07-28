@@ -7,29 +7,30 @@
     </view>
     <!-- 有内容 -->
     <view class="content-box" wx:if="{{listShowType==1}}">
-      <block wx:for="{{activityData}}" wx:key="index">
-        <view class="each-list " bindtap="listClick" data-index="{{index}}">
+      <block wx:for="{{listData}}" wx:key="index">
+        <view class="each-list " bindtap="listClick" data-index="{{index}}" data-id="{{item.mma_id}}">
           <view class="list-top">
-            <text class="top-title ellipsis1row">{{item.title}}</text>
+            <text class="top-title ellipsis1row">{{item.mma_title}}</text>
             <text class="operation {{currentIndex==index?'active':''}}">查看提名</text>
           </view>
           <view class="list-base">
             <view class="base-left">
               <icon class="iconfont icon-location icon-color"></icon>
-              <text class="person">{{item.site}}</text>
+              <text class="person wid0 ellipsis1row">{{item.mma_city}}</text>
             </view>
             <view class="base-right">
               <icon class="iconfont icon-shijian icon-color"></icon>
-              <text class="person">{{item.time}}</text>
+              <text class="person wid ellipsis1row">{{item.mma_start_time}}</text>
             </view>
             <view class="base-right">
               <icon class="iconfont icon-iconfontlianxiren01 icon-color"></icon>
-              <text class="person">负责人：李丽君</text>
+              <text class="person wid1 ellipsis1row">负责人：{{item.mma_person_name}}</text>
             </view>
           </view>
         </view>
       </block>
-      <view class="loaded-tips" wx:if="{{finished}}">我是有底线的o(╥﹏╥)o</view>
+      <view class="loaded-tips" wx:if="{{!finished}}">努力加载中…</view>
+      <!-- <view class="loaded-tips" wx:if="{{finished}}">我是有底线的o(╥﹏╥)o</view> -->
     </view>
     <!-- 无内容 -->
     <view class="content-box" wx:if="{{listShowType==2}}">

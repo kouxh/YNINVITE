@@ -7,22 +7,23 @@
     </view>
     <!-- 有内容 -->
     <view class="content-box" wx:if="{{listShowType==1}}">
-      <block wx:for="{{activityData}}" wx:key="index">
-        <view class="each-list {{currentIndex==index?'active':''}} " bindtap="listClick" data-index="{{index}}">
-          <view class="list-top">{{item.title}}</view>
+      <block wx:for="{{listData}}" wx:key="index">
+        <view class="each-list {{currentIndex==index?'active':''}} " bindtap="listClick" data-aid="{{item.mma_id}}" data-index="{{index}}" data-title="{{item.mma_title}}">
+          <view class="list-top">{{item.mma_title}}</view>
           <view class="list-base">
             <view class="base-left">
               <icon class="iconfont icon-location icon-color"></icon>
-              <text class="person">{{item.site}}</text>
+              <text class="person">{{item.mma_city}}</text>
             </view>
             <view class="base-right">
               <icon class="iconfont icon-shijian icon-color"></icon>
-              <text class="person">{{item.time}}</text>
+              <text class="person">{{item.mma_createAtTime}}</text>
             </view>
           </view>
         </view>
       </block>
-      <view class="loaded-tips" wx:if="{{finished}}">我是有底线的o(╥﹏╥)o</view>
+      <view class="loaded-tips" wx:if="{{!finished}}">努力加载中…</view>
+      <!-- <view class="loaded-tips" wx:if="{{finished}}">我是有底线的o(╥﹏╥)o</view> -->
     </view>
     <!-- 无内容 -->
     <view class="content-box" wx:if="{{listShowType==2}}">

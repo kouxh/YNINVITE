@@ -1,4 +1,5 @@
 const post = require('../../utils/post.js')
+
 Page({
 
   /**
@@ -12,14 +13,17 @@ Page({
       city:'',
       person:'',
       tell:'',
-      isRoom:'-1',
-      isStay:'-1',
+      isRoom:'',
+      isStay:'',
       branchRoom:[{}],
       limits:'',
       imgUrl:'',
       department:[]
     },//创建活动数据
     calendarShow:false,//日历弹框
+    minDate: new Date(1960, 0, 1).getTime(),
+    maxDate: new Date(2130, 12, 1).getTime(),
+    currentDate: new Date().getTime(),
     checkedIndex:-1,
     checkedIndex1:-1,
     checkedIndex2:-1,
@@ -43,7 +47,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    let firstId=219;
+    let firstId=219;//一级ID父ID
     this.setData({
       firstData: this.checkFn(firstId)
     })
@@ -108,15 +112,13 @@ Page({
     this.setData({
       "activityInfo.branchRoom": _list
     })
-    console.log(this.data.activityInfo.branchRoom,'this.data.activityInfo.branchRoom')
+    
   },
   //点击提名部门
   firstFn(){
       let that=this
       that.setData({
         firstShow:true,
-        // firstData:this.checkFn(219)
-        // checkedIndex:-1
       });
   },
   //点击一级每一项
@@ -239,7 +241,7 @@ Page({
     var roomArr = [];
     let {activityInfo}=that.data;
     if(activityInfo.name==''){
-      return wx.showToast({ title: "请输入客户姓名", icon: "none" });
+      return wx.showToast({ title: "请输入活动名称", icon: "none" });
     }
     if (activityInfo.starTime == "")
       return wx.showToast({ title: "请选择开始时间", icon: "none" });
@@ -259,7 +261,7 @@ Page({
     }
     if(activityInfo.isRoom == "-1"){
       return wx.showToast({ title: "请选择是否有分会场", icon: "none" });
-    }else if(activityInfo.isRoom == "0"&&activityInfo.branchRoom.length>0){
+    }else if(activityInfo.isRoom == "是" && activityInfo.branchRoom.length>0){
       for (let i = 0; i < activityInfo.branchRoom.length; i++) {
         if (Object.keys(activityInfo.branchRoom[i]).length === 0) {
           wx.showToast({
@@ -270,17 +272,13 @@ Page({
         }
         roomArr.push(activityInfo.branchRoom[i].roomLabel);
       }
-      console.log(roomArr.toString())
     }
     if(activityInfo.isStay=='-1'){
       return wx.showToast({ title: "是否提供住宿", icon: "none" });
     }
-    if(activityInfo.limits==''){
-      return wx.showToast({ title: "请输入活动权限", icon: "none" });
-    }
-    if(activityInfo.limits==''){
-      return wx.showToast({ title: "请输入活动权限", icon: "none" });
-    }
+    // if(activityInfo.limits==''){
+    //   return wx.showToast({ title: "请输入活动权限", icon: "none" });
+    // }
     if(activityInfo.imgUrl==''){
       return wx.showToast({ title: "请上传邀请函附件", icon: "none" });
     }
@@ -288,7 +286,6 @@ Page({
       return wx.showToast({ title: "请选择提名部门", icon: "none" });
     }
     let ids = activityInfo.department.map(c => c.id);
-    console.log(ids,'ids')
     let postData = {
       mma_title:activityInfo.name,
       mma_start_time:activityInfo.starTime,
@@ -296,28 +293,27 @@ Page({
       mma_city:activityInfo.city,
       mma_person_name:activityInfo.person,
       mma_person_tell:activityInfo.tell,
-      mma_is_accommodation:activityInfo.isStay,
+      mma_is_branch_venue:activityInfo.isRoom,
       mma_branch_venue:roomArr.toString(),
+      mma_is_accommodation:activityInfo.isStay,
       mma_invitation_img:activityInfo.imgUrl,
       mma_jurisdiction:activityInfo.limits,
       mma_department_id:ids.toString()
     };
-    console.log(postData,'postData')
     getApp().globalData.api.activityAdd({
-      Market_Token:2222,
-      json:postData,
-      uid:1
+      Market_Token:wx.getStorageSync('loginData').custom_token,
+      json:JSON.stringify(postData),
+      juri:wx.getStorageSync('loginData').identity,
+      uid:wx.getStorageSync('loginData').uid
     }).then(res=>{
-      console.log(res,'---')
       if(res.bool){
-        wx.navigateTo({
+        wx.redirectTo({
           url: '/pages-market/submit/index',
         })
       }else{
         wx.showToast({ title: res.data.msg, icon: "none" });
       }
     })
-    
   },
   // 是否分会场
   onChange(event) {
@@ -332,13 +328,12 @@ Page({
       'activityInfo.isStay': e.detail,
     });
   },
-  //展示日历弹框
+  //展示时间弹框
   onDisplay(e) {
     this.setData({ 
       calendarShow: true,
       typeTime:e.currentTarget.dataset.time
     });
-    console.log(e.currentTarget.dataset.time,'times')
   },
   //关闭日历弹框
   onClose() {
@@ -348,7 +343,7 @@ Page({
   formatDate(date) {
     let yearDate = new Date().getFullYear();//获取完整的年份
     date = new Date(date);
-    return `${yearDate}/${date.getMonth() + 1}/${date.getDate()}`;
+    return `${yearDate}-${date.getMonth() + 1}-${date.getDate()} ${date.getHours()}:00`;
   },
   //点击时间确认按钮
   onConfirm(event) {
@@ -397,17 +392,12 @@ Page({
             'user': 'test'
           },
           success (res){
-            wx.showModal({
-              title:'提示',
-              content:'上传完成'
-            })
             let result=JSON.parse(res.data)
             // 将新图片添加到浏览数组中
             let fileList = that.data.fileList;
             for (const paths of tempFilePaths) {
               let briefObj = {
                 urlStr: paths,
-                
               };
               fileList.push(briefObj);
             }
@@ -428,9 +418,9 @@ Page({
   fileList.splice(imgIndex, 1);
   this.setData({
     fileList: fileList,
+    "activityInfo.imgUrl":'',
   });
 },
- 
   // 数组去重
   unique:function (arr) {
       if (!Array.isArray(arr)) {

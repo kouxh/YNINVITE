@@ -1,6 +1,5 @@
 // pages/login/index.js
 import regeneratorRuntime from "../../libs/regenerator/runtime-module";
-import account from "../../api/logincode";
 Page({
 
   /**
@@ -14,11 +13,10 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+ 
   },
 
-  async jumpFn(){
-    console.log('判断是否是市场和销售')
+  jumpFn(){
     let that=this;
     var isWxWork = false;
     wx.getSystemInfo({
@@ -32,21 +30,16 @@ Page({
             })
             return;
         }else{
-          if(wx.getStorageSync('token')=='' ||wx.getStorageSync('token')==undefined){
-            console.log(wx.getStorageSync('token'),'----授权-----')
-            // setTimeout(() => {
+          if(wx.getStorageSync('loginData').custom_token=='' ||wx.getStorageSync('loginData').custom_token==undefined){
+            console.log(wx.getStorageSync('loginData').custom_token,'----授权-----')
+            setTimeout(() => {
               if(that.data.isclick){
                 that.setData({
                   isclick:false
                 })
-                // // 将code发送给服务端
-                // const res = await account.login();
-                // console.log(res,'-----')
-                // // 保存登录信息，如auth-token
-                // wx.setStorageSync('token', res.data.data.custom_token)
                 wx.qy.login({
                   success: function(res) {
-                    console.log(res.code,'--------index-----------')
+                    console.log(res.code,'--------loginindex-----------')
                     if (res.code) {
                       wx.showLoading({
                         title: "登录中...",
@@ -54,32 +47,35 @@ Page({
                       });
                     // 发起网络请求
                       wx.request({
-                        url: 'https://march.yuanian.com/api/march/login',
+                        url: 'https://market.chinamas.cn/market/login',
                         data: {
                           code: res.code
                         },
                         success:function(res){
-                          if(res.data.errCode==200){
+                          
+                          if(res.data.bool){
+                            wx.hideLoading();
                             wx.showToast({
                               title: '登录成功',
                               icon: 'success',
                               duration: 2000
                             });
-                            wx.setStorageSync('token', res.data.data.custom_token)
-                            wx.hideLoading();
-                            wx.switchTab({
-                              url: '/pages/overall/index',
-                            })
-                          }else if(res.data.errCode==10043){
-                            wx.removeStorageSync('token');
-                            wx.removeStorageSync('isDevelop');
-                            wx.qy.login()
-                          }else if(res.data.errCode==45009){
-                            wx.showToast({
-                              title: "请求频繁，请稍后重试！",
-                              icon: "none"
-                            });
-                            wx.hideLoading();
+                            wx.setStorageSync('loginData', res.data.data)
+                            if(res.data.data.identity=='市场'|| res.data.data.identity=='领导'){
+                              wx.reLaunch({
+                                url: '/pages/login-market/index',
+                              })
+                            }else if(res.data.data.identity=='销售'){
+                              wx.reLaunch({
+                                url: '/pages/login-sales/index',
+                              })
+                            }else{
+                              wx.showToast({
+                                title: "不好意思，您没有权限！",
+                                icon: "none"
+                              });
+                            }
+                              
                           }else{
                             wx.showToast({
                               title: res.data.errMsg,
@@ -88,7 +84,7 @@ Page({
                           }
                         },
                         fail: function(res){
-                          console.log(res,'获取code失败')
+                          console.log(res,'请求失败！')
                         }
                       })
                     }else {
@@ -106,18 +102,33 @@ Page({
                 }, 500);
                 
             }
-            // }, Math.floor(Math.random()*2000));
+            }, Math.floor(Math.random()*2000));
           }else{
-            wx.switchTab({
-              url: '/pages/overall/index',
-            })
+            let loginData=wx.getStorageSync('loginData');
+            if(loginData.identity=='市场'|| loginData.identity=='领导'){
+              wx.reLaunch({
+                url: '/pages/login-market/index',
+              })
+            }else if(loginData.identity=='销售'){
+              wx.reLaunch({
+                url: '/pages/login-sales/index',
+              })
+            }
+            // else if(loginData.identity=='领导'){
+            //   wx.reLaunch({
+            //     url: 'pages-market/activity-list/index',
+            //   })
+            // }
+            else{
+              wx.showToast({
+                title: "不好意思，您没有权限！",
+                icon: "none"
+              });
+            }
           }
-         
         }
-        
       }
     })
-    
   },
   /**
    * 生命周期函数--监听页面初次渲染完成

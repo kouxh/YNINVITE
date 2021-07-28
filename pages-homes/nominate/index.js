@@ -1,5 +1,6 @@
 import regeneratorRuntime from "../../libs/regenerator/runtime-module";
 let isSend = false;//函数节流使用
+
 Page({
 
   /**
@@ -55,19 +56,65 @@ Page({
       email:'',
       area:'',
       city:'',
-      isStay:'-1',
-      stayType:'-1',
+      isStay:'',
+      stayType:'',
       money:'',
       remark:''
     },
-    checkedIndex: -1,//如果直接播放则改为对应下标
+    checkedIndex: -1,//改为对应下标
+    activityId:'',//活动id
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    console.log(options)
+    if(options.id){
+      this.customerInfo(options.id);
+    }else{
+        this.setData({
+          "clientInfo.activityName":options.title,
+          activityId:options.activityId
+        })
+    }
+    
+    
+  },
+  //获取客户详情
+  customerInfo(id){
+    let that = this;
+    getApp().globalData.api.upCustomerInfo({
+      Market_Token:wx.getStorageSync('loginData').custom_token,
+      mmuc_id:id
+    }).then(res=>{
+      if(res.bool){
+        let {clientInfo,activityId} =that.data
+        activityId=res.data.mma_id;
+        clientInfo.activityName=res.data.mma_title;
+        clientInfo.companyName=res.data.mmc_company_name;
+        clientInfo.name=res.data.mmc_name;
+        clientInfo.scale=res.data.mmc_scale;
+        clientInfo.industry=res.data.mmc_industry;
+        clientInfo.department=res.data.mmc_department;
+        clientInfo.duty=res.data.mmc_post;
+        clientInfo.tell=res.data.mmc_tell;
+        clientInfo.email=res.data.mmc_email;
+        clientInfo.area=res.data.mmc_region;
+        clientInfo.city=res.data.mmc_city;
+        clientInfo.isStay=res.data.mmc_is_accommodation.toString();
+        console.log(clientInfo.isStay,res.data.mmc_is_accommodation)
+        clientInfo.stayType=res.data.mmc_accommodation_type;
+        clientInfo.money=res.data.mmc_business_money;
+        clientInfo.remark=res.data.mmc_remarks;
+        that.setData({
+          activityId:activityId,
+          clientInfo:clientInfo,
+        });
+      }else{
+        wx.showToast({ title: res.data.msg, icon: "none" });
+      }
+    })
   },
   // 客户规模点击下拉显示框
   selectTap() {
@@ -152,10 +199,10 @@ Page({
     this.setData({
       [type]:event.detail.value
     })
-    console.log(event.detail.value,'----')
   },
+  
    //搜索
-   handleInputChange(event){
+  handleInputChange(event){
     this.setData({
       'clientInfo.companyName': event.detail.value.trim()
     })
@@ -205,14 +252,10 @@ Page({
      
     //   })
     // },
-
   //点击提交按钮
   submitFn(){
     let that = this;
     let {clientInfo}=that.data;
-    if (clientInfo.activityName == "") {
-      return wx.showToast({ title: "请输入活动名", icon: "none" });
-    }
     if(clientInfo.companyName==''){
       return wx.showToast({ title: "请输入客户公司名称", icon: "none" });
     }
@@ -247,9 +290,49 @@ Page({
     if(clientInfo.city==''){
       return wx.showToast({ title: "请输入所在城市", icon: "none" });
     }
-    wx.navigateTo({
-      url: '/pages-homes/succeed/index',
+    if(clientInfo.isStay==''){
+      return wx.showToast({ title: "请确定是否住宿", icon: "none" });
+    }
+    if(clientInfo.isStay=='1'&&clientInfo.stayType==''){
+      return wx.showToast({ title: "请确定单间/标间", icon: "none" });
+    }
+    if(clientInfo.isStay=='1'&&clientInfo.money==''){
+      return wx.showToast({ title: "请输入商机金额", icon: "none" });
+    }
+    // if(clientInfo.remark==''){
+    //   return wx.showToast({ title: "请输入备注", icon: "none" });
+    // }
+    let postData = {
+      mmc_company_name:clientInfo.companyName,
+      mmc_name:clientInfo.name,
+      mmc_scale:clientInfo.scale,
+      mmc_industry:clientInfo.industry,
+      mmc_department:clientInfo.department,
+      mmc_post:clientInfo.duty,
+      mmc_tell:clientInfo.tell,
+      mmc_email:clientInfo.email,
+      mmc_region:clientInfo.area,
+      mmc_city:clientInfo.city,
+      mmc_is_accommodation:clientInfo.isStay,
+      mmc_accommodation_type:clientInfo.isStay==2?'':clientInfo.stayType,
+      mmc_business_money:clientInfo.isStay==2?'':clientInfo.money ,
+      mmc_remarks:clientInfo.remark
+    };
+    getApp().globalData.api.customerAdd({
+      Market_Token:wx.getStorageSync('loginData').custom_token,
+      json:JSON.stringify(postData),
+      uid:wx.getStorageSync('loginData').uid,
+      avid:that.data.activityId
+    }).then(res=>{
+      if(res.bool){
+        wx.redirectTo({
+          url: '/pages-homes/succeed/index',
+        })
+      }else{
+        wx.showToast({ title: res.data.msg, icon: "none" });
+      }
     })
+    
   },
   // 是否住宿
   onChange(event) {

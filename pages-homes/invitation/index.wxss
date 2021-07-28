@@ -42,8 +42,8 @@
 .icon-xiazai{
   display: flex;
   justify-content: flex-end;
-  font-size: 28rpx;
-  margin-right: 8rpx;
+  font-size: 32rpx;
+  margin-right: 20rpx;
 }
 .left-img{
   border-radius: 10rpx;

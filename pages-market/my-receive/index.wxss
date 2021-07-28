@@ -11,7 +11,8 @@
   align-items: center;
 }
 .num-tip{
-  width: 446rpx;
+  /* width: 446rpx; */
+  padding: 0rpx 20rpx;
 	height: 44rpx;
 	background-color: #e9f6ff;
   border-radius: 22rpx;
