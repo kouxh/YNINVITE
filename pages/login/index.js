@@ -52,7 +52,7 @@ Page({
                           code: res.code
                         },
                         success:function(res){
-                          
+                          console.log(res)
                           if(res.data.bool){
                             wx.hideLoading();
                             wx.showToast({

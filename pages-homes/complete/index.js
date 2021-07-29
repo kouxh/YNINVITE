@@ -30,6 +30,7 @@ Page({
     clientId:'',//客户id
     isCommon:'',//0不提供住宿1提供住宿
     isContent:false,//是否可以修改
+    successShow:false,//是否提交成功
   },
 
   /**
@@ -170,12 +171,29 @@ Page({
       avid:that.data.activityId
     }).then(res=>{
       if(res.bool){
-        wx.redirectTo({
-          url: '/pages-homes/succeed/index',
+        // wx.redirectTo({
+        //   url: '/pages-homes/succeed/index',
+        // })
+        that.setData({
+          successShow:true
         })
+        setTimeout(() => {
+          that.setData({
+            successShow:false
+          })
+          wx.navigateBack({
+            delta: 1
+          })
+        }, 3000);
       }else{
         wx.showToast({ title: res.data.msg, icon: "none" });
       }
+    })
+  },
+  // 弹层关闭事件
+  successClose(data){
+    this.setData({
+      successShow:data.detail.successShow
     })
   },
   // 是否参会

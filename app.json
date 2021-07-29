@@ -28,7 +28,8 @@
         "my-activity/index",
         "my-receive/index",
         "creat-activity/index",
-        "submit/index"
+        "submit/index",
+        "details/index"
       ]
     }
   ],

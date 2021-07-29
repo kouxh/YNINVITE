@@ -14,22 +14,15 @@ export default {
     return new Promise((resolve, reject) => {
       httpClient.fetchPost(url, params, that.getOptions(options), addUrl).then(
         response => {
+          console.log(response,'response---post---')
           resolve(response);
-          console.log(response,'response--post--')
           // requestTimes--
           // if(requestTimes===0){
           //   wx.hideLoading()
           // }
-          if (response.errCode == 10043) {
+          if(response.errCode==40002){
             wx.showToast({
               title: "登录过期，请重新登录",
-              icon: "none"
-            });
-            wx.removeStorageSync('loginData');
-            return wx.reLaunch({ url: '/pages/login/index' })
-          }else if(response.errCode==40002){
-            wx.showToast({
-              title: "登录失败，请重新登录",
               icon: "none"
             });
             wx.removeStorageSync('loginData');
@@ -62,16 +55,9 @@ export default {
           // if(requestTimes===0){
           //   wx.hideLoading()
           // }
-          if (response.errCode == 10043) {
+          if (response.errCode == 40002) {
             wx.showToast({
               title: "登录过期，请重新登录",
-              icon: "none"
-            });
-            wx.removeStorageSync('loginData');
-            return wx.reLaunch({ url: '/pages/login/index' })
-          }else if(response.errCode==40002){
-            wx.showToast({
-              title: "登录失败，请重新登录",
               icon: "none"
             });
             wx.removeStorageSync('loginData');
@@ -90,7 +76,6 @@ export default {
 
   // 配置请求头
   getOptions: function (options) {
-   
     if (options == null) {
       options = {
         baseURL: config.getConfig(),
@@ -111,6 +96,5 @@ export default {
     // if (err.status == 999999406) {
     //   wx.switchTab({ url: "/pages/scan/index" });
     // }
-   
   }
 };

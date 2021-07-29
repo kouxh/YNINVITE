@@ -4,7 +4,8 @@
       <icon class="iconfont icon-fanhui"></icon>
       <text class="page-name">我提名的客户</text>
     </view>
-    <navigator open-type='redirect' hover-class="none" url="/pages-homes/nominate/index?title={{activityTitle}}&activityId={{activityId}}" class="header-right">
+    <!-- open-type='redirect' -->
+    <navigator hover-class="none" url="/pages-homes/nominate/index?title={{activityTitle}}&activityId={{activityId}}" class="header-right">
       <text class="client">客户提名</text>
       <icon class="iconfont icon-jia1"></icon>
     </navigator>

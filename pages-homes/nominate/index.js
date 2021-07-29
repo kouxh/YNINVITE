@@ -63,6 +63,7 @@ Page({
     },
     checkedIndex: -1,//改为对应下标
     activityId:'',//活动id
+    successShow:false,//是否提交成功
   },
 
   /**
@@ -325,14 +326,32 @@ Page({
       avid:that.data.activityId
     }).then(res=>{
       if(res.bool){
-        wx.redirectTo({
-          url: '/pages-homes/succeed/index',
+        // wx.redirectTo({
+        //   url: '/pages-homes/succeed/index',
+        // })
+        this.setData({
+          successShow:true
         })
+        setTimeout(() => {
+          this.setData({
+            successShow:false
+          })
+          wx.navigateBack({
+            delta: 1
+          })
+        }, 3000);
+       
       }else{
         wx.showToast({ title: res.data.msg, icon: "none" });
       }
     })
     
+  },
+  // 弹层关闭事件
+  successClose(data){
+    this.setData({
+      successShow:data.detail.successShow
+    })
   },
   // 是否住宿
   onChange(event) {

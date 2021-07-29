@@ -27,7 +27,7 @@ Page({
       activityTitle:options.title,
       activityId:options.aid
     })
-    this.activityListFn();//我提名的客户列表
+    
   },
   //我提名的客户列表
   activityListFn(){
@@ -126,7 +126,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    this.activityListFn();//我提名的客户列表
   },
 
   /**

@@ -50,44 +50,45 @@ App({
           },
           fail: function(res){
             // 当前环境是企业微信，执行登陆，获取用户 code，用于后面的权限校验
-            // if(!wx.getStorageSync('loginData').custom_token){
-              setTimeout(() => {
-                wx.qy.login({
-                  success: function(res) {
-                    console.log(res.code,'----res.code1------')
-                    if (res.code) {
-                    // 发起网络请求
-                      wx.request({
-                        url: 'https://market.chinamas.cn/market/login',
-                        data: {
-                          code: res.code
-                        },
-                        success:function(res){
-                          if(res.data.bool){
-                            wx.setStorageSync('loginData', res.data.data)
-                          }else{
-                            wx.showToast({
-                              title: res.data.errMsg,
-                              icon: "none"
-                            });
-                          }
-                        },
-                        fail: function(res){
+            wx.removeStorageSync('loginData');
+            setTimeout(() => {
+              wx.qy.login({
+                success: function(res) {
+                  console.log(res.code,'----res.code1------')
+                  if (res.code) {
+                  // 发起网络请求
+                    wx.request({
+                      url: 'https://market.chinamas.cn/market/login',
+                      data: {
+                        code: res.code
+                      },
+                      success:function(res){
+                        console.log(res)
+                        if(res.data.bool){
+                          wx.setStorageSync('loginData', res.data.data)
+                        }else{
                           wx.showToast({
-                            title: res,
+                            title: res.data.errMsg,
                             icon: "none"
                           });
                         }
-                      })
-                    } else {
-                      console.log('登录失败！' + res.errMsg)
-                    }
-                  },
-                  fail: function(res){
-                    console.log(res,'获取code失败')
+                      },
+                      fail: function(res){
+                        wx.showToast({
+                          title: res,
+                          icon: "none"
+                        });
+                      }
+                    })
+                  } else {
+                    console.log('登录失败！' + res.errMsg)
                   }
-                });
-              },  Math.floor(Math.random()*2000));
+                },
+                fail: function(res){
+                  console.log(res,'获取code失败')
+                }
+              });
+            },  Math.floor(Math.random()*2000));
         }
       })
       }

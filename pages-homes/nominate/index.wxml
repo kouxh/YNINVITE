@@ -195,4 +195,5 @@
       <view class="submit" catchtap="submitFn">提交</view>
     </view>
   </view>
+  <nominate-popup wx:if="{{successShow}}" bind:successClose="successClose"></nominate-popup>
 </view>

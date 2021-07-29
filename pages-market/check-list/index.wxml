@@ -49,7 +49,7 @@
               <image mode='aspectFill' src="/assets/img/photo.png" alt class="img" />
             </view>
             <view class="left-r">
-              <view class="name">{{item.mmc_name}}</view>
+              <navigator hover-class="none" url="/pages-market/details/index?id={{item.customer_id}}" class="name">{{item.mmc_name}}</navigator>
               <view class="company ellipsis1row">{{item.mma_title}}</view>
               <view class="left-r-base">
                 <view class="flight-info">
