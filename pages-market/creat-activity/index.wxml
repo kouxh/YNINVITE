@@ -87,13 +87,13 @@
       </view>
     </view>
     <view class="room-box" wx:if="{{activityInfo.isRoom=='是'}}">
-      <block wx:for="{{activityInfo.branchRoom}}" wx:key="index">
+      <block wx:for="{{activityInfo.branchRoom}}" wx:for-item='item' wx:key="index">
         <view class='each-item1'>
           <view class="item-l1">
             <icon class="iconfont icon-henggang" bindtap='delList' data-index='{{index}}'></icon>
           </view>
           <view class="item-r1">
-            <input class='r-ipt' type='text' data-index='{{index}}' bindinput='changeConTitle' placeholder-class='r-phd'
+            <input class='r-ipt' type='text' value="{{item.roomLabel}}" data-index='{{index}}' bindinput='changeConTitle' placeholder-class='r-phd'
               placeholder="请输入分会场" />
           </view>
         </view>

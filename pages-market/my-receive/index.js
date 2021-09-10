@@ -46,9 +46,9 @@ Page({
     let that=this;
     let _this = this.data;
     //加载提示
-    wx.showLoading({
-      title: '加载中',
-    })
+    // wx.showLoading({
+    //   title: '加载中',
+    // })
     if(_this.total / _this.pageSize > _this.pageIndex){
       that.setData({
         listData:_this.listData.concat(_this.AllData.slice((_this.pageIndex-1) * _this.pageSize, _this.pageIndex * _this.pageSize)),
@@ -63,7 +63,7 @@ Page({
     setTimeout(function () {
       that.setData({ listShowType: _this.total ? 1 : 2 });
     }, 300);
-    wx.hideLoading();
+    // wx.hideLoading();
   },
   /**
    * 生命周期函数--监听页面初次渲染完成

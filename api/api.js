@@ -65,7 +65,22 @@ export default {
   attendance(params) {
     return fetch.fetchGet("market/list/attendance/customer", params);
   },
-
+  /**
+   *市场端点击编辑按钮——获取单个活动信息
+   * @param  {[type]} params [description]
+   * @return {[type]}        [description]
+   */
+  activityInfo(params) {
+    return fetch.fetchGet("market/get/activity/info", params);
+  },
+  /**
+   *修改单个活动操作
+   * @param  {[type]} params [description]
+   * @return {[type]}        [description]
+   */
+  editActivityInfo(params) {
+    return fetch.fetchPost("market/edit/do/activity/info", params);
+  },
 
   //市场角色接口结束
 
@@ -129,6 +144,22 @@ export default {
    */
   invitation(params) {
     return fetch.fetchGet("market/get/activity/invitation/list", params);
+  },
+   /**
+   *销售端获取客户公司名称
+   * @param  {[type]} params [description]
+   * @return {[type]}        [description]
+   */
+  companyInfo(params) {
+    return fetch.fetchGet("market/convertlab/customer/info", params);
+  },
+   /**
+   *获取单个活动是否提供住宿
+   * @param  {[type]} params [description]
+   * @return {[type]}        [description]
+   */
+  isProvided(params) {
+    return fetch.fetchGet("market/activity/Is/accommodation/provided", params);
   },
   
   // 销售角色接口结束

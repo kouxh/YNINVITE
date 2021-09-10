@@ -77,9 +77,11 @@ Page({
                             }
                               
                           }else{
+                            console.log('000')
                             wx.showToast({
                               title: res.data.errMsg,
-                              icon: "none"
+                              icon: "none",
+                              duration:2000
                             });
                           }
                         },

@@ -46,13 +46,13 @@ Page({
     // 客户信息
     clientInfo:{
       activityName:'',
+      tell:'',
       companyName:'',
       name:'',
       scale:'',
       industry:'',
       department:'',
       duty:'',
-      tell:'',
       email:'',
       area:'',
       city:'',
@@ -63,24 +63,44 @@ Page({
     },
     checkedIndex: -1,//改为对应下标
     activityId:'',//活动id
+    customerId:'',//客户id
     successShow:false,//是否提交成功
+    isProvided:0,//0不提供住宿1提供住宿
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    console.log(options)
-    if(options.id){
-      this.customerInfo(options.id);
+    console.log(options,'options')
+    if(options.customerId){
+      this.customerInfo(options.customerId);
+      this.setData({
+        customerId:options.customerId
+      })
     }else{
         this.setData({
           "clientInfo.activityName":options.title,
           activityId:options.activityId
         })
+        this.isProvidedFn();//获取单个活动是否提供住宿
     }
-    
-    
+  },
+//获取单个活动是否提供住宿
+  isProvidedFn(){
+    let that = this;
+    getApp().globalData.api.isProvided({
+      Market_Token:wx.getStorageSync('loginData').custom_token,
+      avid:that.data.activityId
+    }).then(res=>{
+      if(res.bool){
+        that.setData({
+          isProvided:res.data.mma_is_accommodation,
+        });
+      }else{
+        wx.showToast({ title: res.errMsg, icon: "none" });
+      }
+    })
   },
   //获取客户详情
   customerInfo(id){
@@ -90,8 +110,9 @@ Page({
       mmuc_id:id
     }).then(res=>{
       if(res.bool){
-        let {clientInfo,activityId} =that.data
+        let {clientInfo,activityId,customerId,isProvided} =that.data
         activityId=res.data.mma_id;
+        customerId=res.data.mmc_id;
         clientInfo.activityName=res.data.mma_title;
         clientInfo.companyName=res.data.mmc_company_name;
         clientInfo.name=res.data.mmc_name;
@@ -103,14 +124,16 @@ Page({
         clientInfo.email=res.data.mmc_email;
         clientInfo.area=res.data.mmc_region;
         clientInfo.city=res.data.mmc_city;
+        isProvided=res.data.mmc_is_accommodation;
         clientInfo.isStay=res.data.mmc_is_accommodation.toString();
-        console.log(clientInfo.isStay,res.data.mmc_is_accommodation)
         clientInfo.stayType=res.data.mmc_accommodation_type;
         clientInfo.money=res.data.mmc_business_money;
         clientInfo.remark=res.data.mmc_remarks;
         that.setData({
           activityId:activityId,
           clientInfo:clientInfo,
+          customerId:customerId,
+          isProvided:isProvided
         });
       }else{
         wx.showToast({ title: res.data.msg, icon: "none" });
@@ -201,33 +224,50 @@ Page({
       [type]:event.detail.value
     })
   },
-  
-   //搜索
-  handleInputChange(event){
-    this.setData({
-      'clientInfo.companyName': event.detail.value.trim()
-    })
+
+   //input失去光标触发
+   onBlur(event) {
+    var tell = event.detail.value;
+    this.commonFn(tell)
+  },
+  //点击搜索图标
+  onBlurFn(e){
+    var tell = e.target.dataset.tel;
+    this.commonFn(tell)
+  },
+  //input公共的方法
+  commonFn(tell){
     if(isSend){
       return;
     }
     isSend = true;
-    //发请求获取搜索匹配到的数据
-    // this.getSearchListData();
-    this.setData({
-      searchList:[
-        {name:'元年'},
-        {name:'元年1'},
-        {name:'元年2'},
-        {name:'元年3'},
-        {name:'元年4'},
-        {name:'元年5'},
-      ]
-    })
-    //函数节流
-    setTimeout(() => {
-      isSend = false;
-    }, 500);
+    var p1 = /^1\d{10}$/;
+    if (p1.test(tell) == false) {
+      return wx.showToast({ title: "请填写正确的手机号", icon: "none" });
+    }
+    getApp()
+      .globalData.api.companyInfo({
+        mobile: tell,
+      })
+      .then(res => {
+        console.log(res,'-----')
+        if (res.bool) {
+          this.setData({
+            'clientInfo.companyName':(res.data.company!=null||res.data.company!==0)?res.data.company:'',
+            'clientInfo.name':(res.data.name!=null||res.data.name!=0)?res.data.name:'',
+            'clientInfo.email':(res.data.email!=null||res.data.email!=0)?res.data.email:'',
+            'clientInfo.industry':(res.data.industry!=null||res.data.industry!=0)?res.data.industry:'',
+            'clientInfo.duty':(res.data.title!=null||res.data.title!=0)?res.data.title:'',
+          })
+        } else {
+          wx.showToast({ title: res.data.msg, icon: "none" ,duration:2000});
+        }
+        setTimeout(() => {
+          isSend = false;
+        }, 3000);
+      });
   },
+
   //选中搜索列表的某一项
   searchSelect(e){
     var name = e.currentTarget.dataset.name
@@ -236,27 +276,17 @@ Page({
         searchList: []
       })
   },
-    //发请求获取搜索匹配到的数据
-    // async getSearchListData(){
-    //   //当搜索内容为空时就不发送请求并清空内容
-    //   if(!this.data.clientInfo.companyName){
-    //     this.setData({
-    //       searchList: []
-    //     })
-    //     return;
-    //   }
-  
-    //   let searchListData = await getApp().globalData.api.searchList({
-    //     content:this.data.clientInfo.companyName
-    //   });
-    //   this.setData({
-     
-    //   })
-    // },
+   
   //点击提交按钮
   submitFn(){
     let that = this;
-    let {clientInfo}=that.data;
+    let {clientInfo,customerId,isProvided}=that.data;
+    if (
+      !/^1[3-9]\d{9}$/.test(clientInfo.tell) ||
+      clientInfo.tell == ""
+    ) {
+      return wx.showToast({ title: "请输入客户手机号", icon: "none" });
+    }
     if(clientInfo.companyName==''){
       return wx.showToast({ title: "请输入客户公司名称", icon: "none" });
     }
@@ -275,12 +305,7 @@ Page({
     if(clientInfo.duty==''){
       return wx.showToast({ title: "请输入客户职务", icon: "none" });
     }
-    if (
-      !/^1[3-9]\d{9}$/.test(clientInfo.tell) ||
-      clientInfo.tell == ""
-    ) {
-      return wx.showToast({ title: "请输入客户手机号", icon: "none" });
-    }
+    
     var emailStr = /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/;
     if(clientInfo.email=='' ||!emailStr.test(clientInfo.email)){
       return wx.showToast({ title: "请输入客户邮箱", icon: "none" });
@@ -291,34 +316,43 @@ Page({
     if(clientInfo.city==''){
       return wx.showToast({ title: "请输入所在城市", icon: "none" });
     }
-    if(clientInfo.isStay==''){
+    if(isProvided==1&&clientInfo.isStay==''){
       return wx.showToast({ title: "请确定是否住宿", icon: "none" });
     }
-    if(clientInfo.isStay=='1'&&clientInfo.stayType==''){
+    if(isProvided==1&&clientInfo.isStay=='1'&&clientInfo.stayType==''){
       return wx.showToast({ title: "请确定单间/标间", icon: "none" });
     }
-    if(clientInfo.isStay=='1'&&clientInfo.money==''){
+    if(isProvided==1&&clientInfo.isStay=='1'&&clientInfo.money==''){
       return wx.showToast({ title: "请输入商机金额", icon: "none" });
     }
     // if(clientInfo.remark==''){
     //   return wx.showToast({ title: "请输入备注", icon: "none" });
     // }
     let postData = {
+      mmc_tell:clientInfo.tell,
       mmc_company_name:clientInfo.companyName,
       mmc_name:clientInfo.name,
       mmc_scale:clientInfo.scale,
       mmc_industry:clientInfo.industry,
       mmc_department:clientInfo.department,
       mmc_post:clientInfo.duty,
-      mmc_tell:clientInfo.tell,
       mmc_email:clientInfo.email,
       mmc_region:clientInfo.area,
       mmc_city:clientInfo.city,
       mmc_is_accommodation:clientInfo.isStay,
       mmc_accommodation_type:clientInfo.isStay==2?'':clientInfo.stayType,
       mmc_business_money:clientInfo.isStay==2?'':clientInfo.money ,
-      mmc_remarks:clientInfo.remark
+      mmc_remarks:clientInfo.remark,
+      type:1 ,// (1添加客户信息，2修改客户信息)
     };
+    if(customerId){
+      postData.type=2+'';
+      postData.cuid=customerId+'';
+    }
+    // if(isProvided){
+
+    // }
+    console.log(postData)
     getApp().globalData.api.customerAdd({
       Market_Token:wx.getStorageSync('loginData').custom_token,
       json:JSON.stringify(postData),
@@ -342,7 +376,7 @@ Page({
         }, 3000);
        
       }else{
-        wx.showToast({ title: res.data.msg, icon: "none" });
+        wx.showToast({ title: res.errMsg, icon: "none" });
       }
     })
     

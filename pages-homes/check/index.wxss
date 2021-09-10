@@ -103,7 +103,7 @@
 }
 
 .each-list {
-  height: 120rpx;
+  height: 150rpx;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -166,19 +166,15 @@
   padding-left: 12rpx;
 }
 .name {
-  font-size: 32rpx;
+  font-size: 30rpx;
   color: #333333;
-  display: flex;
-  align-items: center;
 }
 
 
 .company {
   font-size: 24rpx;
   color: #999999;
-  padding-top: 4rpx;
-  margin-left: 20rpx;
-  width: 260rpx;
+  line-height: 40rpx;
 }
 
 
@@ -201,7 +197,7 @@
 .flight-info{
   display: flex;
   align-items: center;
-  margin-top: 6rpx;
+  /* margin-top: 6rpx; */
 }
 .flight-img{
   /* width: 38rpx;
@@ -263,4 +259,7 @@
 }
 .van-popup__close-icon--top-right{
   margin-top: -10rpx;
+  }
+  .tip-color{
+    color: #ff6060;
   }

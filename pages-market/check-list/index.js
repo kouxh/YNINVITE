@@ -27,6 +27,9 @@ Page({
     status:'',//状态（必填 1通过2不通过3驳回）
     reasonList:[],//原因列表
     rejectId:'',//驳回原因id
+    meeting:'',//参会
+    Adopt:'',//通过
+    isStay:0,//0不住宿1住宿
   },
 
   /**
@@ -52,8 +55,11 @@ Page({
             item.default="待审核"
           })
           that.setData({
-            AllData:res.data.list,
-            total:res.data.num
+            AllData:res.data.list.reverse(),
+            total:res.data.num,
+            meeting:res.data.meeting,
+            Adopt:res.data.Adopt,
+            isStay:res.data.activity.mma_is_accommodation
           });
           this.loadmore();
         }else{
@@ -66,9 +72,9 @@ Page({
       let that=this;
       let _this = this.data;
       //加载提示
-      wx.showLoading({
-        title: '加载中',
-      })
+      // wx.showLoading({
+      //   title: '加载中',
+      // })
       if(_this.total / _this.pageSize > _this.pageIndex){
         that.setData({
           listData:_this.listData.concat(_this.AllData.slice((_this.pageIndex-1) * _this.pageSize, _this.pageIndex * _this.pageSize)),
@@ -83,7 +89,7 @@ Page({
       setTimeout(function () {
         that.setData({ listShowType: _this.total ? 1 : 2 });
       }, 300);
-      wx.hideLoading();
+      // wx.hideLoading();
     },
     //tabs栏切换
     onChange(event) {
@@ -213,7 +219,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    this.pendingFn();//领导查看所有活动列表
   },
 
   /**

@@ -20,6 +20,18 @@ Page({
   onLoad: function (options) {
     this.contactFn();
   },
+//电话调用
+makePhoneCall: function (e) {
+  wx.makePhoneCall({
+    phoneNumber: e.currentTarget.dataset.tel,
+    success: function () {
+      console.log('拨打成功')
+    },
+    fail: function () {
+      console.log('拨打失败')
+    }
+  })
+},
   //联系我们
   contactFn(){
     let that = this;
@@ -29,7 +41,7 @@ Page({
     }).then(res=>{
       if(res.bool){
         that.setData({
-          AllData:res.data,
+          AllData:res.data.reverse(),
           total:res.data.length
         });
         this.loadmore();
@@ -43,9 +55,9 @@ Page({
     let that=this;
     let _this = this.data;
     //加载提示
-    wx.showLoading({
-      title: '加载中',
-    })
+    // wx.showLoading({
+    //   title: '加载中',
+    // })
     if(_this.total / _this.pageSize > _this.pageIndex){
       that.setData({
         listData:_this.listData.concat(_this.AllData.slice((_this.pageIndex-1) * _this.pageSize, _this.pageIndex * _this.pageSize)),
@@ -60,7 +72,7 @@ Page({
     setTimeout(function () {
       that.setData({ listShowType: _this.total ? 1 : 2 });
     }, 300);
-    wx.hideLoading();
+    // wx.hideLoading();
   },
   // 复制
   copyFn(e) {

@@ -33,7 +33,7 @@
           <view class="item-l">
             <text class="lable">客户规模</text>
           </view>
-          <view class="item-r" >
+          <view class="item-r">
             <view class='r-ipt ellipsis1row'>{{clientInfo.scale}}</view>
           </view>
         </view>
@@ -98,14 +98,14 @@
           <view class='r-ipt ellipsis1row'>{{clientInfo.city}}</view>
         </view>
       </view>
-      <view class="each-item">
+      <view class="each-item" wx:if="{{isAStay==1}}">
         <view class="item-l">
           <text class="lable">客户是否住宿</text>
         </view>
         <view class="item-r">
           <van-radio-group value="{{ clientInfo.isStay }}">
             <van-radio name="1">是</van-radio>
-            <van-radio name="2">否</van-radio>
+            <van-radio name="0">否</van-radio>
           </van-radio-group>
         </view>
       </view>
@@ -120,24 +120,38 @@
           </van-radio-group>
         </view>
       </view>
-      <view class="each-item"  wx:if="{{ clientInfo.isStay==1 }}">
+      <view class="each-item" wx:if="{{ clientInfo.isStay==1 }}">
         <view class="item-l">
           <text class="lable">商机金额</text>
         </view>
         <view class="item-r">
           <view class='r-ipt ellipsis1row'>{{clientInfo.money}}</view>
-          <span class="lable">元</span>
+          <span class="lable">万元</span>
         </view>
       </view>
       <view class="each-item1" wx:if="{{clientInfo.remark}}">
-      <view class="area-l">
-        <icon class="iconfont icon-bitian icon"></icon>
-        <text class="lable remark">备注</text>
-      </view>
-      <view class="item-r area-r">
-        <view class='r-area'>{{clientInfo.remark}}</view>
+        <view class="area-l">
+          <icon class="iconfont icon-bitian icon"></icon>
+          <text class="lable remark">备注</text>
+        </view>
+        <view class="item-r area-r">
+          <view class='r-area'>{{clientInfo.remark}}</view>
+        </view>
       </view>
     </view>
+    <view class="edit-box" wx:if="{{tabsActive!=2}}">
+      <button class="mini-btn" type="primary" data-status='1' size="mini" bindtap="submit">通过</button>
+      <button class="mini-btn" type="default" data-status='2' size="mini" bindtap="submit">不通过</button>
+      <button class="mini-btn" type="primary" data-status='3' plain="true" size="mini" bindtap="submit">驳回</button>
     </view>
   </view>
+   <!-- 反驳弹框 -->
+   <van-popup show="{{ refuteShow }}" round closeable bind:close="onClose">
+    <view class="popup-box">
+      <van-radio-group value="{{ refuteRadio }}" bind:change="onSwith">
+        <van-radio wx:for="{{reasonList}}" name="{{item.mmrr_id}}" wx:key='mmrr_id'>驳回原因：{{item.mmrr_title}}</van-radio>
+      </van-radio-group>
+      <view class="box-btn" bindtap="confirm">确定</view>
+    </view>
+  </van-popup>
 </view>

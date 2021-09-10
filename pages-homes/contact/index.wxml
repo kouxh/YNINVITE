@@ -17,7 +17,7 @@
             </view>
             <view class="base-right">
               <icon class="iconfont icon-dianhua icon-color"></icon>
-              <text class="person">{{item.mma_person_tell}}</text>
+              <text class="person" bindtap="makePhoneCall" data-tel="{{item.mma_person_tell}}">{{item.mma_person_tell}}</text>
               <text class="tell" bindtap="copyFn" data-copy="{{item.mma_person_tell}}">复制电话</text>
             </view>
           </view>

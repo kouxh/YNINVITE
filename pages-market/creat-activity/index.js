@@ -15,7 +15,7 @@ Page({
       tell:'',
       isRoom:'',
       isStay:'',
-      branchRoom:[{}],
+      branchRoom:[],
       limits:'',
       imgUrl:'',
       department:[]
@@ -41,15 +41,76 @@ Page({
     imgUrl:'',
     typeTime:1,//区别开始时间 获取结束时间
     outputBool: true, // '开始时间'是否大于'结束时间' 
+    activityId:'',//活动id
+   
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    console.log(this.data.activityInfo.branchRoom)
+    if(options.activityId){
+      this.setData({
+        activityId:options.activityId
+      })
+      this.activityInfo(options.activityId)
+    }
+    this.data.activityInfo.branchRoom.forEach(item => {
+      console.log(item,'---')
+    })
+    console.log(options,'optionsoptions')
+  
     let firstId=219;//一级ID父ID
     this.setData({
       firstData: this.checkFn(firstId)
+    })
+  },
+  //获取创建活动详情
+  activityInfo(id){
+    let that = this;
+    getApp().globalData.api.activityInfo({
+      Market_Token:wx.getStorageSync('loginData').custom_token,
+      avid:id
+    }).then(res=>{
+      if(res.bool){
+        let {activityInfo,fileList} =that.data
+        activityInfo.name=res.data.mma_title;
+        activityInfo.starTime=res.data.mma_start_time;
+        activityInfo.endTime=res.data.mma_end_time;
+        activityInfo.city=res.data.mma_city;
+        activityInfo.person=res.data.mma_person_name;
+        activityInfo.tell=res.data.mma_person_tell;
+        activityInfo.isRoom=res.data.mma_is_branch_venue;
+        let branchRoom=res.data.mma_branch_venue.split(',');
+        activityInfo.isStay=res.data.mma_is_accommodation+'';
+        activityInfo.limits=res.data.mma_jurisdiction;
+        activityInfo.imgUrl=res.data.mma_invitation_img;
+        let department=res.data.mma_department_id.split(',');
+        let briefObj = {
+          urlStr: 'https://www.chinamas.cn/'+res.data.mma_invitation_img,
+        };
+        fileList.push(briefObj);
+        branchRoom.forEach(item => {
+          activityInfo.branchRoom.push({roomLabel:item});
+        });
+         this.data.postList.forEach(item => {
+          department.map(it=>{
+           if(it==item.id){
+             let newData={}
+            newData.id=item.id;
+            newData.name=item.name
+            activityInfo.department.push(newData);
+           }
+          });
+        });
+        that.setData({
+          activityInfo:activityInfo,
+          fileList:fileList
+        });
+      }else{
+        wx.showToast({ title: res.data.msg, icon: "none" });
+      }
     })
   },
   // 通过parentid获取相应数据
@@ -77,7 +138,7 @@ Page({
       for (let i = 0; i < conLists.length; i++) {
         if (Object.keys(conLists[i]).length === 0) {
           wx.showToast({
-            title: '请输入第' + `${i * 1 + 1}` + '条内容！',
+            title: '请输入第' + `${i * 1 + 1}` + '条分会场内容！',
             icon: 'none'
           })
           return;
@@ -101,14 +162,17 @@ Page({
    * 获取输入的内容标题
    */
   changeConTitle(e) {
+    console.log(e,'eee')
     var idx = e.currentTarget.dataset.index; //当前下标
     var val = e.detail.value; //当前输入的值
     var _list =this.data.activityInfo.branchRoom; //data中存放的数据
     for (let i = 0; i < _list.length; i++) {
       if (idx == i) {
         _list[i] = { roomLabel: val } //将当前输入的值放到数组中对应的位置
+        // _list[i] =  val //将当前输入的值放到数组中对应的位置
       }
     }
+    console.log(_list,'_list')
     this.setData({
       "activityInfo.branchRoom": _list
     })
@@ -134,6 +198,7 @@ Page({
       newData.id=oneId;
       newData.name=name
       department.push(newData);
+     
       if(type==0){
         this.setData({
           firstShow:false,
@@ -158,11 +223,8 @@ Page({
         this.setData({
           "activityInfo.department":this.unique(department)
         })
+        console.log(department,' console.log(department)')
     }else{
-        //  this.setData({
-        //   checkedIndex:index,
-        //   firstData:childrens,
-        // })
       if(type==0){
         this.setData({
           checkedIndex:index,
@@ -239,7 +301,7 @@ Page({
   submitFn(){
     let that = this;
     var roomArr = [];
-    let {activityInfo}=that.data;
+    let {activityInfo,activityId}=that.data;
     if(activityInfo.name==''){
       return wx.showToast({ title: "请输入活动名称", icon: "none" });
     }
@@ -265,14 +327,16 @@ Page({
       for (let i = 0; i < activityInfo.branchRoom.length; i++) {
         if (Object.keys(activityInfo.branchRoom[i]).length === 0) {
           wx.showToast({
-            title: '请输入第' + `${i * 1 + 1}` + '条内容！',
+            title: '请输入第' + `${i * 1 + 1}` + '条分会场内容！',
             icon: 'none'
           })
           return;
         }
         roomArr.push(activityInfo.branchRoom[i].roomLabel);
+        // roomArr.push(activityInfo.branchRoom[i]);
       }
     }
+    console.log(roomArr,'roomArr')
     if(activityInfo.isStay=='-1'){
       return wx.showToast({ title: "是否提供住宿", icon: "none" });
     }
@@ -300,20 +364,44 @@ Page({
       mma_jurisdiction:activityInfo.limits,
       mma_department_id:ids.toString()
     };
-    getApp().globalData.api.activityAdd({
-      Market_Token:wx.getStorageSync('loginData').custom_token,
-      json:JSON.stringify(postData),
-      juri:wx.getStorageSync('loginData').identity,
-      uid:wx.getStorageSync('loginData').uid
-    }).then(res=>{
-      if(res.bool){
-        wx.redirectTo({
-          url: '/pages-market/submit/index',
-        })
-      }else{
-        wx.showToast({ title: res.data.msg, icon: "none" });
-      }
-    })
+    if(activityId){
+      postData.mma_id=activityId;
+      postData.mma_uid=wx.getStorageSync('loginData').uid
+      console.log(postData,'postDatapostData编辑')
+      getApp().globalData.api.editActivityInfo({
+        Market_Token:wx.getStorageSync('loginData').custom_token,
+        json:JSON.stringify(postData),
+        juri:wx.getStorageSync('loginData').identity,
+      }).then(res=>{
+        if(res.bool){
+          // wx.showToast({ title: res.data.msg, icon: "none" });
+          wx.navigateBack({
+            delta: 1,
+          })
+        }else{
+          wx.showToast({ title: res.errMsg, icon: "none" });
+        }
+      })
+
+    }else{
+      console.log('创建')
+      getApp().globalData.api.activityAdd({
+        Market_Token:wx.getStorageSync('loginData').custom_token,
+        json:JSON.stringify(postData),
+        juri:wx.getStorageSync('loginData').identity,
+        uid:wx.getStorageSync('loginData').uid
+      }).then(res=>{
+        if(res.bool){
+          wx.redirectTo({
+            url: '/pages-market/submit/index',
+          })
+        }else{
+          wx.showToast({ title: res.errMsg, icon: "none" });
+        }
+      })
+    }
+    
+    
   },
   // 是否分会场
   onChange(event) {
@@ -452,7 +540,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+  
   },
 
   /**

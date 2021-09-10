@@ -10,15 +10,21 @@
       <view class="bar">|</view>
     </view>
     <view wx:else>
-      <view class="header-right">
+      <!-- <view class="header-right">
         <view class="check-num">
           已审<text class="num">{{total}}</text>人
+        </view>
+        <view class="bar">|</view>
+      </view> -->
+      <view class="header-right">
+        <view class="check-num">
+          通过<text class="num">{{Adopt}}</text>人
         </view>
         <view class="bar">|</view>
       </view>
       <view class="header-right">
         <view class="check-num">
-          通过/未通过<text class="num">{{total}}</text>人
+          参会<text class="num">{{meeting}}</text>人
         </view>
         <view class="bar">|</view>
       </view>
@@ -49,16 +55,17 @@
               <image mode='aspectFill' src="/assets/img/photo.png" alt class="img" />
             </view>
             <view class="left-r">
-              <navigator hover-class="none" url="/pages-market/details/index?id={{item.customer_id}}" class="name">{{item.mmc_name}}</navigator>
-              <view class="company ellipsis1row">{{item.mma_title}}</view>
+              <navigator hover-class="none" url="/pages-market/details/index?id={{item.customer_id}}" class="name">
+                {{item.mmc_name}}</navigator>
+              <view class="company ellipsis1row">{{item.mmc_company_name}}</view>
               <view class="left-r-base">
                 <view class="flight-info">
                   <icon class="iconfont icon-iconfontlianxiren01 icon-color"></icon>
-                  <text class="info">销售：{{item.saleName}}</text>
+                  <text class="info">销售：{{item.mmud_name}}</text>
                 </view>
-                <view class="flight-info">
+                <view class="flight-info" wx:if="{{isStay==1&&item.mmcs_is_pick_drop!==null}}">
                   <icon class="iconfont icon-hangbanchaxun icon-color flight-img"></icon>
-                  <text class="info">航班信息：{{item.mmcs_vehicle}}</text>
+                  <text class="info">航班信息：{{item.mmcs_is_pick_drop ==='是'?item.mmcs_vehicle:'--'}}</text>
                 </view>
               </view>
             </view>
@@ -88,12 +95,18 @@
               <image mode='aspectFill' src="/assets/img/photo.png" alt class="img" />
             </view>
             <view class="left-r">
-              <view class="name">{{item.mmc_name}}</view>
-              <view class="company ellipsis1row">{{item.mma_title}}</view>
+              <navigator hover-class="none" url="/pages-market/details/index?id={{item.customer_id}}&tabsActive=2"
+                class="name">{{item.mmc_name}}</navigator>
+              <!-- <view class="name">{{item.mmc_name}}</view> -->
+              <view class="company ellipsis1row">{{item.mmc_company_name}}</view>
               <view class="left-r-base">
                 <view class="flight-info">
                   <icon class="iconfont icon-iconfontlianxiren01 icon-color"></icon>
-                  <text class="info">销售：{{item.saleName}}</text>
+                  <text class="info">销售：{{item.mmud_name}}</text>
+                </view>
+                <view class="flight-info" wx:if="{{isStay==1&&item.mmcs_is_pick_drop!==null}}">
+                  <icon class="iconfont icon-hangbanchaxun icon-color flight-img"></icon>
+                  <text class="info">  <text class="info">航班信息：{{item.mmcs_is_pick_drop =='是'?item.mmcs_vehicle:'--'}}</text></text>
                 </view>
               </view>
             </view>

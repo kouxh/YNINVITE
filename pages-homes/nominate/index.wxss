@@ -29,7 +29,7 @@
 }
 
 .each-item {
-  height: 80rpx;
+  min-height: 80rpx;
   border-bottom: 1rpx solid#e8e8e8;
   display: flex;
  margin-top: 20rpx;
@@ -57,20 +57,27 @@
 
 .item-r {
   width: 67%;
+  min-height: 80rpx;
   display: flex;
   align-items: center;
   letter-spacing: 1rpx;
 }
 .r-ipt{
-  width:90%;
-  font-size: 24rpx;
+  width:86%;
+  font-size: 26rpx;
   color: #333333;
   
+}
+.area-ipt{
+  height: 40rpx;
+  margin-top: 4px;
+  overflow: hidden;
 }
 .r-phd{
   font-size: 24rpx;
 	letter-spacing: 0rpx;
-	color: #999999;
+  color: #999999;
+  
 }
 .icon-sousuo1,.icon-jiantoudown{
   font-size: 26rpx;

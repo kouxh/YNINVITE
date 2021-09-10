@@ -21,12 +21,13 @@
               <image mode='aspectFill' src="/assets/img/photo.png" alt class="img" />
             </view>
             <view class="left-r">
-              <view class="name">{{item.mmc_name}}</view>
-              <view class="company ellipsis1row">{{item.mma_title}}</view>
+              <navigator hover-class="none" url="/pages-market/details/index?id={{item.customer_id}}&tabsActive=2" class="name">{{item.mmc_name}}</navigator>
+              <!-- <view class="name">{{item.mmc_name}}</view> -->
+              <view class="company ellipsis1row">{{item.mmc_company_name}}</view>
               <view class="left-r-base">
                 <view class="flight-info">
                   <icon class="iconfont icon-iconfontlianxiren01 icon-color"></icon>
-                  <text class="info">销售负责人：{{item.mma_person_name}}</text>
+                  <text class="info">销售负责人：{{item.mmud_name}}</text>
                 </view>
               </view>
             </view>

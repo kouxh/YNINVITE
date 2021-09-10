@@ -17,8 +17,11 @@
             </view>
           </navigator>
           <view class="list-r">
+          <navigator hover-class="none" url="/pages-market/creat-activity/index?activityId={{item.mma_id}}" class="list-r-top">编辑</navigator>
+          <view class="list-r-base">
             <view class="common {{(item.mma_status=='未开始'||item.mma_status=='进行中')?'success' :'no-check'}}"></view>
               <text class="text">{{item.mma_status}}</text>
+          </view>
           </view>
         </view>
       </block>

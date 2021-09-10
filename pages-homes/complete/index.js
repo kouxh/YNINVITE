@@ -4,14 +4,15 @@ Page({
    * 页面的初始数据
    */
   data: {
+    
     clientInfo:{
       name:'',
       tell:'',
       email:'',
-      isJoin:'',
+      isJoin:'4',
       room:'',
       date:'',
-      isAirport:'',
+      isAirport:'否',
       vehicle:'',
       busNum:'',
       remark:'',
@@ -31,6 +32,7 @@ Page({
     isCommon:'',//0不提供住宿1提供住宿
     isContent:false,//是否可以修改
     successShow:false,//是否提交成功
+    Loading:true,
   },
 
   /**
@@ -41,8 +43,12 @@ Page({
     this.setData({
       activityId:options.aid,
       clientId:options.cuid,
-      "clientInfo.isJoin":options.status
     })
+    if(options.status){
+      this.setData({
+        "clientInfo.isJoin":options.status
+      })
+    }
     this.customerInfo();//补充客户信息所需要的客户姓名以及分会场
   },
   //补充客户信息所需要的客户姓名以及分会场
@@ -62,12 +68,20 @@ Page({
         }
         that.setData({
           roomData: that.data.roomData,
-          "clientInfo.name":res.data.customer.mmc_name,
-          "clientInfo.tell":res.data.customer.mmc_tell,
-          "clientInfo.email":res.data.customer.mmc_email,
-          isCommon:res.data.accommodation.mma_is_accommodation,
-          isContent:true
+          isCommon:res.data.customer.mmc_is_accommodation?res.data.customer.mmc_is_accommodation:'',
+          "clientInfo.name":res.data.customer.mmc_name?res.data.customer.mmc_name:'',
+          "clientInfo.tell":res.data.customer.mmc_tell?res.data.customer.mmc_tell:'',
+          "clientInfo.email":res.data.customer.mmc_email?res.data.customer.mmc_email:'',
+          "clientInfo.date":res.data.customer.mmcs_check_time?res.data.customer.mmcs_check_time:'',
+          "clientInfo.room":res.data.customer.mmcs_branch_venue?res.data.customer.mmcs_branch_venue:'',
+          "clientInfo.isAirport":res.data.customer.mmcs_is_pick_drop?res.data.customer.mmcs_is_pick_drop:'否',
+          "clientInfo.vehicle":res.data.customer.mmcs_vehicle?res.data.customer.mmcs_vehicle:'',
+          "clientInfo.busNum":res.data.customer.mmcs_flight_number?res.data.customer.mmcs_flight_number:'',
+          "clientInfo.remark":res.data.customer.mmcs_remarks?res.data.customer.mmcs_remarks:'',
+          isContent:true,
+          Loading:false
         });
+        console.log(that.data.isCommon,'isCommonisCommon')
       }else{
         wx.showToast({ title: res.data.msg, icon: "none" });
       }
@@ -143,26 +157,27 @@ Page({
     if(clientInfo.isJoin=='4'&&that.data.isCommon==1&&clientInfo.date==''){
       return wx.showToast({ title: "请选入住时间", icon: "none" });
     }
-    if(clientInfo.isAirport=='1'&&that.data.isCommon==1){
-      return wx.showToast({ title: "请确认是否需要接机", icon: "none" });
-    }
-    if(clientInfo.isAirport=='1'&&that.data.isCommon==1&&clientInfo.vehicle==''){
-      return wx.showToast({ title: "请选择客户乘坐交通工具", icon: "none" });
-    }
-    if(clientInfo.isAirport=='1'&&that.data.isCommon==1&&clientInfo.busNum==''){
-      return wx.showToast({ title: "请输入车次信息", icon: "none" });
-    }
+    // if(clientInfo.isAirport==''&&that.data.isCommon==1){
+    //   console.log(clientInfo.isAirport,that.data.isCommon)
+    //   return wx.showToast({ title: "请确认是否需要接机", icon: "none" });
+    // }
+    // if(clientInfo.isAirport=='是'&&that.data.isCommon==1&&clientInfo.vehicle==''){
+    //   return wx.showToast({ title: "请选择客户乘坐交通工具", icon: "none" });
+    // }
+    // if(clientInfo.isAirport=='是'&&that.data.isCommon==1&&clientInfo.busNum==''){
+    //   return wx.showToast({ title: "请输入车次信息", icon: "none" });
+    // }
     // if(clientInfo.remark==''){
     //   return wx.showToast({ title: "请输入备注信息", icon: "none" });
     // }
     let postData = {
       mmcs_cid:that.data.clientId,
       mmcs_is_attendance:clientInfo.isJoin,
-      mmcs_branch_venue:clientInfo.room,
-      mmcs_check_time:clientInfo.date,
-      mmcs_is_pick_drop:clientInfo.isAirport,
-      mmcs_vehicle:clientInfo.vehicle,
-      mmcs_flight_number:clientInfo.busNum,
+      mmcs_branch_venue:clientInfo.isJoin=='4'?clientInfo.room:'',
+      mmcs_check_time:clientInfo.isJoin=='4'?clientInfo.date:'',
+      mmcs_is_pick_drop:clientInfo.isJoin=='4'?clientInfo.isAirport:'',
+      mmcs_vehicle:(clientInfo.isJoin=='4'&&clientInfo.isAirport!=='否')?clientInfo.vehicle:'',
+      mmcs_flight_number:(clientInfo.isJoin=='4'&&clientInfo.isAirport!=='否')?clientInfo.busNum:'',
       mmcs_remarks:clientInfo.remark,
     };
     getApp().globalData.api.perfectCus({
@@ -184,7 +199,7 @@ Page({
           wx.navigateBack({
             delta: 1
           })
-        }, 3000);
+        }, 2000);
       }else{
         wx.showToast({ title: res.data.msg, icon: "none" });
       }
@@ -204,6 +219,7 @@ Page({
   },
   //是否需要接机
   onSwitch(e){
+    console.log(e,'0000')
     this.setData({
       'clientInfo.isAirport': e.detail,
     });

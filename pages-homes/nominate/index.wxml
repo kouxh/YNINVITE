@@ -16,32 +16,35 @@
             bindinput='handleInput' placeholder-class='r-phd' placeholder="自动链接第一页面显示" />
         </view>
       </view>
-      <view class="select-content">
+      <view class="each-item">
+        <view class="item-l">
+          <icon class="iconfont icon-bitian"></icon>
+          <text class="lable">客户手机</text>
+        </view>
+        <view class="item-r">
+          <input class='r-ipt ' type='number' maxlength="11" value='{{clientInfo.tell}}' id="clientInfo.tell"
+            bindinput='handleInput' placeholder-class='r-phd' placeholder="请输入" bindblur="onBlur" />
+          <icon class="iconfont icon-sousuo1" bindtap="onBlurFn" data-tel="{{clientInfo.tell}}"></icon>
+        </view>
+      </view>
         <view class="each-item">
           <view class="item-l">
             <icon class="iconfont icon-bitian"></icon>
             <text class="lable">客户公司名称</text>
           </view>
           <view class="item-r">
-            <input class='r-ipt' type='text' value='{{clientInfo.companyName}}' bindinput='handleInputChange'
-              placeholder-class='r-phd' placeholder="请搜索" />
-            <icon class="iconfont icon-sousuo1"></icon>
+            <textarea class='r-ipt area-ipt' type='text' value='{{clientInfo.companyName}}' placeholder-class='r-phd'
+              placeholder="请输入" bindinput='handleInput' id="clientInfo.companyName" confirm-type="next" auto-height />
           </view>
         </view>
-        <view class="select_box" wx:if="{{searchList.length>0}}">
-          <block wx:for="{{searchList}}" wx:key="index">
-            <view class="select_one " bindtap="searchSelect" data-name="{{item.name}}">{{item.name}}</view>
-          </block>
-        </view>
-      </view>
       <view class="each-item">
         <view class="item-l">
           <icon class="iconfont icon-bitian"></icon>
           <text class="lable">客户姓名</text>
         </view>
         <view class="item-r">
-          <input class='r-ipt' type='text' value='{{clientInfo.name}}' id="clientInfo.name" bindinput='handleInput'
-            placeholder-class='r-phd' placeholder="请输入" />
+          <textarea class='r-ipt area-ipt' type='text' value='{{clientInfo.name}}' id="clientInfo.name" bindinput='handleInput'
+            placeholder-class='r-phd' placeholder="请输入" confirm-type="next" auto-height/>
         </view>
       </view>
       <view class="select-content">
@@ -87,8 +90,8 @@
           <text class="lable">客户部门</text>
         </view>
         <view class="item-r">
-          <input class='r-ipt' type='text' value='{{clientInfo.department}}' id="clientInfo.department"
-            bindinput='handleInput' placeholder-class='r-phd' placeholder="请输入" />
+          <textarea class='r-ipt area-ipt ' type='text' value='{{clientInfo.department}}' id="clientInfo.department"
+            bindinput='handleInput' placeholder-class='r-phd' placeholder="请输入" confirm-type="next" auto-height/>
         </view>
       </view>
       <view class="each-item">
@@ -97,28 +100,19 @@
           <text class="lable">客户职务</text>
         </view>
         <view class="item-r">
-          <input class='r-ipt' type='text' value='{{clientInfo.duty}}' id="clientInfo.duty" bindinput='handleInput'
-            placeholder-class='r-phd' placeholder="请输入" />
+          <textarea class='r-ipt area-ipt' type='text' value='{{clientInfo.duty}}' id="clientInfo.duty" bindinput='handleInput'
+            placeholder-class='r-phd' placeholder="请输入" confirm-type="next" auto-height/>
         </view>
       </view>
-      <view class="each-item">
-        <view class="item-l">
-          <icon class="iconfont icon-bitian"></icon>
-          <text class="lable">客户手机</text>
-        </view>
-        <view class="item-r">
-          <input class='r-ipt' type='number' maxlength="11" value='{{clientInfo.tell}}' id="clientInfo.tell"
-            bindinput='handleInput' placeholder-class='r-phd' placeholder="请输入" />
-        </view>
-      </view>
+
       <view class="each-item">
         <view class="item-l">
           <icon class="iconfont icon-bitian"></icon>
           <text class="lable">客户邮箱</text>
         </view>
         <view class="item-r">
-          <input class='r-ipt' type='text' value='{{clientInfo.email}}' id="clientInfo.email" bindinput='handleInput'
-            placeholder-class='r-phd' placeholder="请输入" />
+          <textarea class='r-ipt area-ipt' type='text' value='{{clientInfo.email}}' id="clientInfo.email" bindinput='handleInput'
+            placeholder-class='r-phd' placeholder="请输入" confirm-type="next" auto-height/>
         </view>
       </view>
       <view class="select-content">
@@ -144,10 +138,10 @@
         </view>
         <view class="item-r">
           <input class='r-ipt' type='text' value='{{clientInfo.city}}' id="clientInfo.city" bindinput='handleInput'
-            placeholder-class='r-phd' placeholder="请输入" />
+            placeholder-class='r-phd' placeholder="请输入" confirm-type="done" />
         </view>
       </view>
-      <view class="each-item">
+      <view class="each-item" wx:if="{{isProvided==1}}">
         <view class="item-l">
           <icon class="iconfont icon-bitian"></icon>
           <text class="lable">客户是否住宿</text>
@@ -155,7 +149,7 @@
         <view class="item-r">
           <van-radio-group value="{{ clientInfo.isStay }}" bind:change="onChange">
             <van-radio name="1">是</van-radio>
-            <van-radio name="2">否</van-radio>
+            <van-radio name="0">否</van-radio>
           </van-radio-group>
         </view>
       </view>
@@ -171,7 +165,7 @@
           </van-radio-group>
         </view>
       </view>
-      <view class="each-item"  wx:if="{{ clientInfo.isStay==1 }}">
+      <view class="each-item" wx:if="{{ clientInfo.isStay==1 }}">
         <view class="item-l">
           <icon class="iconfont icon-bitian"></icon>
           <text class="lable">商机金额</text>
@@ -179,19 +173,19 @@
         <view class="item-r">
           <input class='r-ipt' type='number' value='{{clientInfo.money}}' id="clientInfo.money" bindinput='handleInput'
             placeholder-class='r-phd' placeholder="请输入" />
-            <span class="lable">元</span>
+          <span class="lable">万元</span>
         </view>
       </view>
       <view class="each-item1">
-      <view class="area-l">
-        <icon class="iconfont icon-bitian icon"></icon>
-        <text class="lable remark">备注</text>
+        <view class="area-l">
+          <icon class="iconfont icon-bitian icon"></icon>
+          <text class="lable remark">备注</text>
+        </view>
+        <view class="item-r area-r">
+          <textarea type='text' placeholder="请输入" value='{{clientInfo.remark}}' id="clientInfo.remark"
+            bindinput='handleInput' placeholder-class="r-phd" class='r-area'></textarea>
+        </view>
       </view>
-      <view class="item-r area-r">
-        <textarea type='text' placeholder="请输入" value='{{clientInfo.remark}}' id="clientInfo.remark" bindinput='handleInput' placeholder-class="r-phd"  class='r-area'
-        ></textarea>
-      </view>
-    </view>
       <view class="submit" catchtap="submitFn">提交</view>
     </view>
   </view>
