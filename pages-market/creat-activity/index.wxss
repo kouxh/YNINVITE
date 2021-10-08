@@ -106,6 +106,10 @@
   color: #ffffff;
   line-height: 74rpx;
   text-align: center;
+  margin-bottom: 400rpx;
+}
+checkbox{
+  transform: scale(0.7,0.7);
 }
 
 .select_img_rotate {

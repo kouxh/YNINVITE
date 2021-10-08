@@ -1,5 +1,4 @@
 import regeneratorRuntime from "../../libs/regenerator/runtime-module";
-let isSend = false;//函数节流使用
 
 Page({
 
@@ -227,20 +226,19 @@ Page({
 
    //input失去光标触发
    onBlur(event) {
+     console.log(event,'00')
     var tell = event.detail.value;
-    this.commonFn(tell)
+    this.commonFn(tell);
   },
   //点击搜索图标
   onBlurFn(e){
+    console.log(e,'--11--')
     var tell = e.target.dataset.tel;
-    this.commonFn(tell)
+    this.commonFn(tell);
   },
   //input公共的方法
   commonFn(tell){
-    if(isSend){
-      return;
-    }
-    isSend = true;
+    console.log(tell,'tell')
     var p1 = /^1\d{10}$/;
     if (p1.test(tell) == false) {
       return wx.showToast({ title: "请填写正确的手机号", icon: "none" });
@@ -262,9 +260,7 @@ Page({
         } else {
           wx.showToast({ title: res.data.msg, icon: "none" ,duration:2000});
         }
-        setTimeout(() => {
-          isSend = false;
-        }, 3000);
+      
       });
   },
 
@@ -349,10 +345,6 @@ Page({
       postData.type=2+'';
       postData.cuid=customerId+'';
     }
-    // if(isProvided){
-
-    // }
-    console.log(postData)
     getApp().globalData.api.customerAdd({
       Market_Token:wx.getStorageSync('loginData').custom_token,
       json:JSON.stringify(postData),

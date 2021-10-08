@@ -30,23 +30,24 @@ App({
           success: function(res){
             //session_key 未过期，并且在本生命周期一直有效
             console.log(res,'-----session_key-------')
-            // let loginData=wx.getStorageSync('loginData');
-            // if(loginData.custom_token!=undefined){
-            //   if(loginData.identity=='市场' || loginData.identity=='领导'){
-            //     wx.reLaunch({
-            //       url: '/pages/login-market/index',
-            //     })
-            //   }else if(loginData.identity=='销售'){
-            //     wx.reLaunch({
-            //       url: '/pages/login-sales/index',
-            //     })
-            //   }else{
-            //     wx.showToast({
-            //       title: "不好意思，您没有权限！",
-            //       icon: "none"
-            //     });
-            //   }
-            // }
+            let loginData=wx.getStorageSync('loginData');
+            console.log(loginData,'loginData')
+            if(loginData.custom_token!=undefined){
+              if(loginData.identity=='市场' || loginData.identity=='领导'){
+                wx.reLaunch({
+                  url: '/pages/login-market/index',
+                })
+              }else if(loginData.identity=='销售'){
+                wx.reLaunch({
+                  url: '/pages/login-sales/index',
+                })
+              }else{
+                wx.showToast({
+                  title: "不好意思，您没有权限！",
+                  icon: "none"
+                });
+              }
+            }
           },
           fail: function(res){
             // 当前环境是企业微信，执行登陆，获取用户 code，用于后面的权限校验

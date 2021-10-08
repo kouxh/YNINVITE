@@ -81,6 +81,15 @@ export default {
   editActivityInfo(params) {
     return fetch.fetchPost("market/edit/do/activity/info", params);
   },
+  /**
+   *获取公司部门信息
+   * @param  {[type]} params [description]
+   * @return {[type]}        [description]
+   */
+  getCompanyList(params) {
+    return fetch.fetchGet("market/get.company.list", params);
+  },
+  
 
   //市场角色接口结束
 

@@ -1,0 +1,30 @@
+{
+  "setting": {},
+  "condition": {
+    "plugin": {
+      "list": []
+    },
+    "game": {
+      "list": []
+    },
+    "gamePlugin": {
+      "list": []
+    },
+    "miniprogram": {
+      "list": [
+        {
+          "name": "pages/login-market/index",
+          "pathName": "pages/login-market/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/login-sales/index",
+          "pathName": "pages/login-sales/index",
+          "query": "",
+          "scene": null
+        }
+      ]
+    }
+  }
+}

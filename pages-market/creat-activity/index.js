@@ -1,5 +1,5 @@
 const post = require('../../utils/post.js')
-
+import regeneratorRuntime from "../../libs/regenerator/runtime-module";
 Page({
 
   /**
@@ -28,7 +28,8 @@ Page({
     checkedIndex1:-1,
     checkedIndex2:-1,
     checkedIndex3:-1,
-    postList: Object.assign([], post.default.department),
+    // postList: Object.assign([], post.default.department),
+    postList:[],//公司部门总数据
     firstData:[],//一级数据
     firstShow:false,//是否展示提名部门弹框
     twoData:[],//二级数据
@@ -42,28 +43,37 @@ Page({
     typeTime:1,//区别开始时间 获取结束时间
     outputBool: true, // '开始时间'是否大于'结束时间' 
     activityId:'',//活动id
-   
+    checkboxValue:[],//选中数组
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    console.log(this.data.activityInfo.branchRoom)
-    if(options.activityId){
-      this.setData({
-        activityId:options.activityId
-      })
-      this.activityInfo(options.activityId)
-    }
-    this.data.activityInfo.branchRoom.forEach(item => {
-      console.log(item,'---')
-    })
-    console.log(options,'optionsoptions')
-  
-    let firstId=219;//一级ID父ID
-    this.setData({
-      firstData: this.checkFn(firstId)
+    this.getCompanyListFn();//请求部门数据
+    // setTimeout(() => {
+      if(options.activityId){
+        this.setData({
+          activityId:options.activityId
+        })
+        // this.activityInfo(options.activityId)
+      }
+    // }, 800);
+  },
+  //请求部门数据
+  async getCompanyListFn(){
+    let that = this;
+    await getApp().globalData.api.getCompanyList().then(res=>{
+      if(res.bool){
+        that.setData({
+          postList:res.data.department,
+        });
+        if(that.data.activityId){
+          that.activityInfo(that.data.activityId)
+        }
+      }else{
+        wx.showToast({ title: res.errMsg, icon: "none" });
+      }
     })
   },
   //获取创建活动详情
@@ -162,7 +172,6 @@ Page({
    * 获取输入的内容标题
    */
   changeConTitle(e) {
-    console.log(e,'eee')
     var idx = e.currentTarget.dataset.index; //当前下标
     var val = e.detail.value; //当前输入的值
     var _list =this.data.activityInfo.branchRoom; //data中存放的数据
@@ -172,7 +181,6 @@ Page({
         // _list[i] =  val //将当前输入的值放到数组中对应的位置
       }
     }
-    console.log(_list,'_list')
     this.setData({
       "activityInfo.branchRoom": _list
     })
@@ -180,10 +188,22 @@ Page({
   },
   //点击提名部门
   firstFn(){
+    let firstId=219;//一级ID父ID
       let that=this
-      that.setData({
-        firstShow:true,
-      });
+        // for (let i = 0, lenI = this.data.firstData.length; i < lenI; ++i) {
+        //   this.data.firstData[i].checked = false
+        //   for (let j = 0, lenJ = this.data.checkboxValue.length; j < lenJ; ++j) {
+        //     if ( this.data.firstData[i].id == parseInt(this.data.checkboxValue[j])) {
+        //       console.log(this.data.firstData[i].id,  this.data.checkboxValue[j])
+        //       this.data.firstData[i].checked = true
+        //       break
+        //     }
+        //   }
+        // }
+        that.setData({
+          firstShow:true,
+          firstData: that.checkFn(firstId)
+        });
   },
   //点击一级每一项
   onSelect(e){
@@ -198,7 +218,6 @@ Page({
       newData.id=oneId;
       newData.name=name
       department.push(newData);
-     
       if(type==0){
         this.setData({
           firstShow:false,
@@ -290,6 +309,49 @@ Page({
       "activityInfo.department": department
     })
   },
+//点击复选框
+//   checkboxChange(e) {
+//     console.log(e,'checkbox发生change事件，携带value值为：', e.detail.value)
+//     this.setData({
+//       checkboxValue:e.detail.value
+//     })
+//     // const items = this.data.items
+//     // const values = e.detail.value
+//     // for (let i = 0, lenI = items.length; i < lenI; ++i) {
+//     //   items[i].checked = false
+//     //   for (let j = 0, lenJ = values.length; j < lenJ; ++j) {
+//     //     if (items[i].value === values[j]) {
+//     //       items[i].checked = true
+//     //       break
+//     //     }
+//     //   }
+//     // }
+   
+//   },
+//点击顶部确定
+// confirmFn(e){
+//   console.log(e)
+//   let type=e.currentTarget.dataset.type;
+//   if(type==0){
+//     this.setData({
+//       firstShow:false
+//     })
+//   }
+//   this.data.postList.forEach(item => {
+//     this.data.checkboxValue.map(it=>{
+//         if(it==item.id){
+//           let newData={}
+//           newData.id=item.id;
+//           newData.name=item.name
+//           this.data.activityInfo.department.push(newData);
+//         }
+//     });
+//   });
+//     this.setData({
+//       'activityInfo.department':this.unique(this.data.activityInfo.department)
+//     })
+//     console.log(this.data.activityInfo.department)
+// },
   //表单项内容发生改变的回调
   handleInput(event){
     let type=event.currentTarget.id;
@@ -367,7 +429,6 @@ Page({
     if(activityId){
       postData.mma_id=activityId;
       postData.mma_uid=wx.getStorageSync('loginData').uid
-      console.log(postData,'postDatapostData编辑')
       getApp().globalData.api.editActivityInfo({
         Market_Token:wx.getStorageSync('loginData').custom_token,
         json:JSON.stringify(postData),
@@ -539,8 +600,7 @@ Page({
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function () {
-  
+  onShow: function (e) {
   },
 
   /**

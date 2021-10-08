@@ -60,6 +60,7 @@ Page({
                               icon: 'success',
                               duration: 2000
                             });
+                            console.log(res.data.data,'res.data.datalogin')
                             wx.setStorageSync('loginData', res.data.data)
                             if(res.data.data.identity=='市场'|| res.data.data.identity=='领导'){
                               wx.reLaunch({
@@ -107,6 +108,7 @@ Page({
             }, Math.floor(Math.random()*2000));
           }else{
             let loginData=wx.getStorageSync('loginData');
+            console.log(loginData,'loginData00')
             if(loginData.identity=='市场'|| loginData.identity=='领导'){
               wx.reLaunch({
                 url: '/pages/login-market/index',

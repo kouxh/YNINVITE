@@ -24,9 +24,9 @@
         </view>
       </view>
       <!-- 下拉需要显示的列表 -->
-      <van-popup  show-toolbar="true" show="{{ calendarShow }}" round position="bottom" bind:close="onClose">
-        <van-datetime-picker title="选择时间" type="datetime" min-date="{{ minDate }}" max-date="{{maxDate}}" value="{{currentDate}}"
-          bind:cancel="onClose" bind:confirm="onConfirm" />
+      <van-popup show-toolbar="true" show="{{ calendarShow }}" round position="bottom" bind:close="onClose">
+        <van-datetime-picker title="选择时间" type="datetime" min-date="{{ minDate }}" max-date="{{maxDate}}"
+          value="{{currentDate}}" bind:cancel="onClose" bind:confirm="onConfirm" />
       </van-popup>
     </view>
     <view class="select-content">
@@ -93,8 +93,8 @@
             <icon class="iconfont icon-henggang" bindtap='delList' data-index='{{index}}'></icon>
           </view>
           <view class="item-r1">
-            <input class='r-ipt' type='text' value="{{item.roomLabel}}" data-index='{{index}}' bindinput='changeConTitle' placeholder-class='r-phd'
-              placeholder="请输入分会场" />
+            <input class='r-ipt' type='text' value="{{item.roomLabel}}" data-index='{{index}}'
+              bindinput='changeConTitle' placeholder-class='r-phd' placeholder="请输入分会场" />
           </view>
         </view>
       </block>
@@ -155,14 +155,24 @@
       <!-- 下拉需要显示的列表 -->
       <!-- 一级 -->
       <scroll-view scroll-y="true" class="select_box scroll-height" wx:if="{{firstShow}}">
-        <!-- <view wx:if="{{twoData.length>0}}" class="two-header" data-type="3" bindtap="backFn">
-        <icon class="iconfont icon-fanhui"></icon>
-        <text>返回上一级</text>
-      </view> -->
-        <block wx:for="{{firstData}}" wx:key="id">
-          <view class="select_one {{checkedIndex==index?'active':''}} " data-childrens="{{item.childrens}}"
+        <!-- <view class="two-header" data-type="0" bindtap="confirmFn">
+          <text>确定</text>
+        </view>
+        <checkbox-group bindchange="checkboxChange">
+          <block wx:for="{{firstData}}" wx:key="id">
+            <view class="select_one {{checkedIndex==index?'active':''}} ">
+              <checkbox value="{{item.id}}" checked="{{item.checked}}" data-bb="{{item.checked}}"/>
+              <text style="width: 320rpx;display: inline-block;" data-childrens="{{item.childrens}}"
+                data-id="{{item.id}}" data-name="{{item.name}}" data-index="{{index}}" bindtap="onSelect"
+                data-type="0">{{item.name}}</text>
+            </view>
+          </block>
+        </checkbox-group> -->
+        <block wx:for="{{firstData}}" wx:key="id" > 
+            <view class="select_one {{checkedIndex==index?'active':''}} " data-childrens="{{item.childrens}}"
             data-id="{{item.id}}" data-name="{{item.name}}" data-index="{{index}}" bindtap="onSelect" data-type="0">
-            {{item.name}}</view>
+           {{item.name}}
+            </view>
         </block>
       </scroll-view>
       <!-- 二级 -->
