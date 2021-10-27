@@ -19,7 +19,7 @@
         </view>
       </block>
       <view class="loaded-tips" wx:if="{{!finished}}">努力加载中…</view>
-      <!-- <view class="loaded-tips" wx:if="{{finished}}">我是有底线的o(╥﹏╥)o</view> -->
+      <view class="loaded-tips" wx:if="{{finished}}">数据加载完毕！</view>
     </view>
     <!-- 无内容 -->
     <view class="content-box" wx:if="{{listShowType==2}}">

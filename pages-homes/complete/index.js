@@ -81,8 +81,10 @@ Page({
           isContent:true,
           Loading:false
         });
-        console.log(that.data.isCommon,'isCommonisCommon')
       }else{
+        this.setData({
+          Loading:false
+        })
         wx.showToast({ title: res.data.msg, icon: "none" });
       }
     })

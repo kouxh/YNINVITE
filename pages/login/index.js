@@ -13,9 +13,26 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
- 
+    // let loginData=wx.getStorageSync('loginData');
+    // console.log(loginData,'loginData10')
+    // if(loginData.custom_token!=undefined){
+    //   if(loginData.identity=='市场'|| loginData.identity=='领导'){
+    //     wx.reLaunch({
+    //       url: '/pages/login-market/index',
+    //     })
+    //   }else if(loginData.identity=='销售'){
+    //     wx.reLaunch({
+    //       url: '/pages/login-sales/index',
+    //     })
+    //   }else{
+    //     wx.showToast({
+    //       title: "不好意思，您没有权限！",
+    //       icon: "none"
+    //     });
+    //   }
+    // }
   },
-
+  //点击跳转
   jumpFn(){
     let that=this;
     var isWxWork = false;
@@ -117,13 +134,7 @@ Page({
               wx.reLaunch({
                 url: '/pages/login-sales/index',
               })
-            }
-            // else if(loginData.identity=='领导'){
-            //   wx.reLaunch({
-            //     url: 'pages-market/activity-list/index',
-            //   })
-            // }
-            else{
+            }else{
               wx.showToast({
                 title: "不好意思，您没有权限！",
                 icon: "none"

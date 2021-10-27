@@ -4,7 +4,6 @@
       <icon class="iconfont icon-fanhui"></icon>
       <text class="page-name">我提名的客户</text>
     </view>
-    <!-- open-type='redirect' -->
     <navigator hover-class="none" url="/pages-homes/nominate/index?title={{activityTitle}}&activityId={{activityId}}"
       class="header-right">
       <text class="client">客户提名</text>
@@ -16,14 +15,14 @@
   <view class="content-box" wx:if="{{listShowType==0}}">
     <van-loading type="spinner" class="loading" />
   </view>
-  <!-- 有内容 -->
-  <scroll-view scroll-y="true" class="content-box scroll-height" wx:if="{{listShowType==1}}">
+  <!-- 有内容bindscrolltolower='scrolltolower' -->
+  <scroll-view scroll-y="{{scrollY}}" bindscrolltolower='scrolltolower' class="content-box scroll-height" wx:if="{{listShowType==1}}">
     <view class="list-box">
       <view class="num-box">
         <view class="list-num">已提名<text class="num">{{total}}</text>人</view>
       </view>
       <block wx:for="{{listData}}" wx:key="index">
-        <view class="each-list" wx:if="{{item.mmuc_id!=null}}">
+        <view class="each-list" wx:if="{{item.customer_id!=null}}">
           <view class="list-left">
             <view class="left-l">
               <image mode='aspectFill' src="/assets/img/photo.png" alt class="img" />
@@ -39,19 +38,19 @@
             </view>
           </view>
           <navigator wx:if="{{item.mmuc_status==1}}" hover-class="none"
-            url="/pages-homes/complete/index?aid={{activityId}}&cuid={{item.mmuc_id}}" class="list-right">
+            url="/pages-homes/complete/index?aid={{activityId}}&cuid={{item.customer_id}}" class="list-right">
             <view class="refute-box">通过审核</view>
           </navigator>
           <view wx:if="{{item.mmuc_status==4}}" class="list-right">
             <view class="common success"></view>
             <navigator hover-class="none"
-              url="/pages-homes/complete/index?aid={{activityId}}&cuid={{item.mmuc_id}}&status={{item.mmuc_status}}"
+              url="/pages-homes/complete/index?aid={{activityId}}&cuid={{item.customer_id}}&status={{item.mmuc_status}}"
               class="text">参会</navigator>
           </view>
           <view wx:if="{{item.mmuc_status==5}}" class="list-right">
             <view class="common no-success"></view>
             <navigator hover-class="none"
-              url="/pages-homes/complete/index?aid={{activityId}}&cuid={{item.mmuc_id}}&status={{item.mmuc_status}}"
+              url="/pages-homes/complete/index?aid={{activityId}}&cuid={{item.customer_id}}&status={{item.mmuc_status}}"
               class="text">不参会</navigator>
           </view>
           <view wx:if="{{item.mmuc_status==2}}" class="list-right">
@@ -62,11 +61,13 @@
             <view class="common checking"></view>
             <text class="text">审核中</text>
           </view>
-          <view wx:if="{{item.mmuc_status==3}}" class="list-right" bindtap="refuteFn" data-mmucid="{{item.mmuc_id}}">
+          <view wx:if="{{item.mmuc_status==3}}" class="list-right" bindtap="refuteFn" data-mmucid="{{item.list_id}}">
             <view class="refute-box">被驳回</view>
           </view>
         </view>
       </block>
+      <view class="loaded-tips" wx:if="{{!finished}}">努力加载中…</view>
+      <view class="loaded-tips" wx:if="{{finished}}">数据加载完毕！</view>
     </view>
   </scroll-view>
   <!-- 无内容 -->
@@ -76,10 +77,13 @@
       <view class="tips-msg">暂无数据 ......</view>
     </view>
   </view>
-  <view class="footer">
-    <icon class="iconfont icon-tanhao icon-color"></icon>
-    <view class="footer-info">客户公司、姓名审核成功后不可更改，如您的客户需要更换联系人报名，请您重新注册提交审核</view>
+  <view>
+    <view class="footer">
+      <icon class="iconfont icon-tanhao icon-color"></icon>
+      <view class="footer-info">客户公司、姓名审核成功后不可更改，如您的客户需要更换联系人报名，请您重新注册提交审核</view>
+    </view>
   </view>
+
   <!-- 反驳弹框 -->
   <van-popup show="{{ refuteShow }}" round closeable bind:close="onClose">
     <view class="popup-box">

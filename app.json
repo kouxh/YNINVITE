@@ -5,6 +5,7 @@
     "pages/login-sales/index",
     "pages/index/index",
     "pages/canver/index"
+    
   ],
   "subPackages": [
     {

@@ -14,10 +14,11 @@ Page({
     refuteShow:false,//驳回弹框
     listData:[],
     activityTitle:'',//活动名称
-    customerId:'',//客户id
+    customerId:'',//客户列表id
     activityId:'',//活动id
     reason:'',//驳回原因
     isStay:0,//0不住宿1住宿
+    scrollY:true,//纵向滚动
   },
 
   /**
@@ -44,20 +45,19 @@ Page({
           total:res.data.num,
           isStay:res.data.activity.mma_is_accommodation
         });
+        setTimeout(function () {
+          that.setData({ listShowType: that.data.total ? 1 : 2 });
+        }, 300);
         this.loadmore();
       }else{
         wx.showToast({ title: res.data.msg, icon: "none" });
       }
     })
   },
-  // 滑动加载
+  // 滑动加载封装
   loadmore(){
     let that=this;
     let _this = this.data;
-    //加载提示
-    // wx.showLoading({
-    //   title: '加载中',
-    // })
     if(_this.total / _this.pageSize > _this.pageIndex){
       that.setData({
         listData:_this.listData.concat(_this.AllData.slice((_this.pageIndex-1) * _this.pageSize, _this.pageIndex * _this.pageSize)),
@@ -69,10 +69,13 @@ Page({
         finished: true,// 数据全部加载完成
       })
     }
-    setTimeout(function () {
-      that.setData({ listShowType: _this.total ? 1 : 2 });
-    }, 300);
-    // wx.hideLoading();
+  },
+//  滑动加载
+  scrolltolower(){
+    console.log('11')
+    if(!this.data.finished){
+      this.loadmore();
+    }
   },
   //点击返回按钮
   backFn(){
@@ -156,9 +159,6 @@ Page({
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
-    if(!this.data.finished){
-      this.loadmore();
-    }
   },
 
   /**

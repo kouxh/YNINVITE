@@ -72,10 +72,14 @@ page {
   font-size: 28rpx;
 }
 .loaded-tips {
-  font-size: 24rpx;
+  /* font-size: 24rpx;
   color: #cedbe9;
   display: flex;
   justify-content: center;
-  padding-bottom: 40rpx;
+  padding-bottom: 40rpx; */
+  padding: 36rpx 0rpx 100rpx 0rpx;
+  font-size: 24rpx;
+  text-align: center;
+  color: #ccc;
 }
 

@@ -55,7 +55,7 @@
               <image mode='aspectFill' src="/assets/img/photo.png" alt class="img" />
             </view>
             <view class="left-r">
-              <navigator hover-class="none" url="/pages-market/details/index?id={{item.customer_id}}" class="name">
+              <navigator hover-class="none" url="/pages-market/details/index?id={{item.list_id}}" class="name">
                 {{item.mmc_name}}</navigator>
               <view class="company ellipsis1row">{{item.mmc_company_name}}</view>
               <view class="left-r-base">
@@ -71,14 +71,14 @@
             </view>
           </view>
           <view class="list-right">
-            <view class="default" catchtap="onEdit" data-id="{{item.customer_id}}" data-idx="{{index}}">
+            <view class="default" catchtap="onEdit" data-id="{{item.list_id}}" data-idx="{{index}}">
               <text>{{item.default}}</text>
               <icon class="iconfont  icon-jiantoudown {{item.isBalloon&&'select_img_rotate'}}"></icon>
             </view>
             <view class="check-box" wx:if="{{item.isBalloon}}">
               <block wx:for="{{pullData}}" wx:key="name" wx:for-item="pullI" wx:for-index="pullIdx">
                 <view class="check-item {{nowIndex==pullIdx?'pull-active':''}}" bindtap="checkFn"
-                  data-type="{{pullIdx+1}}" data-id="{{item.customer_id}}" data-idx="{{index}}"
+                  data-type="{{pullIdx+1}}" data-id="{{item.list_id}}" data-idx="{{index}}"
                   data-name="{{pullI.name}}" data-now="{{pullIdx}}">{{pullI.name}}</view>
               </block>
             </view>
@@ -86,6 +86,8 @@
           </view>
         </view>
       </block>
+      <view class="loaded-tips" wx:if="{{!finished}}">努力加载中…</view>
+      <view class="loaded-tips" wx:if="{{finished}}">数据加载完毕！</view>
     </view>
     <view class="list-content" wx:if="{{tabsActive==2&&listShowType==1}}">
       <block wx:for="{{listData}}" wx:key="index">
@@ -95,7 +97,7 @@
               <image mode='aspectFill' src="/assets/img/photo.png" alt class="img" />
             </view>
             <view class="left-r">
-              <navigator hover-class="none" url="/pages-market/details/index?id={{item.customer_id}}&tabsActive=2"
+              <navigator hover-class="none" url="/pages-market/details/index?id={{item.list_id}}&tabsActive=2"
                 class="name">{{item.mmc_name}}</navigator>
               <!-- <view class="name">{{item.mmc_name}}</view> -->
               <view class="company ellipsis1row">{{item.mmc_company_name}}</view>
@@ -121,6 +123,8 @@
           </view>
         </view>
       </block>
+      <view class="loaded-tips" wx:if="{{!finished}}">努力加载中…</view>
+      <view class="loaded-tips" wx:if="{{finished}}">数据加载完毕！</view>
     </view>
     <!-- 无内容 -->
     <view class="list-content" wx:if="{{listShowType==2}}">

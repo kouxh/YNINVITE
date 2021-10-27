@@ -9,6 +9,7 @@
     </view>
     <view class="title"> — 市场活动助手 — </view>
     <view class="btn-box">
+      <!-- <navigator url="/pages/test/index" class="btn">开始使用</navigator> -->
       <view class="btn" bindtap="jumpFn">开始使用</view>
     </view>
   </view>

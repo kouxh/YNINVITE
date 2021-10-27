@@ -104,6 +104,7 @@ Page({
         finished:false,
         tabsActive:currentIndex,
         pageIndex:1,
+        pageSize:10,
         AllData:[]
       })
       this.pendingFn();
