@@ -4,7 +4,6 @@ Page({
    * 页面的初始数据
    */
   data: {
-    
     clientInfo:{
       name:'',
       tell:'',
@@ -215,8 +214,12 @@ Page({
   },
   // 是否参会
   onChange(event) {
-    this.setData({
-      'clientInfo.isJoin': event.detail,
+    console.log(event)
+    // this.setData({
+    //   'clientInfo.isJoin': event.detail,
+    // });
+     this.setData({
+      'clientInfo.isJoin': event.detail.value,
     });
   },
   //是否需要接机

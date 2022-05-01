@@ -77,15 +77,14 @@
   display: flex;
 }
 
-.van-radio__label {
+.van-radio__label{
   font-size: 24rpx;
   letter-spacing: 0rpx;
   color: #333;
-  margin-left: 10rpx !important;
+  margin-left: 18rpx !important;
 }
-
-.van-radio__icon {
-  font-size: 24rpx !important;
+.van-radio__icon{
+  font-size: 32rpx !important;
 }
 
 .submit {

@@ -32,3 +32,8 @@
   border: none;
   background-color: #1784e5;
 }
+.radio-text{
+  font-size: 34rpx;
+  letter-spacing: 0rpx;
+  color: #333333;
+}

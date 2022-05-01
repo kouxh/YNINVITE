@@ -27,24 +27,24 @@
           <icon class="iconfont icon-sousuo1" bindtap="onBlurFn" data-tel="{{clientInfo.tell}}"></icon>
         </view>
       </view>
-        <view class="each-item">
-          <view class="item-l">
-            <icon class="iconfont icon-bitian"></icon>
-            <text class="lable">客户公司名称</text>
-          </view>
-          <view class="item-r">
-            <textarea class='r-ipt area-ipt' type='text' value='{{clientInfo.companyName}}' placeholder-class='r-phd'
-              placeholder="请输入" bindinput='handleInput' id="clientInfo.companyName" confirm-type="next" auto-height />
-          </view>
+      <view class="each-item">
+        <view class="item-l">
+          <icon class="iconfont icon-bitian"></icon>
+          <text class="lable">客户公司名称</text>
         </view>
+        <view class="item-r">
+          <textarea class='r-ipt area-ipt' type='text' value='{{clientInfo.companyName}}' placeholder-class='r-phd'
+            placeholder="请输入" bindinput='handleInput' id="clientInfo.companyName" confirm-type="next" auto-height />
+        </view>
+      </view>
       <view class="each-item">
         <view class="item-l">
           <icon class="iconfont icon-bitian"></icon>
           <text class="lable">客户姓名</text>
         </view>
         <view class="item-r">
-          <textarea class='r-ipt area-ipt' type='text' value='{{clientInfo.name}}' id="clientInfo.name" bindinput='handleInput'
-            placeholder-class='r-phd' placeholder="请输入" confirm-type="next" auto-height/>
+          <textarea class='r-ipt area-ipt' type='text' value='{{clientInfo.name}}' id="clientInfo.name"
+            bindinput='handleInput' placeholder-class='r-phd' placeholder="请输入" confirm-type="next" auto-height />
         </view>
       </view>
       <view class="select-content">
@@ -91,7 +91,7 @@
         </view>
         <view class="item-r">
           <textarea class='r-ipt area-ipt ' type='text' value='{{clientInfo.department}}' id="clientInfo.department"
-            bindinput='handleInput' placeholder-class='r-phd' placeholder="请输入" confirm-type="next" auto-height/>
+            bindinput='handleInput' placeholder-class='r-phd' placeholder="请输入" confirm-type="next" auto-height />
         </view>
       </view>
       <view class="each-item">
@@ -100,8 +100,8 @@
           <text class="lable">客户职务</text>
         </view>
         <view class="item-r">
-          <textarea class='r-ipt area-ipt' type='text' value='{{clientInfo.duty}}' id="clientInfo.duty" bindinput='handleInput'
-            placeholder-class='r-phd' placeholder="请输入" confirm-type="next" auto-height/>
+          <textarea class='r-ipt area-ipt' type='text' value='{{clientInfo.duty}}' id="clientInfo.duty"
+            bindinput='handleInput' placeholder-class='r-phd' placeholder="请输入" confirm-type="next" auto-height />
         </view>
       </view>
 
@@ -111,8 +111,8 @@
           <text class="lable">客户邮箱</text>
         </view>
         <view class="item-r">
-          <textarea class='r-ipt area-ipt' type='text' value='{{clientInfo.email}}' id="clientInfo.email" bindinput='handleInput'
-            placeholder-class='r-phd' placeholder="请输入" confirm-type="next" auto-height/>
+          <textarea class='r-ipt area-ipt' type='text' value='{{clientInfo.email}}' id="clientInfo.email"
+            bindinput='handleInput' placeholder-class='r-phd' placeholder="请输入" confirm-type="next" auto-height />
         </view>
       </view>
       <view class="select-content">
